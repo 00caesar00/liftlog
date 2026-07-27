@@ -1,0 +1,6 @@
+{
+  "name": "liftlog",
+  "private": true,
+  "scripts": { "test": "node test.js && node test-ui.js" },
+  "devDependencies": { "jsdom": "^24.0.0" }
+}

@@ -1,0 +1,59 @@
+{
+  "name": "Recomp Upper/Lower v1",
+  "created": "2026-07-27",
+  "days_per_week": 4,
+  "suggested_week": ["Mon Upper A", "Tue Lower A", "Thu Upper B", "Fri Lower B"],
+  "days": [
+    {
+      "day": "Upper A",
+      "focus": "Horizontal push and pull. Heaviest pressing day.",
+      "ex": [
+        {"name": "Flat Dumbbell Press",    "target": "4x6-8 @2RIR",   "rest": 180},
+        {"name": "Chest-Supported Row",    "target": "4x8-10 @2RIR",  "rest": 150},
+        {"name": "Incline Dumbbell Press", "target": "3x10-12 @1RIR", "rest": 120},
+        {"name": "Lat Pulldown",           "target": "3x10-12 @1RIR", "rest": 120},
+        {"name": "Cable Lateral Raise",    "target": "3x12-15 @0RIR", "rest": 75},
+        {"name": "Incline Dumbbell Curl",  "target": "3x10-12 @1RIR", "rest": 75},
+        {"name": "Triceps Pushdown",       "target": "3x12-15 @1RIR", "rest": 75}
+      ]
+    },
+    {
+      "day": "Lower A",
+      "focus": "Squat emphasis.",
+      "ex": [
+        {"name": "Back Squat",             "target": "4x5-7 @2RIR",   "rest": 210},
+        {"name": "Romanian Deadlift",      "target": "3x8-10 @2RIR",  "rest": 150},
+        {"name": "Leg Press",              "target": "3x10-12 @1RIR", "rest": 150},
+        {"name": "Seated Leg Curl",        "target": "3x10-12 @1RIR", "rest": 90},
+        {"name": "Standing Calf Raise",    "target": "4x8-12 @1RIR",  "rest": 75},
+        {"name": "Hanging Leg Raise",      "target": "3x10-15",       "rest": 75}
+      ]
+    },
+    {
+      "day": "Upper B",
+      "focus": "Vertical push and pull. Shoulder and back width.",
+      "ex": [
+        {"name": "Overhead Press",         "target": "4x6-8 @2RIR",   "rest": 180},
+        {"name": "Pull-Up",                "target": "4x6-8 @2RIR",   "rest": 180},
+        {"name": "Machine Chest Press",    "target": "3x10-12 @1RIR", "rest": 120},
+        {"name": "Seated Cable Row",       "target": "3x10-12 @1RIR", "rest": 120},
+        {"name": "Rear Delt Fly",          "target": "3x15 @0RIR",    "rest": 60},
+        {"name": "Cable Curl",             "target": "3x12-15 @1RIR", "rest": 75},
+        {"name": "Overhead Cable Extension","target": "3x12-15 @1RIR","rest": 75}
+      ]
+    },
+    {
+      "day": "Lower B",
+      "focus": "Hinge emphasis plus unilateral work.",
+      "ex": [
+        {"name": "Trap Bar Deadlift",      "target": "3x4-6 @2RIR",   "rest": 210},
+        {"name": "Bulgarian Split Squat",  "target": "3x8-10 @2RIR",  "rest": 150},
+        {"name": "Hip Thrust",             "target": "3x8-10 @1RIR",  "rest": 120},
+        {"name": "Leg Extension",          "target": "3x12-15 @1RIR", "rest": 75},
+        {"name": "Lying Leg Curl",         "target": "3x12-15 @1RIR", "rest": 75},
+        {"name": "Seated Calf Raise",      "target": "4x12-15 @1RIR", "rest": 60},
+        {"name": "Cable Crunch",           "target": "3x12-15",       "rest": 60}
+      ]
+    }
+  ]
+}

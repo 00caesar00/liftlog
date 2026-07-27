@@ -1,0 +1,39 @@
+{
+ "schema": "liftlog/1",
+ "generated": "2026-07-27T00:00:00.000Z",
+ "unit": "lb",
+ "profile": {
+  "name": "James",
+  "height_cm": 179,
+  "goal": "Body recomposition: 17.8% -> 13.0% body fat, 135.1 -> 142 lb lean mass",
+  "baseline_dxa": {
+   "date": "2026-07-26",
+   "body_fat_pct": 17.8,
+   "fat_mass_lb": 31.0,
+   "lean_mass_lb": 135.1,
+   "total_mass_lb": 174.2,
+   "visceral_fat_lb": 1.01,
+   "ag_ratio": 1.62,
+   "almi": 9.1,
+   "ffmi": 20.3,
+   "regional_lean_lb": {"arms_left": 9.3, "arms_right": 9.7, "trunk_left": 32.7, "trunk_right": 31.1, "legs_left": 22.1, "legs_right": 22.7},
+   "regional_fat_pct": {"arms": 14.9, "trunk": 21.0, "legs": 14.5}
+  },
+  "target": {"body_fat_pct": 13.0, "lean_mass_lb": 142, "almi": 10.5, "ffmi": 21.0, "visceral_fat_lb": 0.6},
+  "days_per_week": 4,
+  "split": "Upper/Lower",
+  "equipment": "Full commercial gym"
+ },
+ "coach_notes": "",
+ "status": {
+  "today": "2026-07-27",
+  "sessions_last_28d": 0,
+  "last_session_date": null,
+  "days_since_last": null,
+  "weekly_sets_by_muscle_28d": {"chest": 0, "back": 0, "delt": 0, "bi": 0, "tri": 0, "quad": 0, "ham": 0, "glute": 0, "calf": 0, "abs": 0},
+  "bodyweight_recent": []
+ },
+ "lifts": {},
+ "recent_sessions": [],
+ "next_plan": null
+}
