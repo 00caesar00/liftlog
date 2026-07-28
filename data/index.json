@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-07-27T20:34:14.832Z",
+ "generated": "2026-07-28T23:44:05.442Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -28,18 +28,18 @@
   "split": "Upper/Lower",
   "equipment": "Full commercial gym"
  },
- "coach_notes": "",
+ "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-07-27",
-  "sessions_last_28d": 0,
-  "last_session_date": null,
-  "days_since_last": null,
+  "today": "2026-07-28",
+  "sessions_last_28d": 1,
+  "last_session_date": "2026-07-28",
+  "days_since_last": 0,
   "weekly_sets_by_muscle_28d": {
-   "chest": 0,
-   "back": 0,
-   "delt": 0,
-   "bi": 0,
-   "tri": 0,
+   "chest": 1.8,
+   "back": 1.8,
+   "delt": 0.9,
+   "bi": 1.6,
+   "tri": 0.9,
    "quad": 0,
    "ham": 0,
    "glute": 0,
@@ -48,7 +48,282 @@
   },
   "bodyweight_recent": []
  },
- "lifts": {},
- "recent_sessions": [],
+ "lifts": {
+  "Flat Dumbbell Press": {
+   "last_date": "2026-07-28",
+   "best_e1rm": 78,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       50,
+       10,
+       3
+      ],
+      [
+       65,
+       6,
+       0
+      ],
+      [
+       55,
+       10,
+       1
+      ],
+      [
+       55,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 78
+    }
+   ]
+  },
+  "Chest-Supported Row": {
+   "last_date": "2026-07-28",
+   "best_e1rm": 186.7,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       120,
+       10,
+       3
+      ],
+      [
+       140,
+       10,
+       1
+      ],
+      [
+       140,
+       10,
+       0
+      ],
+      [
+       140,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 186.7
+    }
+   ]
+  },
+  "Incline Dumbbell Press": {
+   "last_date": "2026-07-28",
+   "best_e1rm": 63,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       45,
+       12,
+       3
+      ],
+      [
+       45,
+       12,
+       1
+      ],
+      [
+       45,
+       10,
+       0
+      ]
+     ],
+     "e1rm": 63
+    }
+   ]
+  },
+  "Lat Pulldown": {
+   "last_date": "2026-07-28",
+   "best_e1rm": 168,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       10,
+       0
+      ]
+     ],
+     "e1rm": 168
+    }
+   ]
+  },
+  "Incline Dumbbell Curl": {
+   "last_date": "2026-07-28",
+   "best_e1rm": 32.5,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       25,
+       9,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ]
+     ],
+     "e1rm": 32.5
+    }
+   ]
+  }
+ },
+ "recent_sessions": [
+  {
+   "date": "2026-07-28",
+   "day": "Upper A",
+   "notes": "felt pretty weak today and heart rate was up on sets a little high to 130s. Maybe I need to tone down the caffeine during the day. fell apart a bit during curls and decided to wrap for the day to avoid further demoralization. ",
+   "volume": 13135,
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 70lb",
+     "sets": [
+      [
+       50,
+       10,
+       3
+      ],
+      [
+       65,
+       6,
+       0
+      ],
+      [
+       55,
+       10,
+       1
+      ],
+      [
+       55,
+       8,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 110lb",
+     "sets": [
+      [
+       120,
+       10,
+       3
+      ],
+      [
+       140,
+       10,
+       1
+      ],
+      [
+       140,
+       10,
+       0
+      ],
+      [
+       140,
+       8,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Press",
+     "target": "3x10-12 @2RIR 45lb",
+     "sets": [
+      [
+       45,
+       12,
+       3
+      ],
+      [
+       45,
+       12,
+       1
+      ],
+      [
+       45,
+       10,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 120lb",
+     "sets": [
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       10,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "3x10-12 @1RIR 25lb",
+     "sets": [
+      [
+       25,
+       9,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ]
+     ]
+    }
+   ]
+  }
+ ],
  "next_plan": null
 }
