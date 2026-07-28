@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-07-27T20:34:13.427Z",
+ "updated": "2026-07-28T23:44:04.444Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -199,7 +199,138 @@
    }
   ]
  },
- "coachNotes": "",
+ "coachNotes": "No ab wheel access.",
  "bodyweight": [],
- "sessions": []
+ "sessions": [
+  {
+   "id": "s1785278618704",
+   "date": "2026-07-28",
+   "day": "Upper A",
+   "start": "2026-07-28T22:43:38.706Z",
+   "notes": "felt pretty weak today and heart rate was up on sets a little high to 130s. Maybe I need to tone down the caffeine during the day. fell apart a bit during curls and decided to wrap for the day to avoid further demoralization. ",
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 70lb",
+     "cue": "pause a beat at the bottom",
+     "sets": [
+      {
+       "w": 50,
+       "r": 10,
+       "rir": 3
+      },
+      {
+       "w": 65,
+       "r": 6,
+       "rir": 0
+      },
+      {
+       "w": 55,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 110lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 120,
+       "r": 10,
+       "rir": 3
+      },
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Press",
+     "target": "3x10-12 @2RIR 45lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 45,
+       "r": 12,
+       "rir": 3
+      },
+      {
+       "w": 45,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 45,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 120lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 120,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "3x10-12 @1RIR 25lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 25,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 25,
+       "r": 6,
+       "rir": 0
+      },
+      {
+       "w": 25,
+       "r": 6,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-07-28T23:44:04.434Z"
+  }
+ ]
 }
