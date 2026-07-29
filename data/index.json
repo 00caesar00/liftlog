@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-07-29T21:28:43.078Z",
+ "generated": "2026-07-29T22:42:40.457Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -31,24 +31,169 @@
  "coach_notes": "No ab wheel access.",
  "status": {
   "today": "2026-07-29",
-  "sessions_last_28d": 1,
-  "last_session_date": "2026-07-28",
-  "days_since_last": 1,
+  "sessions_last_28d": 2,
+  "last_session_date": "2026-07-29",
+  "days_since_last": 0,
   "weekly_sets_by_muscle_28d": {
    "chest": 1.8,
    "back": 1.8,
    "delt": 0.9,
    "bi": 1.6,
    "tri": 0.9,
-   "quad": 0,
-   "ham": 0,
-   "glute": 0,
-   "calf": 0,
+   "quad": 0.8,
+   "ham": 0.8,
+   "glute": 0.4,
+   "calf": 0.8,
    "abs": 0
   },
   "bodyweight_recent": []
  },
  "lifts": {
+  "Smith Machine Squat": {
+   "last_date": "2026-07-29",
+   "best_e1rm": 177.3,
+   "best_date": "2026-07-29",
+   "history": [
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       135,
+       7,
+       2
+      ],
+      [
+       135,
+       8,
+       2
+      ],
+      [
+       135,
+       8,
+       2
+      ],
+      [
+       140,
+       8,
+       2
+      ]
+     ],
+     "e1rm": 177.3
+    }
+   ]
+  },
+  "Dumbbell Romanian Deadlift": {
+   "last_date": "2026-07-29",
+   "best_e1rm": 76,
+   "best_date": "2026-07-29",
+   "history": [
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       60,
+       8,
+       2
+      ],
+      [
+       60,
+       8,
+       2
+      ],
+      [
+       60,
+       8,
+       2
+      ]
+     ],
+     "e1rm": 76
+    }
+   ]
+  },
+  "Leg Press": {
+   "last_date": "2026-07-29",
+   "best_e1rm": 308,
+   "best_date": "2026-07-29",
+   "history": [
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       180,
+       13,
+       4
+      ],
+      [
+       220,
+       12,
+       2
+      ],
+      [
+       220,
+       15,
+       2
+      ]
+     ],
+     "e1rm": 308
+    }
+   ]
+  },
+  "Seated Leg Curl": {
+   "last_date": "2026-07-29",
+   "best_e1rm": 112,
+   "best_date": "2026-07-29",
+   "history": [
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       80,
+       10,
+       2
+      ],
+      [
+       80,
+       12,
+       2
+      ],
+      [
+       80,
+       10,
+       2
+      ]
+     ],
+     "e1rm": 112
+    }
+   ]
+  },
+  "Standing Calf Raise": {
+   "last_date": "2026-07-29",
+   "best_e1rm": 168,
+   "best_date": "2026-07-29",
+   "history": [
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       120,
+       10,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ]
+     ],
+     "e1rm": 168
+    }
+   ]
+  },
   "Flat Dumbbell Press": {
    "last_date": "2026-07-28",
    "best_e1rm": 78,
@@ -202,6 +347,124 @@
  },
  "recent_sessions": [
   {
+   "date": "2026-07-29",
+   "day": "Lower A",
+   "notes": "definitely easier today. Leaving reps in the tank keeps me way less exhausted. I think im used to going all out to near failure on a lot of lifts so maybe its hard to judge appropriate weight. Some of these felt low-low/medium. Skipped leg raises and replaced with some crunches as the machine was occupied. Otherwise complete workout.",
+   "volume": 20585,
+   "ex": [
+    {
+     "name": "Smith Machine Squat",
+     "target": "4x5-7 @2RIR 135lb",
+     "sets": [
+      [
+       135,
+       7,
+       2
+      ],
+      [
+       135,
+       8,
+       2
+      ],
+      [
+       135,
+       8,
+       2
+      ],
+      [
+       140,
+       8,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Dumbbell Romanian Deadlift",
+     "target": "3x8-10 @2RIR 60lb",
+     "sets": [
+      [
+       60,
+       8,
+       2
+      ],
+      [
+       60,
+       8,
+       2
+      ],
+      [
+       60,
+       8,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Leg Press",
+     "target": "3x10-12 @1RIR 180lb",
+     "sets": [
+      [
+       180,
+       13,
+       4
+      ],
+      [
+       220,
+       12,
+       2
+      ],
+      [
+       220,
+       15,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Seated Leg Curl",
+     "target": "3x10-12 @1RIR 80lb",
+     "sets": [
+      [
+       80,
+       10,
+       2
+      ],
+      [
+       80,
+       12,
+       2
+      ],
+      [
+       80,
+       10,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "3x8-12 @1RIR 120lb",
+     "sets": [
+      [
+       120,
+       10,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ]
+     ]
+    }
+   ]
+  },
+  {
    "date": "2026-07-28",
    "day": "Upper A",
    "notes": "felt pretty weak today and heart rate was up on sets a little high to 130s. Maybe I need to tone down the caffeine during the day. fell apart a bit during curls and decided to wrap for the day to avoid further demoralization. ",
@@ -325,48 +588,5 @@
    ]
   }
  ],
- "next_plan": {
-  "day": "Lower A",
-  "focus": "squat emphasis, no rack available, calibrate lower body loads",
-  "notes": "stop every set at 2 reps in reserve, do not grind to failure like Upper A",
-  "date": "2026-07-29",
-  "ex": [
-   {
-    "name": "Smith Machine Squat",
-    "target": "4x5-7 @2RIR 135lb",
-    "cue": "work up, last set is the money set",
-    "sets": []
-   },
-   {
-    "name": "Dumbbell Romanian Deadlift",
-    "target": "3x8-10 @2RIR 60lb",
-    "cue": "hinge back, feel the hamstring stretch",
-    "sets": []
-   },
-   {
-    "name": "Leg Press",
-    "target": "3x10-12 @1RIR 180lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Seated Leg Curl",
-    "target": "3x10-12 @1RIR 80lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Standing Calf Raise",
-    "target": "3x8-12 @1RIR 120lb",
-    "cue": "pause 2 seconds at the bottom",
-    "sets": []
-   },
-   {
-    "name": "Hanging Leg Raise",
-    "target": "3x10-15 @2RIR",
-    "cue": "",
-    "sets": []
-   }
-  ]
- }
+ "next_plan": null
 }
