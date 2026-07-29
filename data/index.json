@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-07-28T23:44:05.442Z",
+ "generated": "2026-07-29T21:27:49.569Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,10 +30,10 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-07-28",
+  "today": "2026-07-29",
   "sessions_last_28d": 1,
   "last_session_date": "2026-07-28",
-  "days_since_last": 0,
+  "days_since_last": 1,
   "weekly_sets_by_muscle_28d": {
    "chest": 1.8,
    "back": 1.8,
@@ -325,5 +325,48 @@
    ]
   }
  ],
- "next_plan": null
+ "next_plan": {
+  "day": "Lower A",
+  "focus": "squat emphasis, no rack available, calibrate lower body loads",
+  "notes": "stop every set at 2 reps in reserve, do not grind to failure like Upper A",
+  "date": "2026-07-29",
+  "ex": [
+   {
+    "name": "Smith Machine Squat",
+    "target": "4x5-7 @2RIR 135lb",
+    "cue": "work up, last set is the money set",
+    "sets": []
+   },
+   {
+    "name": "Dumbbell Romanian Deadlift",
+    "target": "3x8-10 @2RIR 60lb",
+    "cue": "hinge back, feel the hamstring stretch",
+    "sets": []
+   },
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @1RIR 180lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Seated Leg Curl",
+    "target": "3x10-12 @1RIR 80lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x8-12 @1RIR 120lb",
+    "cue": "pause 2 seconds at the bottom",
+    "sets": []
+   },
+   {
+    "name": "Hanging Leg Raise",
+    "target": "3x10-15 @2RIR",
+    "cue": "",
+    "sets": []
+   }
+  ]
+ }
 }
