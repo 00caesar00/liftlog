@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-07-29T21:28:42.152Z",
+ "updated": "2026-07-29T22:42:39.605Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -331,6 +331,131 @@
     }
    ],
    "end": "2026-07-28T23:44:04.434Z"
+  },
+  {
+   "id": "s1785360466066",
+   "date": "2026-07-29",
+   "day": "Lower A",
+   "start": "2026-07-29T21:27:46.067Z",
+   "notes": "definitely easier today. Leaving reps in the tank keeps me way less exhausted. I think im used to going all out to near failure on a lot of lifts so maybe its hard to judge appropriate weight. Some of these felt low-low/medium. Skipped leg raises and replaced with some crunches as the machine was occupied. Otherwise complete workout.",
+   "ex": [
+    {
+     "name": "Smith Machine Squat",
+     "target": "4x5-7 @2RIR 135lb",
+     "cue": "work up, last set is the money set",
+     "sets": [
+      {
+       "w": 135,
+       "r": 7,
+       "rir": 2
+      },
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Dumbbell Romanian Deadlift",
+     "target": "3x8-10 @2RIR 60lb",
+     "cue": "hinge back, feel the hamstring stretch",
+     "sets": [
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Leg Press",
+     "target": "3x10-12 @1RIR 180lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 180,
+       "r": 13,
+       "rir": 4
+      },
+      {
+       "w": 220,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 220,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Seated Leg Curl",
+     "target": "3x10-12 @1RIR 80lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 80,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 80,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 80,
+       "r": 10,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "3x8-12 @1RIR 120lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 120,
+       "r": 10,
+       "rir": 4
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 4
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 4
+      }
+     ]
+    }
+   ],
+   "end": "2026-07-29T22:42:39.596Z"
   }
  ]
 }
