@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-07-29T22:42:39.605Z",
+ "updated": "2026-08-01T17:56:55.845Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -456,6 +456,190 @@
     }
    ],
    "end": "2026-07-29T22:42:39.596Z"
+  },
+  {
+   "id": "s1785601789546",
+   "date": "2026-08-01",
+   "day": "Upper B",
+   "start": "2026-08-01T16:29:49.548Z",
+   "notes": "Low energy todaay. made the mistake of coming on 6oz raspberries one 130 calorie greek yogurt and a dream at 1:00pm. Ill eat more next time beforehand. Still a reasonable workout. I ran out of time for the last couple exercises though. Maybe we can cut the average number of different movements by 1?",
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "4x6-8 @2RIR 75lb",
+     "cue": "squeeze glutes, do not lean back",
+     "sets": [
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 0
+      },
+      {
+       "w": 75,
+       "r": 6,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Assisted Pull-Up",
+     "target": "4x6-8 @2RIR -50lb",
+     "cue": "reduce assistance when you clear 8 clean",
+     "sets": [
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "3x10-12 @1RIR 120lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @1RIR 130lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 130,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "4x15 @0RIR 30lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Cable Curl",
+     "target": "3x12-15 @1RIR 40lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 30,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 20,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 20,
+       "r": 13,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Extension",
+     "target": "4x12-15 @1RIR 40lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 40,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 13,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-01T17:56:55.835Z"
   }
  ]
 }
