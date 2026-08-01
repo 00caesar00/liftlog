@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-07-29T22:42:40.457Z",
+ "generated": "2026-08-01T17:56:57.203Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,16 +30,16 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-07-29",
-  "sessions_last_28d": 2,
-  "last_session_date": "2026-07-29",
+  "today": "2026-08-01",
+  "sessions_last_28d": 3,
+  "last_session_date": "2026-08-01",
   "days_since_last": 0,
   "weekly_sets_by_muscle_28d": {
-   "chest": 1.8,
-   "back": 1.8,
-   "delt": 0.9,
-   "bi": 1.6,
-   "tri": 0.9,
+   "chest": 2.5,
+   "back": 3,
+   "delt": 3.3,
+   "bi": 2.8,
+   "tri": 2.8,
    "quad": 0.8,
    "ham": 0.8,
    "glute": 0.4,
@@ -49,6 +49,222 @@
   "bodyweight_recent": []
  },
  "lifts": {
+  "Overhead Press": {
+   "last_date": "2026-08-01",
+   "best_e1rm": 95,
+   "best_date": "2026-08-01",
+   "history": [
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       0
+      ],
+      [
+       75,
+       6,
+       0
+      ]
+     ],
+     "e1rm": 95
+    }
+   ]
+  },
+  "Assisted Pull-Up": {
+   "last_date": "2026-08-01",
+   "best_e1rm": 0,
+   "best_date": null,
+   "history": [
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       1
+      ]
+     ],
+     "e1rm": 0
+    }
+   ]
+  },
+  "Machine Chest Press": {
+   "last_date": "2026-08-01",
+   "best_e1rm": 196,
+   "best_date": "2026-08-01",
+   "history": [
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       140,
+       10,
+       2
+      ],
+      [
+       140,
+       12,
+       2
+      ],
+      [
+       140,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 196
+    }
+   ]
+  },
+  "Seated Cable Row": {
+   "last_date": "2026-08-01",
+   "best_e1rm": 182,
+   "best_date": "2026-08-01",
+   "history": [
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       130,
+       12,
+       0
+      ],
+      [
+       130,
+       9,
+       0
+      ],
+      [
+       115,
+       10,
+       0
+      ]
+     ],
+     "e1rm": 182
+    }
+   ]
+  },
+  "Rear Delt Fly": {
+   "last_date": "2026-08-01",
+   "best_e1rm": 35,
+   "best_date": "2026-08-01",
+   "history": [
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ]
+     ],
+     "e1rm": 35
+    }
+   ]
+  },
+  "Cable Curl": {
+   "last_date": "2026-08-01",
+   "best_e1rm": 37,
+   "best_date": "2026-08-01",
+   "history": [
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       30,
+       7,
+       0
+      ],
+      [
+       20,
+       13,
+       2
+      ],
+      [
+       20,
+       13,
+       0
+      ]
+     ],
+     "e1rm": 37
+    }
+   ]
+  },
+  "Overhead Cable Extension": {
+   "last_date": "2026-08-01",
+   "best_e1rm": 52,
+   "best_date": "2026-08-01",
+   "history": [
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       40,
+       9,
+       0
+      ],
+      [
+       30,
+       12,
+       0
+      ],
+      [
+       30,
+       13,
+       0
+      ],
+      [
+       30,
+       11,
+       0
+      ]
+     ],
+     "e1rm": 52
+    }
+   ]
+  },
   "Smith Machine Squat": {
    "last_date": "2026-07-29",
    "best_e1rm": 177.3,
@@ -346,6 +562,181 @@
   }
  },
  "recent_sessions": [
+  {
+   "date": "2026-08-01",
+   "day": "Upper B",
+   "notes": "Low energy todaay. made the mistake of coming on 6oz raspberries one 130 calorie greek yogurt and a dream at 1:00pm. Ill eat more next time beforehand. Still a reasonable workout. I ran out of time for the last couple exercises though. Maybe we can cut the average number of different movements by 1?",
+   "volume": 14560,
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "4x6-8 @2RIR 75lb",
+     "sets": [
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       0
+      ],
+      [
+       75,
+       6,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Assisted Pull-Up",
+     "target": "4x6-8 @2RIR -50lb",
+     "sets": [
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "3x10-12 @1RIR 120lb",
+     "sets": [
+      [
+       140,
+       10,
+       2
+      ],
+      [
+       140,
+       12,
+       2
+      ],
+      [
+       140,
+       12,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @1RIR 130lb",
+     "sets": [
+      [
+       130,
+       12,
+       0
+      ],
+      [
+       130,
+       9,
+       0
+      ],
+      [
+       115,
+       10,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "4x15 @0RIR 30lb",
+     "sets": [
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Cable Curl",
+     "target": "3x12-15 @1RIR 40lb",
+     "sets": [
+      [
+       30,
+       7,
+       0
+      ],
+      [
+       20,
+       13,
+       2
+      ],
+      [
+       20,
+       13,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Overhead Cable Extension",
+     "target": "4x12-15 @1RIR 40lb",
+     "sets": [
+      [
+       40,
+       9,
+       0
+      ],
+      [
+       30,
+       12,
+       0
+      ],
+      [
+       30,
+       13,
+       0
+      ],
+      [
+       30,
+       11,
+       0
+      ]
+     ]
+    }
+   ]
+  },
   {
    "date": "2026-07-29",
    "day": "Lower A",
