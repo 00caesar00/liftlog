@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-01T17:56:57.203Z",
+ "generated": "2026-08-14T22:34:26.137Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,9 +30,9 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-08-01",
-  "sessions_last_28d": 3,
-  "last_session_date": "2026-08-01",
+  "today": "2026-08-14",
+  "sessions_last_28d": 4,
+  "last_session_date": "2026-08-14",
   "days_since_last": 0,
   "weekly_sets_by_muscle_28d": {
    "chest": 2.5,
@@ -40,15 +40,185 @@
    "delt": 3.3,
    "bi": 2.8,
    "tri": 2.8,
-   "quad": 0.8,
-   "ham": 0.8,
-   "glute": 0.4,
+   "quad": 3.3,
+   "ham": 2.8,
+   "glute": 3.1,
    "calf": 0.8,
-   "abs": 0
+   "abs": 0.8
   },
   "bodyweight_recent": []
  },
  "lifts": {
+  "Bulgarian Split Squat": {
+   "last_date": "2026-08-14",
+   "best_e1rm": 153.3,
+   "best_date": "2026-08-14",
+   "history": [
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       95,
+       9,
+       2
+      ],
+      [
+       95,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       1
+      ],
+      [
+       115,
+       10,
+       1
+      ]
+     ],
+     "e1rm": 153.3
+    }
+   ]
+  },
+  "Leg Extension": {
+   "last_date": "2026-08-14",
+   "best_e1rm": 140,
+   "best_date": "2026-08-14",
+   "history": [
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       70,
+       12,
+       5
+      ],
+      [
+       100,
+       13,
+       2
+      ],
+      [
+       100,
+       12,
+       0
+      ],
+      [
+       100,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 140
+    }
+   ]
+  },
+  "Lying Leg Curl": {
+   "last_date": "2026-08-14",
+   "best_e1rm": 143,
+   "best_date": "2026-08-14",
+   "history": [
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       110,
+       9,
+       1
+      ],
+      [
+       90,
+       11,
+       0
+      ],
+      [
+       80,
+       12,
+       0
+      ]
+     ],
+     "e1rm": 143
+    }
+   ]
+  },
+  "Cable Crunch": {
+   "last_date": "2026-08-14",
+   "best_e1rm": 112,
+   "best_date": "2026-08-14",
+   "history": [
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       60,
+       15,
+       5
+      ],
+      [
+       80,
+       15,
+       2
+      ],
+      [
+       80,
+       15,
+       1
+      ]
+     ],
+     "e1rm": 112
+    }
+   ]
+  },
+  "Romanian Deadlift": {
+   "last_date": "2026-08-14",
+   "best_e1rm": 247,
+   "best_date": "2026-08-14",
+   "history": [
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       145,
+       8,
+       4
+      ],
+      [
+       195,
+       5,
+       0
+      ],
+      [
+       195,
+       8,
+       2
+      ],
+      [
+       195,
+       8,
+       2
+      ],
+      [
+       195,
+       8,
+       2
+      ]
+     ],
+     "e1rm": 247
+    }
+   ]
+  },
   "Overhead Press": {
    "last_date": "2026-08-01",
    "best_e1rm": 95,
@@ -562,6 +732,149 @@
   }
  },
  "recent_sessions": [
+  {
+   "date": "2026-08-14",
+   "day": "Lower B",
+   "notes": "Ate so much before workout so plenty of fuel. Started with RDLs but needed to put on hand wraps to support bar at 195lbs to prevent forearm failure. Cut trap bar for convenience. I record each leg as a separate set for split squats. I am very inactive during the day and have weak core and lower back due to lack of use. I can feel my back more than anything else on RDL and even split squats. I think it will catch up with time and effort. Im not sure if research suggests combining upper/lower helps at all\nbut god bless its hard switching to only lower only upper days. Feels like it really exhausts the muscle group by the end. I skipped hip thrust due to feeling super weak by the end.",
+   "volume": 23600,
+   "ex": [
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "3x8-10 @2RIR",
+     "sets": [
+      [
+       95,
+       9,
+       2
+      ],
+      [
+       95,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       1
+      ],
+      [
+       115,
+       10,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR",
+     "sets": [
+      [
+       70,
+       12,
+       5
+      ],
+      [
+       100,
+       13,
+       2
+      ],
+      [
+       100,
+       12,
+       0
+      ],
+      [
+       100,
+       8,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "3x12-15 @1RIR",
+     "sets": [
+      [
+       110,
+       9,
+       1
+      ],
+      [
+       90,
+       11,
+       0
+      ],
+      [
+       80,
+       12,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15",
+     "sets": [
+      [
+       60,
+       15,
+       5
+      ],
+      [
+       80,
+       15,
+       2
+      ],
+      [
+       80,
+       15,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Romanian Deadlift",
+     "target": "",
+     "sets": [
+      [
+       145,
+       8,
+       4
+      ],
+      [
+       195,
+       5,
+       0
+      ],
+      [
+       195,
+       8,
+       2
+      ],
+      [
+       195,
+       8,
+       2
+      ],
+      [
+       195,
+       8,
+       2
+      ]
+     ]
+    }
+   ]
+  },
   {
    "date": "2026-08-01",
    "day": "Upper B",
