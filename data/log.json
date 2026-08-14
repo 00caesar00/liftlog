@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-08-01T17:56:55.845Z",
+ "updated": "2026-08-14T22:34:24.753Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -640,6 +640,155 @@
     }
    ],
    "end": "2026-08-01T17:56:55.835Z"
+  },
+  {
+   "id": "s1786741141862",
+   "date": "2026-08-14",
+   "day": "Lower B",
+   "start": "2026-08-14T20:59:01.865Z",
+   "notes": "Ate so much before workout so plenty of fuel. Started with RDLs but needed to put on hand wraps to support bar at 195lbs to prevent forearm failure. Cut trap bar for convenience. I record each leg as a separate set for split squats. I am very inactive during the day and have weak core and lower back due to lack of use. I can feel my back more than anything else on RDL and even split squats. I think it will catch up with time and effort. Im not sure if research suggests combining upper/lower helps at all\nbut god bless its hard switching to only lower only upper days. Feels like it really exhausts the muscle group by the end. I skipped hip thrust due to feeling super weak by the end.",
+   "ex": [
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "3x8-10 @2RIR",
+     "cue": "",
+     "sets": [
+      {
+       "w": 95,
+       "r": 9,
+       "rir": 2
+      },
+      {
+       "w": 95,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR",
+     "cue": "",
+     "sets": [
+      {
+       "w": 70,
+       "r": 12,
+       "rir": 5
+      },
+      {
+       "w": 100,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "3x12-15 @1RIR",
+     "cue": "",
+     "sets": [
+      {
+       "w": 110,
+       "r": 9,
+       "rir": 1
+      },
+      {
+       "w": 90,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 80,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15",
+     "cue": "",
+     "sets": [
+      {
+       "w": 60,
+       "r": 15,
+       "rir": 5
+      },
+      {
+       "w": 80,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 80,
+       "r": 15,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Romanian Deadlift",
+     "target": "",
+     "sets": [
+      {
+       "w": 145,
+       "r": 8,
+       "rir": 4
+      },
+      {
+       "w": 195,
+       "r": 5,
+       "rir": 0
+      },
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-14T22:34:24.745Z"
   }
  ]
 }
