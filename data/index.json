@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-14T22:34:26.137Z",
+ "generated": "2026-08-17T21:45:39.770Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,10 +30,10 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-08-14",
+  "today": "2026-08-17",
   "sessions_last_28d": 4,
   "last_session_date": "2026-08-14",
-  "days_since_last": 0,
+  "days_since_last": 3,
   "weekly_sets_by_muscle_28d": {
    "chest": 2.5,
    "back": 3,
@@ -1292,5 +1292,48 @@
    ]
   }
  ],
- "next_plan": null
+ "next_plan": {
+  "day": "Upper A",
+  "focus": "horizontal push and pull, spare the lower back after yesterday",
+  "notes": "nothing today loads the spine, keep every set at the listed RIR instead of grinding to failure",
+  "date": "2026-08-15",
+  "ex": [
+   {
+    "name": "Flat Dumbbell Press",
+    "target": "4x6-8 @2RIR 55lb",
+    "cue": "pause a beat at the bottom",
+    "sets": []
+   },
+   {
+    "name": "Chest-Supported Row",
+    "target": "4x8-10 @2RIR 140lb",
+    "cue": "chest stays glued to the pad",
+    "sets": []
+   },
+   {
+    "name": "Lat Pulldown",
+    "target": "3x10-12 @1RIR 120lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Cable Lateral Raise",
+    "target": "3x12-15 @0RIR 15lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "3x10-12 @1RIR 20lb",
+    "cue": "dropped from 25lb, you need reps not load",
+    "sets": []
+   },
+   {
+    "name": "Triceps Pushdown",
+    "target": "3x12-15 @1RIR 40lb",
+    "cue": "",
+    "sets": []
+   }
+  ]
+ }
 }
