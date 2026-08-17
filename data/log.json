@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-08-17T21:45:38.606Z",
+ "updated": "2026-08-17T21:45:43.221Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -789,6 +789,167 @@
     }
    ],
    "end": "2026-08-14T22:34:24.745Z"
+  },
+  {
+   "id": "s1786814511558",
+   "date": "2026-08-15",
+   "day": "Upper A",
+   "start": "2026-08-15T17:21:51.560Z",
+   "notes": "",
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 55lb",
+     "cue": "pause a beat at the bottom",
+     "sets": [
+      {
+       "w": 40,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 140lb",
+     "cue": "chest stays glued to the pad",
+     "sets": [
+      {
+       "w": 90,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 120lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 70,
+       "r": 10,
+       "rir": 4
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Lateral Raise",
+     "target": "3x12-15 @0RIR 15lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 12.5,
+       "r": 13,
+       "rir": 0
+      },
+      {
+       "w": 12.5,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 12.5,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "3x10-12 @1RIR 20lb",
+     "cue": "dropped from 25lb, you need reps not load",
+     "sets": [
+      {
+       "w": 20,
+       "r": 12,
+       "rir": 4
+      },
+      {
+       "w": 20,
+       "r": 13,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Tricep Extension",
+     "target": "",
+     "sets": [
+      {
+       "w": 37.5,
+       "r": 14,
+       "rir": 2
+      },
+      {
+       "w": 42.5,
+       "r": 13,
+       "rir": 0
+      },
+      {
+       "w": 37.5,
+       "r": 14,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-17T21:45:43.208Z"
   }
  ]
 }
