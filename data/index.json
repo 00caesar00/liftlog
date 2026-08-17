@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-17T21:45:39.770Z",
+ "generated": "2026-08-17T21:45:44.042Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -31,15 +31,15 @@
  "coach_notes": "No ab wheel access.",
  "status": {
   "today": "2026-08-17",
-  "sessions_last_28d": 4,
-  "last_session_date": "2026-08-14",
-  "days_since_last": 3,
+  "sessions_last_28d": 5,
+  "last_session_date": "2026-08-15",
+  "days_since_last": 2,
   "weekly_sets_by_muscle_28d": {
-   "chest": 2.5,
-   "back": 3,
-   "delt": 3.3,
-   "bi": 2.8,
-   "tri": 2.8,
+   "chest": 3.8,
+   "back": 5.3,
+   "delt": 4.6,
+   "bi": 4.4,
+   "tri": 3.4,
    "quad": 3.3,
    "ham": 2.8,
    "glute": 3.1,
@@ -49,6 +49,288 @@
   "bodyweight_recent": []
  },
  "lifts": {
+  "Flat Dumbbell Press": {
+   "last_date": "2026-08-15",
+   "best_e1rm": 78,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       40,
+       10,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ]
+     ],
+     "e1rm": 69.7
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       50,
+       10,
+       3
+      ],
+      [
+       65,
+       6,
+       0
+      ],
+      [
+       55,
+       10,
+       1
+      ],
+      [
+       55,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 78
+    }
+   ]
+  },
+  "Chest-Supported Row": {
+   "last_date": "2026-08-15",
+   "best_e1rm": 186.7,
+   "best_date": "2026-08-15",
+   "history": [
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       90,
+       8,
+       2
+      ],
+      [
+       140,
+       10,
+       0
+      ],
+      [
+       140,
+       7,
+       0
+      ],
+      [
+       140,
+       7,
+       0
+      ],
+      [
+       140,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 186.7
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       120,
+       10,
+       3
+      ],
+      [
+       140,
+       10,
+       1
+      ],
+      [
+       140,
+       10,
+       0
+      ],
+      [
+       140,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 186.7
+    }
+   ]
+  },
+  "Lat Pulldown": {
+   "last_date": "2026-08-15",
+   "best_e1rm": 168,
+   "best_date": "2026-08-15",
+   "history": [
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       70,
+       10,
+       4
+      ],
+      [
+       120,
+       12,
+       1
+      ],
+      [
+       120,
+       12,
+       1
+      ],
+      [
+       120,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 168
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       10,
+       0
+      ]
+     ],
+     "e1rm": 168
+    }
+   ]
+  },
+  "Cable Lateral Raise": {
+   "last_date": "2026-08-15",
+   "best_e1rm": 17.5,
+   "best_date": "2026-08-15",
+   "history": [
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       12.5,
+       13,
+       0
+      ],
+      [
+       12.5,
+       11,
+       0
+      ],
+      [
+       12.5,
+       11,
+       0
+      ]
+     ],
+     "e1rm": 17.5
+    }
+   ]
+  },
+  "Incline Dumbbell Curl": {
+   "last_date": "2026-08-15",
+   "best_e1rm": 32.5,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       20,
+       12,
+       4
+      ],
+      [
+       20,
+       13,
+       1
+      ]
+     ],
+     "e1rm": 28
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       25,
+       9,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ]
+     ],
+     "e1rm": 32.5
+    }
+   ]
+  },
+  "Overhead Cable Tricep Extension": {
+   "last_date": "2026-08-15",
+   "best_e1rm": 59.5,
+   "best_date": "2026-08-15",
+   "history": [
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       37.5,
+       14,
+       2
+      ],
+      [
+       42.5,
+       13,
+       0
+      ],
+      [
+       37.5,
+       14,
+       0
+      ]
+     ],
+     "e1rm": 59.5
+    }
+   ]
+  },
   "Bulgarian Split Squat": {
    "last_date": "2026-08-14",
    "best_e1rm": 153.3,
@@ -580,72 +862,6 @@
     }
    ]
   },
-  "Flat Dumbbell Press": {
-   "last_date": "2026-07-28",
-   "best_e1rm": 78,
-   "best_date": "2026-07-28",
-   "history": [
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       50,
-       10,
-       3
-      ],
-      [
-       65,
-       6,
-       0
-      ],
-      [
-       55,
-       10,
-       1
-      ],
-      [
-       55,
-       8,
-       0
-      ]
-     ],
-     "e1rm": 78
-    }
-   ]
-  },
-  "Chest-Supported Row": {
-   "last_date": "2026-07-28",
-   "best_e1rm": 186.7,
-   "best_date": "2026-07-28",
-   "history": [
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       120,
-       10,
-       3
-      ],
-      [
-       140,
-       10,
-       1
-      ],
-      [
-       140,
-       10,
-       0
-      ],
-      [
-       140,
-       8,
-       0
-      ]
-     ],
-     "e1rm": 186.7
-    }
-   ]
-  },
   "Incline Dumbbell Press": {
    "last_date": "2026-07-28",
    "best_e1rm": 63,
@@ -673,65 +889,163 @@
      "e1rm": 63
     }
    ]
-  },
-  "Lat Pulldown": {
-   "last_date": "2026-07-28",
-   "best_e1rm": 168,
-   "best_date": "2026-07-28",
-   "history": [
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       120,
-       12,
-       0
-      ],
-      [
-       120,
-       12,
-       0
-      ],
-      [
-       120,
-       10,
-       0
-      ]
-     ],
-     "e1rm": 168
-    }
-   ]
-  },
-  "Incline Dumbbell Curl": {
-   "last_date": "2026-07-28",
-   "best_e1rm": 32.5,
-   "best_date": "2026-07-28",
-   "history": [
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       25,
-       9,
-       0
-      ],
-      [
-       25,
-       6,
-       0
-      ],
-      [
-       25,
-       6,
-       0
-      ]
-     ],
-     "e1rm": 32.5
-    }
-   ]
   }
  },
  "recent_sessions": [
+  {
+   "date": "2026-08-15",
+   "day": "Upper A",
+   "notes": "",
+   "volume": 14920,
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 55lb",
+     "sets": [
+      [
+       40,
+       10,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 140lb",
+     "sets": [
+      [
+       90,
+       8,
+       2
+      ],
+      [
+       140,
+       10,
+       0
+      ],
+      [
+       140,
+       7,
+       0
+      ],
+      [
+       140,
+       7,
+       0
+      ],
+      [
+       140,
+       8,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 120lb",
+     "sets": [
+      [
+       70,
+       10,
+       4
+      ],
+      [
+       120,
+       12,
+       1
+      ],
+      [
+       120,
+       12,
+       1
+      ],
+      [
+       120,
+       12,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Cable Lateral Raise",
+     "target": "3x12-15 @0RIR 15lb",
+     "sets": [
+      [
+       12.5,
+       13,
+       0
+      ],
+      [
+       12.5,
+       11,
+       0
+      ],
+      [
+       12.5,
+       11,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "3x10-12 @1RIR 20lb",
+     "sets": [
+      [
+       20,
+       12,
+       4
+      ],
+      [
+       20,
+       13,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Overhead Cable Tricep Extension",
+     "target": "",
+     "sets": [
+      [
+       37.5,
+       14,
+       2
+      ],
+      [
+       42.5,
+       13,
+       0
+      ],
+      [
+       37.5,
+       14,
+       0
+      ]
+     ]
+    }
+   ]
+  },
   {
    "date": "2026-08-14",
    "day": "Lower B",
@@ -1292,48 +1606,5 @@
    ]
   }
  ],
- "next_plan": {
-  "day": "Upper A",
-  "focus": "horizontal push and pull, spare the lower back after yesterday",
-  "notes": "nothing today loads the spine, keep every set at the listed RIR instead of grinding to failure",
-  "date": "2026-08-15",
-  "ex": [
-   {
-    "name": "Flat Dumbbell Press",
-    "target": "4x6-8 @2RIR 55lb",
-    "cue": "pause a beat at the bottom",
-    "sets": []
-   },
-   {
-    "name": "Chest-Supported Row",
-    "target": "4x8-10 @2RIR 140lb",
-    "cue": "chest stays glued to the pad",
-    "sets": []
-   },
-   {
-    "name": "Lat Pulldown",
-    "target": "3x10-12 @1RIR 120lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Cable Lateral Raise",
-    "target": "3x12-15 @0RIR 15lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Incline Dumbbell Curl",
-    "target": "3x10-12 @1RIR 20lb",
-    "cue": "dropped from 25lb, you need reps not load",
-    "sets": []
-   },
-   {
-    "name": "Triceps Pushdown",
-    "target": "3x12-15 @1RIR 40lb",
-    "cue": "",
-    "sets": []
-   }
-  ]
- }
+ "next_plan": null
 }
