@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-08-20T23:28:00.921Z",
+ "updated": "2026-08-20T23:28:07.327Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -950,6 +950,136 @@
     }
    ],
    "end": "2026-08-17T21:45:43.208Z"
+  },
+  {
+   "id": "s1787003330280",
+   "date": "2026-08-17",
+   "day": "Lower A",
+   "start": "2026-08-17T21:48:50.280Z",
+   "notes": "I couldnt find the usual wrap-grip attachment for cable crunches so I swapped for an abdominal crunch machine.. not the exact same but similar movement. I was struggling at lbs to have enough leverage to finish the crunch on the cable without lifting my legs some",
+   "ex": [
+    {
+     "name": "Leg Press",
+     "target": "4x10-12 @2RIR 270lb",
+     "cue": "220x15 was far too light",
+     "sets": [
+      {
+       "w": 140,
+       "r": 12,
+       "rir": 4
+      },
+      {
+       "w": 270,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 270,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 270,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 280,
+       "r": 16,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR 100lb",
+     "cue": "stop at 1 RIR, do not grind to failure",
+     "sets": [
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Hip Abduction",
+     "target": "3x15 @1RIR 90lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 110,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 130,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 150lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 90,
+       "r": 10,
+       "rir": 4
+      },
+      {
+       "w": 150,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 3
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "cue": "brace hard, this is your weak link",
+     "sets": [
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 1
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-20T23:28:01.867Z"
   }
  ]
 }
