@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-17T21:45:44.042Z",
+ "generated": "2026-08-20T23:28:01.892Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,25 +30,264 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-08-17",
-  "sessions_last_28d": 5,
-  "last_session_date": "2026-08-15",
-  "days_since_last": 2,
+  "today": "2026-08-20",
+  "sessions_last_28d": 6,
+  "last_session_date": "2026-08-17",
+  "days_since_last": 3,
   "weekly_sets_by_muscle_28d": {
    "chest": 3.8,
    "back": 5.3,
    "delt": 4.6,
    "bi": 4.4,
    "tri": 3.4,
-   "quad": 3.3,
+   "quad": 5,
    "ham": 2.8,
-   "glute": 3.1,
-   "calf": 0.8,
-   "abs": 0.8
+   "glute": 3.8,
+   "calf": 2,
+   "abs": 1.3
   },
   "bodyweight_recent": []
  },
  "lifts": {
+  "Leg Press": {
+   "last_date": "2026-08-17",
+   "best_e1rm": 392,
+   "best_date": "2026-08-17",
+   "history": [
+    {
+     "date": "2026-08-17",
+     "sets": [
+      [
+       140,
+       12,
+       4
+      ],
+      [
+       270,
+       12,
+       2
+      ],
+      [
+       270,
+       12,
+       2
+      ],
+      [
+       270,
+       13,
+       2
+      ],
+      [
+       280,
+       16,
+       2
+      ]
+     ],
+     "e1rm": 392
+    },
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       180,
+       13,
+       4
+      ],
+      [
+       220,
+       12,
+       2
+      ],
+      [
+       220,
+       15,
+       2
+      ]
+     ],
+     "e1rm": 308
+    }
+   ]
+  },
+  "Leg Extension": {
+   "last_date": "2026-08-17",
+   "best_e1rm": 140,
+   "best_date": "2026-08-17",
+   "history": [
+    {
+     "date": "2026-08-17",
+     "sets": [
+      [
+       100,
+       12,
+       1
+      ],
+      [
+       100,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 140
+    },
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       70,
+       12,
+       5
+      ],
+      [
+       100,
+       13,
+       2
+      ],
+      [
+       100,
+       12,
+       0
+      ],
+      [
+       100,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 140
+    }
+   ]
+  },
+  "Hip Abduction": {
+   "last_date": "2026-08-17",
+   "best_e1rm": 182,
+   "best_date": "2026-08-17",
+   "history": [
+    {
+     "date": "2026-08-17",
+     "sets": [
+      [
+       90,
+       15,
+       2
+      ],
+      [
+       110,
+       15,
+       2
+      ],
+      [
+       130,
+       15,
+       2
+      ]
+     ],
+     "e1rm": 182
+    }
+   ]
+  },
+  "Standing Calf Raise": {
+   "last_date": "2026-08-17",
+   "best_e1rm": 210,
+   "best_date": "2026-08-17",
+   "history": [
+    {
+     "date": "2026-08-17",
+     "sets": [
+      [
+       90,
+       10,
+       4
+      ],
+      [
+       150,
+       15,
+       1
+      ],
+      [
+       150,
+       12,
+       3
+      ],
+      [
+       150,
+       12,
+       1
+      ],
+      [
+       150,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 210
+    },
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       120,
+       10,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ]
+     ],
+     "e1rm": 168
+    }
+   ]
+  },
+  "Cable Crunch": {
+   "last_date": "2026-08-17",
+   "best_e1rm": 126,
+   "best_date": "2026-08-17",
+   "history": [
+    {
+     "date": "2026-08-17",
+     "sets": [
+      [
+       90,
+       15,
+       1
+      ],
+      [
+       90,
+       15,
+       1
+      ]
+     ],
+     "e1rm": 126
+    },
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       60,
+       15,
+       5
+      ],
+      [
+       80,
+       15,
+       2
+      ],
+      [
+       80,
+       15,
+       1
+      ]
+     ],
+     "e1rm": 112
+    }
+   ]
+  },
   "Flat Dumbbell Press": {
    "last_date": "2026-08-15",
    "best_e1rm": 78,
@@ -374,39 +613,6 @@
     }
    ]
   },
-  "Leg Extension": {
-   "last_date": "2026-08-14",
-   "best_e1rm": 140,
-   "best_date": "2026-08-14",
-   "history": [
-    {
-     "date": "2026-08-14",
-     "sets": [
-      [
-       70,
-       12,
-       5
-      ],
-      [
-       100,
-       13,
-       2
-      ],
-      [
-       100,
-       12,
-       0
-      ],
-      [
-       100,
-       8,
-       0
-      ]
-     ],
-     "e1rm": 140
-    }
-   ]
-  },
   "Lying Leg Curl": {
    "last_date": "2026-08-14",
    "best_e1rm": 143,
@@ -432,34 +638,6 @@
       ]
      ],
      "e1rm": 143
-    }
-   ]
-  },
-  "Cable Crunch": {
-   "last_date": "2026-08-14",
-   "best_e1rm": 112,
-   "best_date": "2026-08-14",
-   "history": [
-    {
-     "date": "2026-08-14",
-     "sets": [
-      [
-       60,
-       15,
-       5
-      ],
-      [
-       80,
-       15,
-       2
-      ],
-      [
-       80,
-       15,
-       1
-      ]
-     ],
-     "e1rm": 112
     }
    ]
   },
@@ -778,34 +956,6 @@
     }
    ]
   },
-  "Leg Press": {
-   "last_date": "2026-07-29",
-   "best_e1rm": 308,
-   "best_date": "2026-07-29",
-   "history": [
-    {
-     "date": "2026-07-29",
-     "sets": [
-      [
-       180,
-       13,
-       4
-      ],
-      [
-       220,
-       12,
-       2
-      ],
-      [
-       220,
-       15,
-       2
-      ]
-     ],
-     "e1rm": 308
-    }
-   ]
-  },
   "Seated Leg Curl": {
    "last_date": "2026-07-29",
    "best_e1rm": 112,
@@ -831,34 +981,6 @@
       ]
      ],
      "e1rm": 112
-    }
-   ]
-  },
-  "Standing Calf Raise": {
-   "last_date": "2026-07-29",
-   "best_e1rm": 168,
-   "best_date": "2026-07-29",
-   "history": [
-    {
-     "date": "2026-07-29",
-     "sets": [
-      [
-       120,
-       10,
-       4
-      ],
-      [
-       120,
-       12,
-       4
-      ],
-      [
-       120,
-       12,
-       4
-      ]
-     ],
-     "e1rm": 168
     }
    ]
   },
@@ -892,6 +1014,129 @@
   }
  },
  "recent_sessions": [
+  {
+   "date": "2026-08-17",
+   "day": "Lower A",
+   "notes": "I couldnt find the usual wrap-grip attachment for cable crunches so I swapped for an abdominal crunch machine.. not the exact same but similar movement. I was struggling at lbs to have enough leverage to finish the crunch on the cable without lifting my legs some",
+   "volume": 34750,
+   "ex": [
+    {
+     "name": "Leg Press",
+     "target": "4x10-12 @2RIR 270lb",
+     "sets": [
+      [
+       140,
+       12,
+       4
+      ],
+      [
+       270,
+       12,
+       2
+      ],
+      [
+       270,
+       12,
+       2
+      ],
+      [
+       270,
+       13,
+       2
+      ],
+      [
+       280,
+       16,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR 100lb",
+     "sets": [
+      [
+       100,
+       12,
+       1
+      ],
+      [
+       100,
+       12,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Hip Abduction",
+     "target": "3x15 @1RIR 90lb",
+     "sets": [
+      [
+       90,
+       15,
+       2
+      ],
+      [
+       110,
+       15,
+       2
+      ],
+      [
+       130,
+       15,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 150lb",
+     "sets": [
+      [
+       90,
+       10,
+       4
+      ],
+      [
+       150,
+       15,
+       1
+      ],
+      [
+       150,
+       12,
+       3
+      ],
+      [
+       150,
+       12,
+       1
+      ],
+      [
+       150,
+       12,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "sets": [
+      [
+       90,
+       15,
+       1
+      ],
+      [
+       90,
+       15,
+       1
+      ]
+     ]
+    }
+   ]
+  },
   {
    "date": "2026-08-15",
    "day": "Upper A",
