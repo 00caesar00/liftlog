@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-20T23:28:08.060Z",
+ "generated": "2026-08-22T17:02:00.916Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,10 +30,10 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-08-20",
+  "today": "2026-08-22",
   "sessions_last_28d": 6,
   "last_session_date": "2026-08-17",
-  "days_since_last": 3,
+  "days_since_last": 5,
   "weekly_sets_by_muscle_28d": {
    "chest": 3.8,
    "back": 5.3,
@@ -1851,5 +1851,48 @@
    ]
   }
  ],
- "next_plan": null
+ "next_plan": {
+  "day": "Upper B",
+  "focus": "vertical push and pull, add delt and triceps volume",
+  "notes": "log the pull-up assistance weight, and stop the row at 1 RIR instead of failure",
+  "date": "2026-08-20",
+  "ex": [
+   {
+    "name": "Overhead Press",
+    "target": "4x6-8 @2RIR 75lb",
+    "cue": "squeeze glutes, do not lean back",
+    "sets": []
+   },
+   {
+    "name": "Assisted Pull-Up",
+    "target": "4x6-8 @2RIR",
+    "cue": "drop assistance 20lb from last time, log the number",
+    "sets": []
+   },
+   {
+    "name": "Machine Chest Press",
+    "target": "3x10-12 @1RIR 150lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Seated Cable Row",
+    "target": "3x10-12 @1RIR 115lb",
+    "cue": "130 to failure cost you reps last time",
+    "sets": []
+   },
+   {
+    "name": "Rear Delt Fly",
+    "target": "4x15 @0RIR 30lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Overhead Cable Tricep Extension",
+    "target": "4x12-15 @1RIR 42.5lb",
+    "cue": "",
+    "sets": []
+   }
+  ]
+ }
 }
