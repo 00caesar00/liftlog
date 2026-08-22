@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-08-22T17:01:59.778Z",
+ "updated": "2026-08-22T17:02:03.555Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -1080,6 +1080,194 @@
     }
    ],
    "end": "2026-08-20T23:28:01.867Z"
+  },
+  {
+   "id": "s1787344714714",
+   "date": "2026-08-21",
+   "day": "Upper B",
+   "start": "2026-08-21T20:38:34.723Z",
+   "notes": "I did not take assistance on pullups, hence the 0lbs figure. On rear delt fly I used a machine. Sometimes its unclear if weight targets are per-arm or total load statistics. (particularly when on something like cable flys I would not sum the total typically whereas on a machine it’s pre-loaded as one number). Not sure what happened on triceps tbh I felt good\ntoday but couldnt anywhere near hit the same numbers.",
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "4x6-8 @2RIR 75lb",
+     "cue": "squeeze glutes, do not lean back",
+     "sets": [
+      {
+       "w": 75,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 9,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Assisted Pull-Up",
+     "target": "4x6-8 @2RIR",
+     "cue": "drop assistance 20lb from last time, log the number",
+     "sets": [
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "3x10-12 @1RIR 150lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 155,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 135,
+       "r": 5,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @1RIR 115lb",
+     "cue": "130 to failure cost you reps last time",
+     "sets": [
+      {
+       "w": 115,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "4x15 @0RIR 30lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 30,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 40,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 50,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 60,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Tricep Extension",
+     "target": "4x12-15 @1RIR 42.5lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 42.5,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 42.5,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 37.5,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 37.5,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lateral Raise",
+     "target": "",
+     "sets": [
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-22T17:02:03.547Z"
   }
  ]
 }
