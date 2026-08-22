@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-22T17:02:00.916Z",
+ "generated": "2026-08-22T17:02:04.476Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -31,15 +31,15 @@
  "coach_notes": "No ab wheel access.",
  "status": {
   "today": "2026-08-22",
-  "sessions_last_28d": 6,
-  "last_session_date": "2026-08-17",
-  "days_since_last": 5,
+  "sessions_last_28d": 7,
+  "last_session_date": "2026-08-21",
+  "days_since_last": 1,
   "weekly_sets_by_muscle_28d": {
-   "chest": 3.8,
-   "back": 5.3,
-   "delt": 4.6,
-   "bi": 4.4,
-   "tri": 3.4,
+   "chest": 4.8,
+   "back": 6.5,
+   "delt": 7.9,
+   "bi": 4.8,
+   "tri": 4.4,
    "quad": 5,
    "ham": 2.8,
    "glute": 3.8,
@@ -49,6 +49,368 @@
   "bodyweight_recent": []
  },
  "lifts": {
+  "Overhead Press": {
+   "last_date": "2026-08-21",
+   "best_e1rm": 105,
+   "best_date": "2026-08-21",
+   "history": [
+    {
+     "date": "2026-08-21",
+     "sets": [
+      [
+       75,
+       12,
+       2
+      ],
+      [
+       75,
+       9,
+       2
+      ],
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       1
+      ]
+     ],
+     "e1rm": 105
+    },
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       0
+      ],
+      [
+       75,
+       6,
+       0
+      ]
+     ],
+     "e1rm": 95
+    }
+   ]
+  },
+  "Assisted Pull-Up": {
+   "last_date": "2026-08-21",
+   "best_e1rm": 0,
+   "best_date": null,
+   "history": [
+    {
+     "date": "2026-08-21",
+     "sets": [
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       1
+      ],
+      [
+       0,
+       8,
+       1
+      ]
+     ],
+     "e1rm": 0
+    },
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       1
+      ]
+     ],
+     "e1rm": 0
+    }
+   ]
+  },
+  "Machine Chest Press": {
+   "last_date": "2026-08-21",
+   "best_e1rm": 206.7,
+   "best_date": "2026-08-21",
+   "history": [
+    {
+     "date": "2026-08-21",
+     "sets": [
+      [
+       155,
+       10,
+       1
+      ],
+      [
+       150,
+       7,
+       0
+      ],
+      [
+       130,
+       7,
+       0
+      ],
+      [
+       135,
+       5,
+       0
+      ]
+     ],
+     "e1rm": 206.7
+    },
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       140,
+       10,
+       2
+      ],
+      [
+       140,
+       12,
+       2
+      ],
+      [
+       140,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 196
+    }
+   ]
+  },
+  "Seated Cable Row": {
+   "last_date": "2026-08-21",
+   "best_e1rm": 182,
+   "best_date": "2026-08-01",
+   "history": [
+    {
+     "date": "2026-08-21",
+     "sets": [
+      [
+       115,
+       12,
+       2
+      ],
+      [
+       115,
+       12,
+       2
+      ],
+      [
+       115,
+       12,
+       0
+      ]
+     ],
+     "e1rm": 161
+    },
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       130,
+       12,
+       0
+      ],
+      [
+       130,
+       9,
+       0
+      ],
+      [
+       115,
+       10,
+       0
+      ]
+     ],
+     "e1rm": 182
+    }
+   ]
+  },
+  "Rear Delt Fly": {
+   "last_date": "2026-08-21",
+   "best_e1rm": 84,
+   "best_date": "2026-08-21",
+   "history": [
+    {
+     "date": "2026-08-21",
+     "sets": [
+      [
+       30,
+       15,
+       2
+      ],
+      [
+       40,
+       15,
+       2
+      ],
+      [
+       50,
+       15,
+       2
+      ],
+      [
+       60,
+       15,
+       2
+      ]
+     ],
+     "e1rm": 84
+    },
+    {
+     "date": "2026-08-01",
+     "sets": [
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ],
+      [
+       25,
+       15,
+       2
+      ]
+     ],
+     "e1rm": 35
+    }
+   ]
+  },
+  "Overhead Cable Tricep Extension": {
+   "last_date": "2026-08-21",
+   "best_e1rm": 59.5,
+   "best_date": "2026-08-15",
+   "history": [
+    {
+     "date": "2026-08-21",
+     "sets": [
+      [
+       42.5,
+       11,
+       0
+      ],
+      [
+       42.5,
+       7,
+       0
+      ],
+      [
+       37.5,
+       9,
+       0
+      ],
+      [
+       37.5,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 58.1
+    },
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       37.5,
+       14,
+       2
+      ],
+      [
+       42.5,
+       13,
+       0
+      ],
+      [
+       37.5,
+       14,
+       0
+      ]
+     ],
+     "e1rm": 59.5
+    }
+   ]
+  },
+  "Lateral Raise": {
+   "last_date": "2026-08-21",
+   "best_e1rm": 21,
+   "best_date": "2026-08-21",
+   "history": [
+    {
+     "date": "2026-08-21",
+     "sets": [
+      [
+       15,
+       15,
+       2
+      ],
+      [
+       15,
+       15,
+       1
+      ],
+      [
+       15,
+       15,
+       0
+      ]
+     ],
+     "e1rm": 21
+    }
+   ]
+  },
   "Leg Press": {
    "last_date": "2026-08-17",
    "best_e1rm": 392,
@@ -542,34 +904,6 @@
     }
    ]
   },
-  "Overhead Cable Tricep Extension": {
-   "last_date": "2026-08-15",
-   "best_e1rm": 59.5,
-   "best_date": "2026-08-15",
-   "history": [
-    {
-     "date": "2026-08-15",
-     "sets": [
-      [
-       37.5,
-       14,
-       2
-      ],
-      [
-       42.5,
-       13,
-       0
-      ],
-      [
-       37.5,
-       14,
-       0
-      ]
-     ],
-     "e1rm": 59.5
-    }
-   ]
-  },
   "Bulgarian Split Squat": {
    "last_date": "2026-08-14",
    "best_e1rm": 153.3,
@@ -676,161 +1010,6 @@
       ]
      ],
      "e1rm": 247
-    }
-   ]
-  },
-  "Overhead Press": {
-   "last_date": "2026-08-01",
-   "best_e1rm": 95,
-   "best_date": "2026-08-01",
-   "history": [
-    {
-     "date": "2026-08-01",
-     "sets": [
-      [
-       75,
-       8,
-       2
-      ],
-      [
-       75,
-       8,
-       2
-      ],
-      [
-       75,
-       8,
-       0
-      ],
-      [
-       75,
-       6,
-       0
-      ]
-     ],
-     "e1rm": 95
-    }
-   ]
-  },
-  "Assisted Pull-Up": {
-   "last_date": "2026-08-01",
-   "best_e1rm": 0,
-   "best_date": null,
-   "history": [
-    {
-     "date": "2026-08-01",
-     "sets": [
-      [
-       0,
-       8,
-       2
-      ],
-      [
-       0,
-       8,
-       2
-      ],
-      [
-       0,
-       8,
-       2
-      ],
-      [
-       0,
-       8,
-       1
-      ]
-     ],
-     "e1rm": 0
-    }
-   ]
-  },
-  "Machine Chest Press": {
-   "last_date": "2026-08-01",
-   "best_e1rm": 196,
-   "best_date": "2026-08-01",
-   "history": [
-    {
-     "date": "2026-08-01",
-     "sets": [
-      [
-       140,
-       10,
-       2
-      ],
-      [
-       140,
-       12,
-       2
-      ],
-      [
-       140,
-       12,
-       1
-      ]
-     ],
-     "e1rm": 196
-    }
-   ]
-  },
-  "Seated Cable Row": {
-   "last_date": "2026-08-01",
-   "best_e1rm": 182,
-   "best_date": "2026-08-01",
-   "history": [
-    {
-     "date": "2026-08-01",
-     "sets": [
-      [
-       130,
-       12,
-       0
-      ],
-      [
-       130,
-       9,
-       0
-      ],
-      [
-       115,
-       10,
-       0
-      ]
-     ],
-     "e1rm": 182
-    }
-   ]
-  },
-  "Rear Delt Fly": {
-   "last_date": "2026-08-01",
-   "best_e1rm": 35,
-   "best_date": "2026-08-01",
-   "history": [
-    {
-     "date": "2026-08-01",
-     "sets": [
-      [
-       25,
-       15,
-       2
-      ],
-      [
-       25,
-       15,
-       2
-      ],
-      [
-       25,
-       15,
-       2
-      ],
-      [
-       25,
-       15,
-       2
-      ]
-     ],
-     "e1rm": 35
     }
    ]
   },
@@ -1014,6 +1193,186 @@
   }
  },
  "recent_sessions": [
+  {
+   "date": "2026-08-21",
+   "day": "Upper B",
+   "notes": "I did not take assistance on pullups, hence the 0lbs figure. On rear delt fly I used a machine. Sometimes its unclear if weight targets are per-arm or total load statistics. (particularly when on something like cable flys I would not sum the total typically whereas on a machine it’s pre-loaded as one number). Not sure what happened on triceps tbh I felt good\ntoday but couldnt anywhere near hit the same numbers.",
+   "volume": 15878,
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "4x6-8 @2RIR 75lb",
+     "sets": [
+      [
+       75,
+       12,
+       2
+      ],
+      [
+       75,
+       9,
+       2
+      ],
+      [
+       75,
+       8,
+       2
+      ],
+      [
+       75,
+       8,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Assisted Pull-Up",
+     "target": "4x6-8 @2RIR",
+     "sets": [
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       2
+      ],
+      [
+       0,
+       8,
+       1
+      ],
+      [
+       0,
+       8,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "3x10-12 @1RIR 150lb",
+     "sets": [
+      [
+       155,
+       10,
+       1
+      ],
+      [
+       150,
+       7,
+       0
+      ],
+      [
+       130,
+       7,
+       0
+      ],
+      [
+       135,
+       5,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @1RIR 115lb",
+     "sets": [
+      [
+       115,
+       12,
+       2
+      ],
+      [
+       115,
+       12,
+       2
+      ],
+      [
+       115,
+       12,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "4x15 @0RIR 30lb",
+     "sets": [
+      [
+       30,
+       15,
+       2
+      ],
+      [
+       40,
+       15,
+       2
+      ],
+      [
+       50,
+       15,
+       2
+      ],
+      [
+       60,
+       15,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Overhead Cable Tricep Extension",
+     "target": "4x12-15 @1RIR 42.5lb",
+     "sets": [
+      [
+       42.5,
+       11,
+       0
+      ],
+      [
+       42.5,
+       7,
+       0
+      ],
+      [
+       37.5,
+       9,
+       0
+      ],
+      [
+       37.5,
+       8,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Lateral Raise",
+     "target": "",
+     "sets": [
+      [
+       15,
+       15,
+       2
+      ],
+      [
+       15,
+       15,
+       1
+      ],
+      [
+       15,
+       15,
+       0
+      ]
+     ]
+    }
+   ]
+  },
   {
    "date": "2026-08-17",
    "day": "Lower A",
@@ -1851,48 +2210,5 @@
    ]
   }
  ],
- "next_plan": {
-  "day": "Upper B",
-  "focus": "vertical push and pull, add delt and triceps volume",
-  "notes": "log the pull-up assistance weight, and stop the row at 1 RIR instead of failure",
-  "date": "2026-08-20",
-  "ex": [
-   {
-    "name": "Overhead Press",
-    "target": "4x6-8 @2RIR 75lb",
-    "cue": "squeeze glutes, do not lean back",
-    "sets": []
-   },
-   {
-    "name": "Assisted Pull-Up",
-    "target": "4x6-8 @2RIR",
-    "cue": "drop assistance 20lb from last time, log the number",
-    "sets": []
-   },
-   {
-    "name": "Machine Chest Press",
-    "target": "3x10-12 @1RIR 150lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Seated Cable Row",
-    "target": "3x10-12 @1RIR 115lb",
-    "cue": "130 to failure cost you reps last time",
-    "sets": []
-   },
-   {
-    "name": "Rear Delt Fly",
-    "target": "4x15 @0RIR 30lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Overhead Cable Tricep Extension",
-    "target": "4x12-15 @1RIR 42.5lb",
-    "cue": "",
-    "sets": []
-   }
-  ]
- }
+ "next_plan": null
 }
