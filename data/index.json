@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-25T19:40:56.069Z",
+ "generated": "2026-08-25T19:40:59.134Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -31,24 +31,384 @@
  "coach_notes": "No ab wheel access.",
  "status": {
   "today": "2026-08-25",
-  "sessions_last_28d": 7,
-  "last_session_date": "2026-08-21",
-  "days_since_last": 4,
+  "sessions_last_28d": 8,
+  "last_session_date": "2026-08-23",
+  "days_since_last": 2,
   "weekly_sets_by_muscle_28d": {
    "chest": 4.8,
    "back": 6.5,
    "delt": 7.9,
    "bi": 4.8,
    "tri": 4.4,
-   "quad": 5,
-   "ham": 2.8,
-   "glute": 3.8,
-   "calf": 2,
-   "abs": 1.3
+   "quad": 5.8,
+   "ham": 5.5,
+   "glute": 6.5,
+   "calf": 3,
+   "abs": 2
   },
   "bodyweight_recent": []
  },
  "lifts": {
+  "Romanian Deadlift": {
+   "last_date": "2026-08-23",
+   "best_e1rm": 259.7,
+   "best_date": "2026-08-23",
+   "history": [
+    {
+     "date": "2026-08-23",
+     "sets": [
+      [
+       135,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ]
+     ],
+     "e1rm": 259.7
+    },
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       145,
+       8,
+       4
+      ],
+      [
+       195,
+       5,
+       0
+      ],
+      [
+       195,
+       8,
+       2
+      ],
+      [
+       195,
+       8,
+       2
+      ],
+      [
+       195,
+       8,
+       2
+      ]
+     ],
+     "e1rm": 247
+    }
+   ]
+  },
+  "Bulgarian Split Squat": {
+   "last_date": "2026-08-23",
+   "best_e1rm": 166.7,
+   "best_date": "2026-08-23",
+   "history": [
+    {
+     "date": "2026-08-23",
+     "sets": [
+      [
+       125,
+       8,
+       2
+      ],
+      [
+       125,
+       10,
+       2
+      ],
+      [
+       125,
+       10,
+       2
+      ]
+     ],
+     "e1rm": 166.7
+    },
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       95,
+       9,
+       2
+      ],
+      [
+       95,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       2
+      ],
+      [
+       115,
+       10,
+       1
+      ],
+      [
+       115,
+       10,
+       1
+      ]
+     ],
+     "e1rm": 153.3
+    }
+   ]
+  },
+  "Lying Leg Curl": {
+   "last_date": "2026-08-23",
+   "best_e1rm": 143,
+   "best_date": "2026-08-14",
+   "history": [
+    {
+     "date": "2026-08-23",
+     "sets": [
+      [
+       100,
+       10,
+       1
+      ],
+      [
+       100,
+       10,
+       1
+      ],
+      [
+       100,
+       10,
+       0
+      ]
+     ],
+     "e1rm": 133.3
+    },
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       110,
+       9,
+       1
+      ],
+      [
+       90,
+       11,
+       0
+      ],
+      [
+       80,
+       12,
+       0
+      ]
+     ],
+     "e1rm": 143
+    }
+   ]
+  },
+  "Back Extension": {
+   "last_date": "2026-08-23",
+   "best_e1rm": 49,
+   "best_date": "2026-08-23",
+   "history": [
+    {
+     "date": "2026-08-23",
+     "sets": [
+      [
+       35,
+       13,
+       2
+      ],
+      [
+       35,
+       15,
+       2
+      ],
+      [
+       35,
+       15,
+       0
+      ]
+     ],
+     "e1rm": 49
+    }
+   ]
+  },
+  "Standing Calf Raise": {
+   "last_date": "2026-08-23",
+   "best_e1rm": 252,
+   "best_date": "2026-08-23",
+   "history": [
+    {
+     "date": "2026-08-23",
+     "sets": [
+      [
+       180,
+       12,
+       1
+      ],
+      [
+       180,
+       12,
+       1
+      ],
+      [
+       180,
+       12,
+       1
+      ],
+      [
+       180,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 252
+    },
+    {
+     "date": "2026-08-17",
+     "sets": [
+      [
+       90,
+       10,
+       4
+      ],
+      [
+       150,
+       15,
+       1
+      ],
+      [
+       150,
+       12,
+       3
+      ],
+      [
+       150,
+       12,
+       1
+      ],
+      [
+       150,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 210
+    },
+    {
+     "date": "2026-07-29",
+     "sets": [
+      [
+       120,
+       10,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ],
+      [
+       120,
+       12,
+       4
+      ]
+     ],
+     "e1rm": 168
+    }
+   ]
+  },
+  "Cable Crunch": {
+   "last_date": "2026-08-23",
+   "best_e1rm": 126,
+   "best_date": "2026-08-23",
+   "history": [
+    {
+     "date": "2026-08-23",
+     "sets": [
+      [
+       90,
+       15,
+       1
+      ],
+      [
+       90,
+       12,
+       0
+      ],
+      [
+       90,
+       11,
+       0
+      ]
+     ],
+     "e1rm": 126
+    },
+    {
+     "date": "2026-08-17",
+     "sets": [
+      [
+       90,
+       15,
+       1
+      ],
+      [
+       90,
+       15,
+       1
+      ]
+     ],
+     "e1rm": 126
+    },
+    {
+     "date": "2026-08-14",
+     "sets": [
+      [
+       60,
+       15,
+       5
+      ],
+      [
+       80,
+       15,
+       2
+      ],
+      [
+       80,
+       15,
+       1
+      ]
+     ],
+     "e1rm": 112
+    }
+   ]
+  },
   "Overhead Press": {
    "last_date": "2026-08-21",
    "best_e1rm": 105,
@@ -547,109 +907,6 @@
     }
    ]
   },
-  "Standing Calf Raise": {
-   "last_date": "2026-08-17",
-   "best_e1rm": 210,
-   "best_date": "2026-08-17",
-   "history": [
-    {
-     "date": "2026-08-17",
-     "sets": [
-      [
-       90,
-       10,
-       4
-      ],
-      [
-       150,
-       15,
-       1
-      ],
-      [
-       150,
-       12,
-       3
-      ],
-      [
-       150,
-       12,
-       1
-      ],
-      [
-       150,
-       12,
-       1
-      ]
-     ],
-     "e1rm": 210
-    },
-    {
-     "date": "2026-07-29",
-     "sets": [
-      [
-       120,
-       10,
-       4
-      ],
-      [
-       120,
-       12,
-       4
-      ],
-      [
-       120,
-       12,
-       4
-      ]
-     ],
-     "e1rm": 168
-    }
-   ]
-  },
-  "Cable Crunch": {
-   "last_date": "2026-08-17",
-   "best_e1rm": 126,
-   "best_date": "2026-08-17",
-   "history": [
-    {
-     "date": "2026-08-17",
-     "sets": [
-      [
-       90,
-       15,
-       1
-      ],
-      [
-       90,
-       15,
-       1
-      ]
-     ],
-     "e1rm": 126
-    },
-    {
-     "date": "2026-08-14",
-     "sets": [
-      [
-       60,
-       15,
-       5
-      ],
-      [
-       80,
-       15,
-       2
-      ],
-      [
-       80,
-       15,
-       1
-      ]
-     ],
-     "e1rm": 112
-    }
-   ]
-  },
   "Flat Dumbbell Press": {
    "last_date": "2026-08-15",
    "best_e1rm": 78,
@@ -904,115 +1161,6 @@
     }
    ]
   },
-  "Bulgarian Split Squat": {
-   "last_date": "2026-08-14",
-   "best_e1rm": 153.3,
-   "best_date": "2026-08-14",
-   "history": [
-    {
-     "date": "2026-08-14",
-     "sets": [
-      [
-       95,
-       9,
-       2
-      ],
-      [
-       95,
-       10,
-       2
-      ],
-      [
-       115,
-       10,
-       2
-      ],
-      [
-       115,
-       10,
-       2
-      ],
-      [
-       115,
-       10,
-       1
-      ],
-      [
-       115,
-       10,
-       1
-      ]
-     ],
-     "e1rm": 153.3
-    }
-   ]
-  },
-  "Lying Leg Curl": {
-   "last_date": "2026-08-14",
-   "best_e1rm": 143,
-   "best_date": "2026-08-14",
-   "history": [
-    {
-     "date": "2026-08-14",
-     "sets": [
-      [
-       110,
-       9,
-       1
-      ],
-      [
-       90,
-       11,
-       0
-      ],
-      [
-       80,
-       12,
-       0
-      ]
-     ],
-     "e1rm": 143
-    }
-   ]
-  },
-  "Romanian Deadlift": {
-   "last_date": "2026-08-14",
-   "best_e1rm": 247,
-   "best_date": "2026-08-14",
-   "history": [
-    {
-     "date": "2026-08-14",
-     "sets": [
-      [
-       145,
-       8,
-       4
-      ],
-      [
-       195,
-       5,
-       0
-      ],
-      [
-       195,
-       8,
-       2
-      ],
-      [
-       195,
-       8,
-       2
-      ],
-      [
-       195,
-       8,
-       2
-      ]
-     ],
-     "e1rm": 247
-    }
-   ]
-  },
   "Cable Curl": {
    "last_date": "2026-08-01",
    "best_e1rm": 37,
@@ -1193,6 +1341,155 @@
   }
  },
  "recent_sessions": [
+  {
+   "date": "2026-08-23",
+   "day": "Lower B",
+   "notes": "",
+   "volume": 27705,
+   "ex": [
+    {
+     "name": "Romanian Deadlift",
+     "target": "4x6-8 @2RIR 205lb",
+     "sets": [
+      [
+       135,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ],
+      [
+       205,
+       8,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "3x8-10 @2RIR 125lb",
+     "sets": [
+      [
+       125,
+       8,
+       2
+      ],
+      [
+       125,
+       10,
+       2
+      ],
+      [
+       125,
+       10,
+       2
+      ]
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "3x10-12 @1RIR 100lb",
+     "sets": [
+      [
+       100,
+       10,
+       1
+      ],
+      [
+       100,
+       10,
+       1
+      ],
+      [
+       100,
+       10,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Back Extension",
+     "target": "3x12-15 @2RIR",
+     "sets": [
+      [
+       35,
+       13,
+       2
+      ],
+      [
+       35,
+       15,
+       2
+      ],
+      [
+       35,
+       15,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 170lb",
+     "sets": [
+      [
+       180,
+       12,
+       1
+      ],
+      [
+       180,
+       12,
+       1
+      ],
+      [
+       180,
+       12,
+       1
+      ],
+      [
+       180,
+       12,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "sets": [
+      [
+       90,
+       15,
+       1
+      ],
+      [
+       90,
+       12,
+       0
+      ],
+      [
+       90,
+       11,
+       0
+      ]
+     ]
+    }
+   ]
+  },
   {
    "date": "2026-08-21",
    "day": "Upper B",
@@ -2210,48 +2507,5 @@
    ]
   }
  ],
- "next_plan": {
-  "day": "Lower B",
-  "focus": "hinge emphasis, add direct erector work",
-  "notes": "log split squats as one set for both legs, keep RDL at 2 RIR and stop when hip hinge breaks down",
-  "date": "2026-08-23",
-  "ex": [
-   {
-    "name": "Romanian Deadlift",
-    "target": "4x6-8 @2RIR 205lb",
-    "cue": "push hips back, stop the set when the back rounds",
-    "sets": []
-   },
-   {
-    "name": "Bulgarian Split Squat",
-    "target": "3x8-10 @2RIR 125lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Lying Leg Curl",
-    "target": "3x10-12 @1RIR 100lb",
-    "cue": "110 was too heavy last time",
-    "sets": []
-   },
-   {
-    "name": "Back Extension",
-    "target": "3x12-15 @2RIR",
-    "cue": "squeeze glutes at the top, no hyperextension",
-    "sets": []
-   },
-   {
-    "name": "Standing Calf Raise",
-    "target": "4x8-12 @1RIR 170lb",
-    "cue": "pause 2 seconds at the bottom",
-    "sets": []
-   },
-   {
-    "name": "Cable Crunch",
-    "target": "3x12-15 @1RIR 90lb",
-    "cue": "",
-    "sets": []
-   }
-  ]
- }
+ "next_plan": null
 }
