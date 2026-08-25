@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-22T17:02:04.476Z",
+ "generated": "2026-08-25T19:40:56.069Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,10 +30,10 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-08-22",
+  "today": "2026-08-25",
   "sessions_last_28d": 7,
   "last_session_date": "2026-08-21",
-  "days_since_last": 1,
+  "days_since_last": 4,
   "weekly_sets_by_muscle_28d": {
    "chest": 4.8,
    "back": 6.5,
@@ -2210,5 +2210,48 @@
    ]
   }
  ],
- "next_plan": null
+ "next_plan": {
+  "day": "Lower B",
+  "focus": "hinge emphasis, add direct erector work",
+  "notes": "log split squats as one set for both legs, keep RDL at 2 RIR and stop when hip hinge breaks down",
+  "date": "2026-08-23",
+  "ex": [
+   {
+    "name": "Romanian Deadlift",
+    "target": "4x6-8 @2RIR 205lb",
+    "cue": "push hips back, stop the set when the back rounds",
+    "sets": []
+   },
+   {
+    "name": "Bulgarian Split Squat",
+    "target": "3x8-10 @2RIR 125lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "3x10-12 @1RIR 100lb",
+    "cue": "110 was too heavy last time",
+    "sets": []
+   },
+   {
+    "name": "Back Extension",
+    "target": "3x12-15 @2RIR",
+    "cue": "squeeze glutes at the top, no hyperextension",
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "4x8-12 @1RIR 170lb",
+    "cue": "pause 2 seconds at the bottom",
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "3x12-15 @1RIR 90lb",
+    "cue": "",
+    "sets": []
+   }
+  ]
+ }
 }
