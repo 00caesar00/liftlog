@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-08-25T19:40:55.169Z",
+ "updated": "2026-08-25T19:40:58.358Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -1268,6 +1268,163 @@
     }
    ],
    "end": "2026-08-22T17:02:03.547Z"
+  },
+  {
+   "id": "s1787515533323",
+   "date": "2026-08-23",
+   "day": "Lower B",
+   "start": "2026-08-23T20:05:33.323Z",
+   "notes": "",
+   "ex": [
+    {
+     "name": "Romanian Deadlift",
+     "target": "4x6-8 @2RIR 205lb",
+     "cue": "push hips back, stop the set when the back rounds",
+     "sets": [
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "3x8-10 @2RIR 125lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 125,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 125,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 125,
+       "r": 10,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "3x10-12 @1RIR 100lb",
+     "cue": "110 was too heavy last time",
+     "sets": [
+      {
+       "w": 100,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 100,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 100,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Back Extension",
+     "target": "3x12-15 @2RIR",
+     "cue": "squeeze glutes at the top, no hyperextension",
+     "sets": [
+      {
+       "w": 35,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 35,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 35,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 170lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 90,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 90,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-25T19:40:58.350Z"
   }
  ]
 }
