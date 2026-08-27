@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-08-27T20:11:36.105Z",
+ "updated": "2026-08-27T20:11:49.475Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -1425,6 +1425,163 @@
     }
    ],
    "end": "2026-08-25T19:40:58.350Z"
+  },
+  {
+   "id": "s1787688552915",
+   "date": "2026-08-25",
+   "day": "Upper A",
+   "start": "2026-08-25T20:09:12.925Z",
+   "notes": "Some later rows ended up being kind of poor form to try to hit targets. Not awful but definitely was near failure. ",
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 60lb",
+     "cue": "pause a beat at the bottom",
+     "sets": [
+      {
+       "w": 60,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 125lb",
+     "cue": "chest glued to the pad, stop at 2 RIR",
+     "sets": [
+      {
+       "w": 130,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 130,
+       "r": 10,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 125lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 125,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 125,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 125,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Lateral Raise",
+     "target": "3x12-15 @0RIR 12.5lb",
+     "cue": "per arm, earn 15 reps before adding weight",
+     "sets": [
+      {
+       "w": 10,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 10,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 10,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "4x10-12 @1RIR 22.5lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Triceps Pushdown",
+     "target": "4x12-15 @1RIR 50lb",
+     "cue": "new lift, first set is a feeler",
+     "sets": [
+      {
+       "w": 50,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 14,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-27T20:11:49.471Z"
   }
  ]
 }
