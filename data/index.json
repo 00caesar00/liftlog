@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-25T19:40:59.134Z",
+ "generated": "2026-08-27T20:11:41.294Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -30,20 +30,20 @@
  },
  "coach_notes": "No ab wheel access.",
  "status": {
-  "today": "2026-08-25",
-  "sessions_last_28d": 8,
+  "today": "2026-08-27",
+  "sessions_last_28d": 6,
   "last_session_date": "2026-08-23",
-  "days_since_last": 2,
+  "days_since_last": 4,
   "weekly_sets_by_muscle_28d": {
-   "chest": 4.8,
-   "back": 6.5,
-   "delt": 7.9,
-   "bi": 4.8,
-   "tri": 4.4,
-   "quad": 5.8,
-   "ham": 5.5,
-   "glute": 6.5,
-   "calf": 3,
+   "chest": 3,
+   "back": 4.8,
+   "delt": 7,
+   "bi": 3.1,
+   "tri": 3.5,
+   "quad": 5,
+   "ham": 4.8,
+   "glute": 6.1,
+   "calf": 2.3,
    "abs": 2
   },
   "bodyweight_recent": []
@@ -2507,5 +2507,48 @@
    ]
   }
  ],
- "next_plan": null
+ "next_plan": {
+  "day": "Upper A",
+  "focus": "horizontal push and pull, extra arm volume",
+  "notes": "row drops to 125 to break the stall, do not take set two to failure",
+  "date": "2026-08-25",
+  "ex": [
+   {
+    "name": "Flat Dumbbell Press",
+    "target": "4x6-8 @2RIR 60lb",
+    "cue": "pause a beat at the bottom",
+    "sets": []
+   },
+   {
+    "name": "Chest-Supported Row",
+    "target": "4x8-10 @2RIR 125lb",
+    "cue": "chest glued to the pad, stop at 2 RIR",
+    "sets": []
+   },
+   {
+    "name": "Lat Pulldown",
+    "target": "3x10-12 @1RIR 125lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Cable Lateral Raise",
+    "target": "3x12-15 @0RIR 12.5lb",
+    "cue": "per arm, earn 15 reps before adding weight",
+    "sets": []
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "4x10-12 @1RIR 22.5lb",
+    "cue": "",
+    "sets": []
+   },
+   {
+    "name": "Triceps Pushdown",
+    "target": "4x12-15 @1RIR 50lb",
+    "cue": "new lift, first set is a feeler",
+    "sets": []
+   }
+  ]
+ }
 }
