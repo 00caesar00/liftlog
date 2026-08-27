@@ -1,6 +1,6 @@
 {
  "v": 1,
- "updated": "2026-08-27T20:11:49.475Z",
+ "updated": "2026-08-27T21:52:17.523Z",
  "profile": {
   "name": "James",
   "height_cm": 179,
@@ -1582,6 +1582,153 @@
     }
    ],
    "end": "2026-08-27T20:11:49.471Z"
+  },
+  {
+   "id": "s1787862469144",
+   "date": "2026-08-27",
+   "day": "Lower A",
+   "start": "2026-08-27T20:27:49.144Z",
+   "notes": "After failing last set of leg press the extensions were tough. Across the board i felt that lactic acid overload at the end of the reps. I tried letting the form loosen a bit to have shorter rep times and that got me to 14 on my second set. Back extensions were absolutely brutal in the hamstrings today. I didnt do normal cable crunches but used a resistance crunch machine (I think its easier so maybe discount these reps some)",
+   "ex": [
+    {
+     "name": "Leg Press",
+     "target": "4x10-12 @2RIR 330lb",
+     "cue": "280x16 means you were 50lb light",
+     "sets": [
+      {
+       "w": 330,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 330,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 330,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 330,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR 100lb",
+     "cue": "get 15 clean reps before adding weight",
+     "sets": [
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 14,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 14,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Hip Abduction",
+     "target": "3x15 @1RIR 150lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 130,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 15,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Back Extension",
+     "target": "3x12-15 @2RIR 45lb",
+     "cue": "squeeze glutes at the top, no hyperextension",
+     "sets": [
+      {
+       "w": 45,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 45,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 200lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 100,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-27T21:52:17.520Z"
   }
  ]
 }
