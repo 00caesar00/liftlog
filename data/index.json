@@ -1,6 +1,6 @@
 {
  "schema": "liftlog/1",
- "generated": "2026-08-27T20:11:41.294Z",
+ "generated": "2026-08-27T20:11:51.294Z",
  "unit": "lb",
  "profile": {
   "name": "James",
@@ -31,15 +31,15 @@
  "coach_notes": "No ab wheel access.",
  "status": {
   "today": "2026-08-27",
-  "sessions_last_28d": 6,
-  "last_session_date": "2026-08-23",
-  "days_since_last": 4,
+  "sessions_last_28d": 7,
+  "last_session_date": "2026-08-25",
+  "days_since_last": 2,
   "weekly_sets_by_muscle_28d": {
-   "chest": 3,
-   "back": 4.8,
-   "delt": 7,
-   "bi": 3.1,
-   "tri": 3.5,
+   "chest": 4,
+   "back": 6.5,
+   "delt": 8.3,
+   "bi": 5,
+   "tri": 4.8,
    "quad": 5,
    "ham": 4.8,
    "glute": 6.1,
@@ -49,6 +49,408 @@
   "bodyweight_recent": []
  },
  "lifts": {
+  "Flat Dumbbell Press": {
+   "last_date": "2026-08-25",
+   "best_e1rm": 84,
+   "best_date": "2026-08-25",
+   "history": [
+    {
+     "date": "2026-08-25",
+     "sets": [
+      [
+       60,
+       12,
+       0
+      ],
+      [
+       60,
+       8,
+       1
+      ],
+      [
+       60,
+       8,
+       1
+      ],
+      [
+       60,
+       8,
+       1
+      ]
+     ],
+     "e1rm": 84
+    },
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       40,
+       10,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ],
+      [
+       55,
+       8,
+       2
+      ]
+     ],
+     "e1rm": 69.7
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       50,
+       10,
+       3
+      ],
+      [
+       65,
+       6,
+       0
+      ],
+      [
+       55,
+       10,
+       1
+      ],
+      [
+       55,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 78
+    }
+   ]
+  },
+  "Chest-Supported Row": {
+   "last_date": "2026-08-25",
+   "best_e1rm": 186.7,
+   "best_date": "2026-08-15",
+   "history": [
+    {
+     "date": "2026-08-25",
+     "sets": [
+      [
+       130,
+       10,
+       2
+      ],
+      [
+       130,
+       10,
+       0
+      ],
+      [
+       130,
+       9,
+       0
+      ],
+      [
+       130,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 173.3
+    },
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       90,
+       8,
+       2
+      ],
+      [
+       140,
+       10,
+       0
+      ],
+      [
+       140,
+       7,
+       0
+      ],
+      [
+       140,
+       7,
+       0
+      ],
+      [
+       140,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 186.7
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       120,
+       10,
+       3
+      ],
+      [
+       140,
+       10,
+       1
+      ],
+      [
+       140,
+       10,
+       0
+      ],
+      [
+       140,
+       8,
+       0
+      ]
+     ],
+     "e1rm": 186.7
+    }
+   ]
+  },
+  "Lat Pulldown": {
+   "last_date": "2026-08-25",
+   "best_e1rm": 175,
+   "best_date": "2026-08-25",
+   "history": [
+    {
+     "date": "2026-08-25",
+     "sets": [
+      [
+       125,
+       12,
+       2
+      ],
+      [
+       125,
+       12,
+       1
+      ],
+      [
+       125,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 175
+    },
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       70,
+       10,
+       4
+      ],
+      [
+       120,
+       12,
+       1
+      ],
+      [
+       120,
+       12,
+       1
+      ],
+      [
+       120,
+       12,
+       1
+      ]
+     ],
+     "e1rm": 168
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       12,
+       0
+      ],
+      [
+       120,
+       10,
+       0
+      ]
+     ],
+     "e1rm": 168
+    }
+   ]
+  },
+  "Cable Lateral Raise": {
+   "last_date": "2026-08-25",
+   "best_e1rm": 17.5,
+   "best_date": "2026-08-15",
+   "history": [
+    {
+     "date": "2026-08-25",
+     "sets": [
+      [
+       10,
+       15,
+       0
+      ],
+      [
+       10,
+       12,
+       0
+      ],
+      [
+       10,
+       11,
+       0
+      ]
+     ],
+     "e1rm": 14
+    },
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       12.5,
+       13,
+       0
+      ],
+      [
+       12.5,
+       11,
+       0
+      ],
+      [
+       12.5,
+       11,
+       0
+      ]
+     ],
+     "e1rm": 17.5
+    }
+   ]
+  },
+  "Incline Dumbbell Curl": {
+   "last_date": "2026-08-25",
+   "best_e1rm": 32.5,
+   "best_date": "2026-07-28",
+   "history": [
+    {
+     "date": "2026-08-25",
+     "sets": [
+      [
+       22.5,
+       12,
+       2
+      ],
+      [
+       22.5,
+       12,
+       2
+      ],
+      [
+       22.5,
+       12,
+       0
+      ],
+      [
+       22.5,
+       12,
+       0
+      ]
+     ],
+     "e1rm": 31.5
+    },
+    {
+     "date": "2026-08-15",
+     "sets": [
+      [
+       20,
+       12,
+       4
+      ],
+      [
+       20,
+       13,
+       1
+      ]
+     ],
+     "e1rm": 28
+    },
+    {
+     "date": "2026-07-28",
+     "sets": [
+      [
+       25,
+       9,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ],
+      [
+       25,
+       6,
+       0
+      ]
+     ],
+     "e1rm": 32.5
+    }
+   ]
+  },
+  "Triceps Pushdown": {
+   "last_date": "2026-08-25",
+   "best_e1rm": 77,
+   "best_date": "2026-08-25",
+   "history": [
+    {
+     "date": "2026-08-25",
+     "sets": [
+      [
+       50,
+       15,
+       2
+      ],
+      [
+       55,
+       15,
+       2
+      ],
+      [
+       55,
+       14,
+       0
+      ]
+     ],
+     "e1rm": 77
+    }
+   ]
+  },
   "Romanian Deadlift": {
    "last_date": "2026-08-23",
    "best_e1rm": 259.7,
@@ -907,260 +1309,6 @@
     }
    ]
   },
-  "Flat Dumbbell Press": {
-   "last_date": "2026-08-15",
-   "best_e1rm": 78,
-   "best_date": "2026-07-28",
-   "history": [
-    {
-     "date": "2026-08-15",
-     "sets": [
-      [
-       40,
-       10,
-       2
-      ],
-      [
-       55,
-       8,
-       2
-      ],
-      [
-       55,
-       8,
-       2
-      ],
-      [
-       55,
-       8,
-       2
-      ],
-      [
-       55,
-       8,
-       2
-      ]
-     ],
-     "e1rm": 69.7
-    },
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       50,
-       10,
-       3
-      ],
-      [
-       65,
-       6,
-       0
-      ],
-      [
-       55,
-       10,
-       1
-      ],
-      [
-       55,
-       8,
-       0
-      ]
-     ],
-     "e1rm": 78
-    }
-   ]
-  },
-  "Chest-Supported Row": {
-   "last_date": "2026-08-15",
-   "best_e1rm": 186.7,
-   "best_date": "2026-08-15",
-   "history": [
-    {
-     "date": "2026-08-15",
-     "sets": [
-      [
-       90,
-       8,
-       2
-      ],
-      [
-       140,
-       10,
-       0
-      ],
-      [
-       140,
-       7,
-       0
-      ],
-      [
-       140,
-       7,
-       0
-      ],
-      [
-       140,
-       8,
-       0
-      ]
-     ],
-     "e1rm": 186.7
-    },
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       120,
-       10,
-       3
-      ],
-      [
-       140,
-       10,
-       1
-      ],
-      [
-       140,
-       10,
-       0
-      ],
-      [
-       140,
-       8,
-       0
-      ]
-     ],
-     "e1rm": 186.7
-    }
-   ]
-  },
-  "Lat Pulldown": {
-   "last_date": "2026-08-15",
-   "best_e1rm": 168,
-   "best_date": "2026-08-15",
-   "history": [
-    {
-     "date": "2026-08-15",
-     "sets": [
-      [
-       70,
-       10,
-       4
-      ],
-      [
-       120,
-       12,
-       1
-      ],
-      [
-       120,
-       12,
-       1
-      ],
-      [
-       120,
-       12,
-       1
-      ]
-     ],
-     "e1rm": 168
-    },
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       120,
-       12,
-       0
-      ],
-      [
-       120,
-       12,
-       0
-      ],
-      [
-       120,
-       10,
-       0
-      ]
-     ],
-     "e1rm": 168
-    }
-   ]
-  },
-  "Cable Lateral Raise": {
-   "last_date": "2026-08-15",
-   "best_e1rm": 17.5,
-   "best_date": "2026-08-15",
-   "history": [
-    {
-     "date": "2026-08-15",
-     "sets": [
-      [
-       12.5,
-       13,
-       0
-      ],
-      [
-       12.5,
-       11,
-       0
-      ],
-      [
-       12.5,
-       11,
-       0
-      ]
-     ],
-     "e1rm": 17.5
-    }
-   ]
-  },
-  "Incline Dumbbell Curl": {
-   "last_date": "2026-08-15",
-   "best_e1rm": 32.5,
-   "best_date": "2026-07-28",
-   "history": [
-    {
-     "date": "2026-08-15",
-     "sets": [
-      [
-       20,
-       12,
-       4
-      ],
-      [
-       20,
-       13,
-       1
-      ]
-     ],
-     "e1rm": 28
-    },
-    {
-     "date": "2026-07-28",
-     "sets": [
-      [
-       25,
-       9,
-       0
-      ],
-      [
-       25,
-       6,
-       0
-      ],
-      [
-       25,
-       6,
-       0
-      ]
-     ],
-     "e1rm": 32.5
-    }
-   ]
-  },
   "Cable Curl": {
    "last_date": "2026-08-01",
    "best_e1rm": 37,
@@ -1341,6 +1489,155 @@
   }
  },
  "recent_sessions": [
+  {
+   "date": "2026-08-25",
+   "day": "Upper A",
+   "notes": "Some later rows ended up being kind of poor form to try to hit targets. Not awful but definitely was near failure. ",
+   "volume": 15275,
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 60lb",
+     "sets": [
+      [
+       60,
+       12,
+       0
+      ],
+      [
+       60,
+       8,
+       1
+      ],
+      [
+       60,
+       8,
+       1
+      ],
+      [
+       60,
+       8,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 125lb",
+     "sets": [
+      [
+       130,
+       10,
+       2
+      ],
+      [
+       130,
+       10,
+       0
+      ],
+      [
+       130,
+       9,
+       0
+      ],
+      [
+       130,
+       8,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 125lb",
+     "sets": [
+      [
+       125,
+       12,
+       2
+      ],
+      [
+       125,
+       12,
+       1
+      ],
+      [
+       125,
+       12,
+       1
+      ]
+     ]
+    },
+    {
+     "name": "Cable Lateral Raise",
+     "target": "3x12-15 @0RIR 12.5lb",
+     "sets": [
+      [
+       10,
+       15,
+       0
+      ],
+      [
+       10,
+       12,
+       0
+      ],
+      [
+       10,
+       11,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "4x10-12 @1RIR 22.5lb",
+     "sets": [
+      [
+       22.5,
+       12,
+       2
+      ],
+      [
+       22.5,
+       12,
+       2
+      ],
+      [
+       22.5,
+       12,
+       0
+      ],
+      [
+       22.5,
+       12,
+       0
+      ]
+     ]
+    },
+    {
+     "name": "Triceps Pushdown",
+     "target": "4x12-15 @1RIR 50lb",
+     "sets": [
+      [
+       50,
+       15,
+       2
+      ],
+      [
+       55,
+       15,
+       2
+      ],
+      [
+       55,
+       14,
+       0
+      ]
+     ]
+    }
+   ]
+  },
   {
    "date": "2026-08-23",
    "day": "Lower B",
@@ -2507,48 +2804,5 @@
    ]
   }
  ],
- "next_plan": {
-  "day": "Upper A",
-  "focus": "horizontal push and pull, extra arm volume",
-  "notes": "row drops to 125 to break the stall, do not take set two to failure",
-  "date": "2026-08-25",
-  "ex": [
-   {
-    "name": "Flat Dumbbell Press",
-    "target": "4x6-8 @2RIR 60lb",
-    "cue": "pause a beat at the bottom",
-    "sets": []
-   },
-   {
-    "name": "Chest-Supported Row",
-    "target": "4x8-10 @2RIR 125lb",
-    "cue": "chest glued to the pad, stop at 2 RIR",
-    "sets": []
-   },
-   {
-    "name": "Lat Pulldown",
-    "target": "3x10-12 @1RIR 125lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Cable Lateral Raise",
-    "target": "3x12-15 @0RIR 12.5lb",
-    "cue": "per arm, earn 15 reps before adding weight",
-    "sets": []
-   },
-   {
-    "name": "Incline Dumbbell Curl",
-    "target": "4x10-12 @1RIR 22.5lb",
-    "cue": "",
-    "sets": []
-   },
-   {
-    "name": "Triceps Pushdown",
-    "target": "4x12-15 @1RIR 50lb",
-    "cue": "new lift, first set is a feeler",
-    "sets": []
-   }
-  ]
- }
+ "next_plan": null
 }
