@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-09-22T22:18:00.299Z",
+ "updated": "2026-09-22T22:30:41.513Z",
  "years": [
   "2026"
  ],
@@ -275,7 +275,7 @@
   "date": "2026-09-22",
   "day": "Lower B",
   "start": "2026-09-22T21:57:40.210Z",
-  "notes": "",
+  "notes": "my bulgarian split squat is done with a bar so its logged as one weight — not separate dumbbells.",
   "ex": [
    {
     "name": "Romanian Deadlift",
@@ -318,7 +318,15 @@
     "target": "2x8-10 @3RIR 110lb rest 120",
     "cue": "",
     "rest": 120,
-    "sets": []
+    "sets": [
+     {
+      "w": 95,
+      "r": 10,
+      "rir": 3,
+      "t": "w",
+      "at": "2026-09-22T22:30:03.074Z"
+     }
+    ]
    },
    {
     "name": "Lying Leg Curl",
