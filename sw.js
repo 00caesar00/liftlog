@@ -1,6 +1,6 @@
 /* Cache the shell so the app opens with no signal in the gym basement. */
-const CACHE = 'liftlog-v1';
-const SHELL = ['./', './index.html', './app.js', './manifest.webmanifest', './data/program.json'];
+const CACHE = 'liftlog-v2';
+const SHELL = ['./', './index.html', './core.js', './app.js', './manifest.webmanifest', './data/program.json'];
 
 self.addEventListener('install', e => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
@@ -10,7 +10,7 @@ self.addEventListener('activate', e => {
 });
 self.addEventListener('fetch', e => {
   const url = new URL(e.request.url);
-  if (e.request.method !== 'GET' || url.hostname === 'api.github.com') return;   // never cache API writes
+  if (e.request.method !== 'GET' || url.hostname === 'api.github.com' || url.hostname === 'api.anthropic.com') return;   // never cache API writes
   e.respondWith(
     fetch(e.request)
       .then(r => { const c = r.clone(); caches.open(CACHE).then(k => k.put(e.request, c)); return r; })

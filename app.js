@@ -1,369 +1,275 @@
-/* LiftLog - personal training log. Local-first, syncs to a GitHub repo. */
+/* LiftLog app: persistence, GitHub sync, coach API, UI. Pure logic lives in core.js. */
 'use strict';
+const C = (typeof window !== 'undefined' && window.LiftCore) || require('./core.js');
+const { MUSCLES, MUSCLE_LABEL, KIND_LABEL, LOAD_NOTE, e1rm, parseTarget, canon, exInfo, readEntry,
+        liftSeries, liftSummary, sessionVolume, hardSetsByMuscle, buildDigest, today, daysAgo, addDays,
+        byDateAsc, byDateDesc, hasRir, round1, clone } = C;
 
-/* ---------------- exercise library: name -> muscle set contributions ---------------- */
-const EXLIB = {
-  // push
-  'Barbell Bench Press':        {chest:1, tri:0.5, delt:0.5},
-  'Incline Barbell Bench':      {chest:1, tri:0.5, delt:0.5},
-  'Incline Dumbbell Press':     {chest:1, tri:0.5, delt:0.5},
-  'Flat Dumbbell Press':        {chest:1, tri:0.5, delt:0.5},
-  'Machine Chest Press':        {chest:1, tri:0.5, delt:0.5},
-  'Cable Fly':                  {chest:1},
-  'Pec Deck':                   {chest:1},
-  'Overhead Press':             {delt:1, tri:0.5},
-  'Seated Dumbbell Press':      {delt:1, tri:0.5},
-  'Lateral Raise':              {delt:1},
-  'Cable Lateral Raise':        {delt:1},
-  'Rear Delt Fly':              {delt:1, back:0.5},
-  'Triceps Pushdown':           {tri:1},
-  'Overhead Cable Extension':   {tri:1},
-  'Skullcrusher':               {tri:1},
-  'Dip':                        {chest:1, tri:1},
-  // pull
-  'Pull-Up':                    {back:1, bi:0.5},
-  'Chin-Up':                    {back:1, bi:0.5},
-  'Lat Pulldown':               {back:1, bi:0.5},
-  'Chest-Supported Row':        {back:1, bi:0.5},
-  'Barbell Row':                {back:1, bi:0.5},
-  'Seated Cable Row':           {back:1, bi:0.5},
-  'Single-Arm Dumbbell Row':    {back:1, bi:0.5},
-  'Face Pull':                  {delt:1, back:0.5},
-  'Barbell Curl':               {bi:1},
-  'Incline Dumbbell Curl':      {bi:1},
-  'Hammer Curl':                {bi:1},
-  'Cable Curl':                 {bi:1},
-  'Shrug':                      {back:1},
-  // legs
-  'Back Squat':                 {quad:1, glute:0.5},
-  'Front Squat':                {quad:1, glute:0.5},
-  'Hack Squat':                 {quad:1, glute:0.5},
-  'Leg Press':                  {quad:1, glute:0.5},
-  'Bulgarian Split Squat':      {quad:1, glute:1},
-  'Walking Lunge':              {quad:1, glute:1},
-  'Leg Extension':              {quad:1},
-  'Romanian Deadlift':          {ham:1, glute:1},
-  'Conventional Deadlift':      {ham:1, glute:1, back:0.5},
-  'Trap Bar Deadlift':          {ham:1, glute:1, quad:0.5},
-  'Seated Leg Curl':            {ham:1},
-  'Lying Leg Curl':             {ham:1},
-  'Hip Thrust':                 {glute:1, ham:0.5},
-  'Back Extension':             {ham:1, glute:1},
-  'Standing Calf Raise':        {calf:1},
-  'Seated Calf Raise':          {calf:1},
-  // core
-  'Hanging Leg Raise':          {abs:1},
-  'Cable Crunch':               {abs:1},
-  'Ab Wheel':                   {abs:1},
-  'Plank':                      {abs:1},
-};
-const MUSCLES = ['chest','back','delt','bi','tri','quad','ham','glute','calf','abs'];
-const MUSCLE_LABEL = {chest:'Chest',back:'Back',delt:'Delts',bi:'Biceps',tri:'Triceps',quad:'Quads',ham:'Hams',glute:'Glutes',calf:'Calves',abs:'Abs'};
-
-/* ---------------- pure helpers (also unit-tested headlessly) ---------------- */
-function e1rm(w, r) {                      // Epley, capped at 12 reps of usefulness
-  if (!w || !r) return 0;
-  return Math.round(w * (1 + Math.min(r, 12) / 30) * 10) / 10;
-}
-function bestE1rm(sets) {
-  return sets.reduce((m, s) => Math.max(m, e1rm(s.w, s.r)), 0);
-}
-function sessionVolume(sess) {             // total kg/lb lifted
-  let v = 0;
-  (sess.ex || []).forEach(e => (e.sets || []).forEach(s => { v += (s.w || 0) * (s.r || 0); }));
-  return Math.round(v);
-}
-function hardSetsByMuscle(sessions) {      // fractional set counts
-  const out = {};
-  MUSCLES.forEach(m => out[m] = 0);
-  sessions.forEach(sess => (sess.ex || []).forEach(e => {
-    const map = EXLIB[e.name] || {};
-    const n = (e.sets || []).filter(s => s.r > 0).length;
-    Object.keys(map).forEach(m => { if (out[m] !== undefined) out[m] += n * map[m]; });
-  }));
-  MUSCLES.forEach(m => out[m] = Math.round(out[m] * 10) / 10);
-  return out;
-}
-function b64urlEncode(obj) {
-  const bytes = new TextEncoder().encode(JSON.stringify(obj));
-  let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
-  return btoa(bin).replace(/\+/g, '-').replace(/\//g, '_').replace(/=+$/, '');
-}
-function b64urlDecode(str) {
-  const s = str.replace(/-/g, '+').replace(/_/g, '/');
-  const bin = atob(s + '==='.slice((s.length + 3) % 4));
-  const bytes = Uint8Array.from(bin, c => c.charCodeAt(0));
-  return JSON.parse(new TextDecoder().decode(bytes));
-}
-/* Parse the plain-text plan format the coach writes. Deliberately forgiving:
-   DAY: Upper A
-   FOCUS: heavy pressing
-   NOTE: shoulder was cranky, stop 2 short
-   Flat Dumbbell Press | 4x6-8 @2RIR 70lb | pause at the chest
-*/
-function parseTextPlan(text) {
-  const plan = { day: '', focus: '', notes: '', date: today(), ex: [] };
-  String(text).split(/\r?\n/).forEach(raw => {
-    let line = raw.trim().replace(/^([-*•]|\d+[.)])\s+/, '').replace(/\*\*/g, '');
-    if (!line) return;
-    const kv = /^(day|focus|note|notes)\s*:\s*(.*)$/i.exec(line);
-    if (kv) {
-      const k = kv[1].toLowerCase();
-      if (k === 'day') plan.day = kv[2].trim();
-      else if (k === 'focus') plan.focus = kv[2].trim();
-      else plan.notes = (plan.notes ? plan.notes + ' ' : '') + kv[2].trim();
-      return;
-    }
-    const parts = line.split('|').map(s => s.trim());
-    if (!parts[0]) return;
-    const ex = { name: parts[0], target: parts[1] || '', cue: parts[2] || '', sets: [] };
-    const r = /(?:rest\s*)(\d+)\s*s?/i.exec(line); if (r) ex.rest = parseInt(r[1], 10);
-    plan.ex.push(ex);
-  });
-  if (!plan.ex.length) throw new Error('no exercises found');
-  if (!plan.day) plan.day = 'Session';
-  return plan;
-}
-function parseAnyPlan(v) {
-  v = String(v).trim();
-  if (v.includes('#t=')) return parseTextPlan(decodeURIComponent(v.split('#t=')[1]));
-  if (v.includes('#plan=')) return b64urlDecode(v.split('#plan=')[1].trim());
-  if (v.startsWith('{')) return JSON.parse(v);
-  if (/^[A-Za-z0-9_-]{40,}$/.test(v)) return b64urlDecode(v);
-  return parseTextPlan(v);
-}
-function seedWeight(target) {
-  const m = /(\d+(?:\.\d+)?)\s*(lb|kg)\b/i.exec(target || '');
-  return m ? parseFloat(m[1]) : null;
-}
-function b64EncodeUtf8(str) {
-  const bytes = new TextEncoder().encode(str);
-  let bin = ''; bytes.forEach(b => bin += String.fromCharCode(b));
-  return btoa(bin);
-}
-function today() {
-  const d = new Date(); const p = n => String(n).padStart(2, '0');
-  return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
-}
-function daysAgo(dateStr, ref) {
-  const a = new Date((ref || today()) + 'T00:00:00'), b = new Date(dateStr + 'T00:00:00');
-  return Math.round((a - b) / 86400000);
-}
-
-/* Build the compact digest that Claude reads. Keep it small and information-dense. */
-function buildDigest(db) {
-  const sessions = (db.sessions || []).slice().sort((a, b) => a.date < b.date ? 1 : -1);
-  const recent = sessions.slice(0, 10);
-  const last28 = sessions.filter(s => daysAgo(s.date) <= 28);
-
-  const lifts = {};
-  sessions.forEach(sess => (sess.ex || []).forEach(e => {
-    const L = lifts[e.name] || (lifts[e.name] = { last_date: null, best_e1rm: 0, best_date: null, history: [] });
-    const b = bestE1rm(e.sets || []);
-    if (!L.last_date || sess.date > L.last_date) L.last_date = sess.date;
-    if (b > L.best_e1rm) { L.best_e1rm = b; L.best_date = sess.date; }
-    if (L.history.length < 4) {
-      L.history.push({
-        date: sess.date,
-        sets: (e.sets || []).map(s => [s.w, s.r, s.rir === null || s.rir === undefined ? '' : s.rir]),
-        e1rm: b
-      });
-    }
-  }));
-
-  return {
-    schema: 'liftlog/1',
-    generated: new Date().toISOString(),
-    unit: db.settings.unit,
-    profile: db.profile,
-    coach_notes: db.coachNotes || '',
-    status: {
-      today: today(),
-      sessions_last_28d: last28.length,
-      last_session_date: sessions[0] ? sessions[0].date : null,
-      days_since_last: sessions[0] ? daysAgo(sessions[0].date) : null,
-      weekly_sets_by_muscle_28d: (() => {
-        const t = hardSetsByMuscle(last28), o = {};
-        Object.keys(t).forEach(k => o[k] = Math.round(t[k] / 4 * 10) / 10);
-        return o;
-      })(),
-      bodyweight_recent: (db.bodyweight || []).slice(-8)
-    },
-    lifts,
-    recent_sessions: recent.map(s => ({
-      date: s.date, day: s.day, notes: s.notes || '', volume: sessionVolume(s),
-      ex: (s.ex || []).map(e => ({
-        name: e.name, target: e.target || '',
-        sets: (e.sets || []).map(x => [x.w, x.r, x.rir === null || x.rir === undefined ? '' : x.rir])
-      }))
-    })),
-    next_plan: db.plan || null
-  };
-}
-
-/* ---------------- persistence ---------------- */
-const KEY = 'liftlog.db.v1';
-const DEFAULT_DB = {
-  v: 1,
-  settings: { owner: '', repo: '', branch: 'main', token: '', unit: 'lb', shas: {} },
-  profile: {
-    name: 'James',
-    height_cm: 179,
-    goal: 'Body recomposition: 17.8% -> 13.0% body fat, 135.1 -> 142 lb lean mass',
-    baseline_dxa: {
-      date: '2026-07-26', body_fat_pct: 17.8, fat_mass_lb: 31.0, lean_mass_lb: 135.1,
-      total_mass_lb: 174.2, visceral_fat_lb: 1.01, ag_ratio: 1.62, almi: 9.1, ffmi: 20.3
-    },
-    target: { body_fat_pct: 13.0, lean_mass_lb: 142, almi: 10.5, ffmi: 21.0, visceral_fat_lb: 0.6 },
-    days_per_week: 4, split: 'Upper/Lower', equipment: 'Full commercial gym'
-  },
-  program: null,
-  sessions: [], active: null, plan: null, bodyweight: [], coachNotes: '', dirty: false
-};
-const clone = o => JSON.parse(JSON.stringify(o));
+/* ---------------- persistence ----------------
+   v2 lives under a new key. The v1 key is left untouched as a local safety copy.       */
+const KEY = 'liftlog.db';
+const KEY_V1 = 'liftlog.db.v1';
 let db = load();
 function load() {
   try {
-    const raw = localStorage.getItem(KEY);
-    if (!raw) return clone(DEFAULT_DB);
-    return Object.assign(clone(DEFAULT_DB), JSON.parse(raw));
-  } catch (e) { return clone(DEFAULT_DB); }
+    const raw = localStorage.getItem(KEY) || localStorage.getItem(KEY_V1);
+    if (!raw) return C.migrate(C.DEFAULT_DB);
+    return C.migrate(JSON.parse(raw));
+  } catch (e) { console.error(e); return C.migrate(C.DEFAULT_DB); }
 }
 function save(markDirty) {
-  if (markDirty) db.dirty = true;
-  localStorage.setItem(KEY, JSON.stringify(db));
+  if (markDirty) { db.dirty = true; db.changedAt = new Date().toISOString(); }
+  try { localStorage.setItem(KEY, JSON.stringify(db)); } catch (e) { toast('Could not save locally: ' + e.message); }
   paintSyncBadge();
+  if (markDirty) scheduleSync();
 }
 
-/* ---------------- GitHub sync ---------------- */
+/* ---------------- GitHub sync (Git Data API: one atomic commit per sync) ---------------- */
 const GH = {
   ok() { const s = db.settings; return !!(s.owner && s.repo && s.token); },
-  async put(path, text, message) {
-    const s = db.settings;
-    const url = `https://api.github.com/repos/${s.owner}/${s.repo}/contents/${path}`;
-    const body = { message, content: b64EncodeUtf8(text), branch: s.branch || 'main' };
-    if (s.shas[path]) body.sha = s.shas[path];
-    let res = await fetch(url, {
-      method: 'PUT',
-      headers: { Authorization: 'Bearer ' + s.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
+  base() { const s = db.settings; return `https://api.github.com/repos/${s.owner}/${s.repo}`; },
+  async req(method, path, body, accept) {
+    const res = await fetch(this.base() + path, {
+      method,
+      headers: { Authorization: 'Bearer ' + db.settings.token, Accept: accept || 'application/vnd.github+json',
+                 ...(body ? { 'Content-Type': 'application/json' } : {}) },
+      body: body ? JSON.stringify(body) : undefined
     });
-    if (res.status === 409 || res.status === 422) {           // stale sha -> refetch and retry once
-      const head = await fetch(url + '?ref=' + (s.branch || 'main'), { headers: { Authorization: 'Bearer ' + s.token } });
-      if (head.ok) {
-        const j = await head.json();
-        body.sha = j.sha;
-        res = await fetch(url, {
-          method: 'PUT',
-          headers: { Authorization: 'Bearer ' + s.token, Accept: 'application/vnd.github+json', 'Content-Type': 'application/json' },
-          body: JSON.stringify(body)
-        });
-      }
-    }
-    if (!res.ok) throw new Error(path + ': HTTP ' + res.status + ' ' + (await res.text()).slice(0, 200));
-    const j = await res.json();
-    s.shas[path] = j.content.sha;
-    return j;
+    if (res.status === 404 && method === 'GET') return null;
+    if (!res.ok) { const e = new Error(method + ' ' + path + ': HTTP ' + res.status + ' ' + (await res.text()).slice(0, 160)); e.status = res.status; throw e; }
+    return accept && accept.includes('raw') ? res.text() : res.json();
   },
-  async pull(path) {
-    const s = db.settings;
-    const url = `https://api.github.com/repos/${s.owner}/${s.repo}/contents/${path}?ref=${s.branch || 'main'}`;
-    const res = await fetch(url, { headers: { Authorization: 'Bearer ' + s.token, Accept: 'application/vnd.github+json' } });
-    if (res.status === 404) return null;
-    if (!res.ok) throw new Error('pull ' + path + ': HTTP ' + res.status);
-    const j = await res.json();
-    s.shas[path] = j.sha;
-    const bin = atob(j.content.replace(/\n/g, ''));
-    return new TextDecoder().decode(Uint8Array.from(bin, c => c.charCodeAt(0)));
+  async raw(path) {           // raw media type: no 1 MB limit
+    return this.req('GET', '/contents/' + path + '?ref=' + encodeURIComponent(db.settings.branch || 'main'), null, 'application/vnd.github.raw+json');
+  },
+  /* files: {path: text}. Unchanged files are skipped by comparing git blob hashes. */
+  async commit(files, message, extraEntries) {
+    const br = db.settings.branch || 'main';
+    const ref = await this.req('GET', '/git/ref/heads/' + br);
+    if (!ref) throw new Error('branch ' + br + ' not found');
+    const head = ref.object.sha;
+    const commit = await this.req('GET', '/git/commits/' + head);
+    const tree = await this.req('GET', '/git/trees/' + commit.tree.sha + '?recursive=1');
+    const existing = {}; (tree.tree || []).forEach(t => existing[t.path] = t.sha);
+    // never let an empty phone overwrite a repo that has history
+    if (!(db.sessions || []).length && Object.keys(existing).some(p => p.startsWith('data/sessions/') || p === 'data/log.json'))
+      throw new Error('this phone has no sessions but GitHub does. Tap Restore from GitHub first');
+    const entries = [];
+    for (const p of Object.keys(files)) {
+      const sha = await C.gitBlobSha(files[p]);
+      if (existing[p] !== sha) entries.push({ path: p, mode: '100644', type: 'blob', content: files[p] });
+    }
+    (extraEntries ? extraEntries(existing) : []).forEach(e => entries.push(e));
+    if (!entries.length) return { changed: 0 };
+    const nt = await this.req('POST', '/git/trees', { base_tree: commit.tree.sha, tree: entries });
+    const nc = await this.req('POST', '/git/commits', { message, tree: nt.sha, parents: [head] });
+    await this.req('PATCH', '/git/refs/heads/' + br, { sha: nc.sha, force: false });
+    return { changed: entries.length };
   }
 };
-
-async function syncNow(silent) {
-  if (!GH.ok()) { if (!silent) toast('Add your GitHub details in Settings first'); return false; }
-  setSyncState('syncing');
-  try {
-    const payload = {
-      v: 1, updated: new Date().toISOString(),
-      profile: db.profile, program: db.program, coachNotes: db.coachNotes,
-      bodyweight: db.bodyweight, sessions: db.sessions
-    };
-    await GH.put('data/log.json', JSON.stringify(payload, null, 1), 'log: ' + db.sessions.length + ' sessions');
-    await GH.put('data/index.json', JSON.stringify(buildDigest(db), null, 1), 'digest ' + today());
-    db.dirty = false; db.lastSync = new Date().toISOString();
-    save(); setSyncState('ok');
-    if (!silent) toast('Synced to GitHub');
-    return true;
-  } catch (e) {
-    setSyncState('error'); console.error(e);
-    if (!silent) toast('Sync failed: ' + e.message);
-    return false;
+/* One-time move of the v1 file: data/log.json -> data/backup/log-v1.json (same blob, no upload). */
+function v1BackupEntries(existing) {
+  const out = [];
+  if (existing['data/log.json'] && !existing['data/backup/log-v1.json']) {
+    out.push({ path: 'data/backup/log-v1.json', mode: '100644', type: 'blob', sha: existing['data/log.json'] });
+    out.push({ path: 'data/log.json', mode: '100644', type: 'blob', sha: null });
   }
+  return out;
+}
+let syncing = null, syncTimer = null, lastSyncAt = 0;
+async function syncNow(silent, reason) {
+  if (!GH.ok()) { if (!silent) toast('Add your GitHub details in Settings first'); return false; }
+  if (syncing) return syncing;
+  setSyncState('syncing');
+  syncing = (async () => {
+    const stamp = db.changedAt;
+    try {
+      const files = C.repoFiles(db);
+      files['data/index.json'] = JSON.stringify(buildDigest(db));
+      const msg = reason || (db.active ? 'wip: ' + db.active.day + ' (' + countSets(db.active) + ' sets)' : 'sync: ' + db.sessions.length + ' sessions');
+      let r;
+      try { r = await GH.commit(files, msg, v1BackupEntries); }
+      catch (e) { if (e.status === 422 || e.status === 409) r = await GH.commit(files, msg, v1BackupEntries); else throw e; }
+      if (db.changedAt === stamp) db.dirty = false;       // edits made during the sync stay dirty
+      db.lastSync = new Date().toISOString(); lastSyncAt = Date.now();
+      save(); setSyncState(db.dirty ? 'dirty' : 'ok');
+      if (!silent) toast(r.changed ? 'Synced to GitHub' : 'Already up to date');
+      return true;
+    } catch (e) {
+      setSyncState('error'); console.error(e); db.lastSyncError = e.message; save();
+      if (!silent) toast('Sync failed: ' + e.message);
+      return false;
+    } finally { syncing = null; }
+  })();
+  return syncing;
+}
+/* Debounced auto-sync. During a session it batches to at most one commit every few minutes. */
+function scheduleSync() {
+  if (!GH.ok() || typeof navigator === 'undefined' || !navigator.onLine) return;
+  clearTimeout(syncTimer);
+  const minGap = db.active ? 4 * 60000 : 0;
+  const wait = Math.max(30000, minGap - (Date.now() - lastSyncAt));
+  syncTimer = setTimeout(() => { if (db.dirty) syncNow(true); }, wait);
 }
 async function restoreFromGitHub() {
   if (!GH.ok()) return toast('Add your GitHub details first');
+  if (db.dirty && !confirm('You have unsynced local changes. Replace local data with the GitHub copy?')) return;
   try {
-    const txt = await GH.pull('data/log.json');
-    if (!txt) return toast('No data/log.json in the repo yet');
-    const j = JSON.parse(txt);
-    db.sessions = j.sessions || []; db.profile = j.profile || db.profile;
-    db.program = j.program || db.program; db.coachNotes = j.coachNotes || '';
-    db.bodyweight = j.bodyweight || [];
-    save(); render(); toast('Restored ' + db.sessions.length + ' sessions');
+    let incoming;
+    const metaTxt = await GH.raw('data/meta.json');
+    if (metaTxt) {
+      const meta = JSON.parse(metaTxt);
+      const years = [];
+      for (const y of meta.years || []) {
+        const t = await GH.raw('data/sessions/' + y + '.json');
+        if (!t) throw new Error('data/sessions/' + y + '.json is missing, nothing was changed');
+        years.push(JSON.parse(t));
+      }
+      incoming = C.fromRepoFiles(meta, years);
+    } else {
+      const v1 = (await GH.raw('data/log.json')) || (await GH.raw('data/backup/log-v1.json'));
+      if (!v1) return toast('No LiftLog data in the repo yet');
+      incoming = JSON.parse(v1);
+    }
+    const m = C.migrate(incoming);
+    if ((m.sessions || []).length < db.sessions.length &&
+        !confirm('GitHub has ' + m.sessions.length + ' sessions, this phone has ' + db.sessions.length + '. Replace anyway?')) return;
+    ['sessions', 'profile', 'program', 'coachNotes', 'bodyweight', 'scans', 'aliases', 'exercises', 'plan']
+      .forEach(k => { if (m[k] !== undefined) db[k] = m[k]; });
+    if (!db.active && m.active) db.active = m.active;
+    db.dirty = false; save(); render(); toast('Restored ' + db.sessions.length + ' sessions');
   } catch (e) { toast('Restore failed: ' + e.message); }
+}
+
+/* ---------------- coach via the Claude API (optional) ---------------- */
+const COACH_SYSTEM = `You are James's strength coach, answering inside his LiftLog phone app.
+His full training digest and the coaching ruleset (COACH.md) are included below. Do not try to fetch anything.
+Follow COACH.md exactly, with one change for the small screen: part (a) is at most 5 short plain-text lines
+(day, why, any load changes and why, one cue). No markdown table, no headings, no bold.
+Then part (b): the fenced plan block in the exact COACH.md §6 format, including rest times.
+Use exercise names exactly as they appear as keys in digest.lifts or in the program.
+Extra guidance in "Today" always wins for today's session. Be honest when the data shows he is not progressing.`;
+async function fetchCoachMd() {
+  try { if (GH.ok()) { const t = await GH.raw('COACH.md'); if (t) return t; } } catch (e) {}
+  const r = await fetch('COACH.md', { cache: 'no-store' });
+  if (!r.ok) throw new Error('could not load COACH.md');
+  return r.text();
+}
+async function askCoach(note) {
+  const s = db.settings;
+  if (!s.apiKey) throw new Error('Add a Claude API key in Settings');
+  const coach = await fetchCoachMd();
+  const ctrl = new AbortController(); const timer = setTimeout(() => ctrl.abort(), 120000);
+  try {
+    const res = await fetch('https://api.anthropic.com/v1/messages', {
+      method: 'POST', signal: ctrl.signal,
+      headers: { 'x-api-key': s.apiKey, 'anthropic-version': '2023-06-01', 'content-type': 'application/json',
+                 'anthropic-dangerous-direct-browser-access': 'true' },
+      body: JSON.stringify({
+        model: s.model || 'claude-sonnet-5', max_tokens: 3000,
+        system: COACH_SYSTEM + '\n\n=== COACH.md ===\n' + coach,
+        messages: [{ role: 'user', content: 'Digest (liftlog/2):\n```json\n' + JSON.stringify(buildDigest(db)) +
+          '\n```\n\nToday: ' + (note || 'no special constraints') + '\n\nWrite today\'s session.' }]
+      })
+    });
+    const j = await res.json();
+    if (!res.ok) throw new Error((j.error && j.error.message) || 'HTTP ' + res.status);
+    const text = (j.content || []).filter(b => b.type === 'text').map(b => b.text).join('\n');
+    const x = C.extractPlanBlock(text);
+    const plan = C.parseTextPlan(x.block);
+    plan.brief = x.brief; plan.source = 'coach-api'; plan.note = note || '';
+    return plan;
+  } finally { clearTimeout(timer); }
 }
 
 /* ---------------- tiny UI framework ---------------- */
 const $ = sel => document.querySelector(sel);
 const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt !== undefined) n.textContent = txt; return n; };
+const btn = (cls, txt, fn) => { const b = el('button', cls, txt); b.onclick = fn; return b; };
 let route = 'today';
+const ui = { open: {}, sheet: null };
 let toastTimer = null;
 function toast(msg) {
-  const t = $('#toast'); t.textContent = msg; t.classList.add('show');
-  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2600);
+  const t = $('#toast'); if (!t) return; t.textContent = msg; t.classList.add('show');
+  clearTimeout(toastTimer); toastTimer = setTimeout(() => t.classList.remove('show'), 2800);
 }
-function setSyncState(s) { $('#syncdot').dataset.state = s; }
-function paintSyncBadge() { $('#syncdot').dataset.state = db.dirty ? 'dirty' : 'ok'; }
+function setSyncState(s) { const d = $('#syncdot'); if (d) d.dataset.state = s; }
+function paintSyncBadge() { const d = $('#syncdot'); if (d && d.dataset.state !== 'syncing') d.dataset.state = db.dirty ? 'dirty' : (db.lastSyncError && !db.lastSync ? 'error' : 'ok'); }
 function unit() { return db.settings.unit; }
+function go(r) { route = r; window.scrollTo(0, 0); render(); }
+const fmtW = w => (Math.round(w * 100) / 100) + '';
+const setStr = (s, info) => (info && info.load === 'bw' ? (s.w ? 'BW+' + fmtW(s.w) : 'BW') : info && info.load === 'assisted' ? (s.w ? 'BW−' + fmtW(Math.abs(s.w)) : 'BW') : fmtW(s.w)) + '×' + s.r;
+const fmtDate = d => { const x = new Date(d + 'T00:00:00'); return x.toLocaleDateString(undefined, { day: 'numeric', month: 'short' }); };
+const showTarget = (t, rest) => { const base = String(t || '').replace(/\s*\brest\s*[\d:]+\s*(s|sec|secs|m|min|mins)?\b/i, '').trim(); return base + (rest ? (base ? ' · ' : '') + 'rest ' + Math.floor(rest / 60) + ':' + String(rest % 60).padStart(2, '0') : ''); };
+const countSets = a => (a.ex || []).reduce((n, e) => n + (e.sets || []).length, 0);
 
 /* ---------------- session logic ---------------- */
 function lastPerformance(name, excludeId) {
-  const s = db.sessions.filter(x => x.id !== excludeId).sort((a, b) => a.date < b.date ? 1 : -1);
+  const n = canon(name, db);
+  const s = db.sessions.filter(x => x.id !== excludeId).sort(byDateDesc);
   for (const sess of s) {
-    const e = (sess.ex || []).find(x => x.name === name);
-    if (e && (e.sets || []).length) return { date: sess.date, sets: e.sets, e1rm: bestE1rm(e.sets) };
+    const e = (sess.ex || []).find(x => canon(x.name, db) === n && (x.sets || []).length);
+    if (e) { const E = readEntry(db, sess, e); return { date: sess.date, E, e1rm: E.best }; }
   }
   return null;
 }
+function bestEver(name, excludeId) {
+  const n = canon(name, db); let b = 0;
+  db.sessions.forEach(sess => { if (sess.id === excludeId) return; (sess.ex || []).forEach(e => { if (canon(e.name, db) === n) b = Math.max(b, readEntry(db, sess, e).best); }); });
+  return b;
+}
+function programRest(name) {
+  const n = canon(name, db);
+  for (const d of (db.program && db.program.days) || []) for (const e of d.ex || []) if (canon(e.name, db) === n && e.rest) return e.rest;
+  return null;
+}
+function restFor(e) { return e.rest || programRest(e.name) || exInfo(e.name, db).rest; }
 function startSession(plan) {
   const p = plan || db.plan || fallbackPlan();
   db.active = {
-    id: 's' + Date.now(), date: today(), day: p.day || 'Session', start: new Date().toISOString(),
-    notes: '', ex: (p.ex || []).map(e => ({ name: e.name, target: e.target || '', cue: e.cue || '', sets: [] }))
+    id: 's' + Date.now(), date: today(), day: p.day || 'Session', start: new Date().toISOString(), notes: '',
+    ex: (p.ex || []).map(e => ({ name: canon(e.name, db), target: e.target || '', cue: e.cue || '', rest: e.rest || undefined, sets: [] }))
   };
-  save(true); route = 'today'; render();
+  ui.open = {};
+  save(true); go('today'); wake(true);
 }
 function fallbackPlan() {
   const prog = db.program && db.program.days;
   if (!prog || !prog.length) return { day: 'Freestyle', ex: [] };
-  const last = db.sessions.slice().sort((a, b) => a.date < b.date ? 1 : -1)[0];
+  const last = db.sessions.slice().sort(byDateDesc)[0];
   let i = 0;
   if (last) { const idx = prog.findIndex(d => d.day === last.day); i = idx >= 0 ? (idx + 1) % prog.length : 0; }
   return prog[i];
 }
-function finishSession() {
+function lastActivity(a) {
+  let t = a.start;
+  (a.ex || []).forEach(e => (e.sets || []).forEach(s => { if (s.at && s.at > t) t = s.at; }));
+  return t;
+}
+function finishSession(auto) {
   const a = db.active; if (!a) return;
-  a.end = new Date().toISOString();
+  a.end = auto ? lastActivity(a) : new Date().toISOString();
   a.ex = a.ex.filter(e => (e.sets || []).length);
-  if (!a.ex.length) { if (!confirm('No sets logged. Discard this session?')) return; db.active = null; save(true); render(); return; }
-  db.sessions.push(a); db.active = null;
+  if (!a.ex.length) {
+    if (!auto && !confirm('No sets logged. Discard this session?')) return;
+    db.active = null; save(true); render(); return;
+  }
+  db.sessions.push(a); db.active = null; wake(false);
   if (db.plan && db.plan.day === a.day) db.plan = null;
   save(true); render();
+  if (auto) { toast('Closed ' + a.day + ' from ' + fmtDate(a.date) + ' at its last set'); syncNow(true); return; }
   toast('Session saved. Syncing…');
-  syncNow(true).then(ok => toast(ok ? 'Session synced - the coach can see it' : 'Saved locally. Will sync when online.'));
+  syncNow(true, 'session: ' + a.date + ' ' + a.day).then(ok => toast(ok ? 'Synced. The coach can see it.' : 'Saved on this phone. Will sync when online.'));
+}
+/* A session left open for 3+ hours after its last set gets closed at that last set. */
+function autoFinishStale() {
+  const a = db.active; if (!a) return;
+  const idle = Date.now() - new Date(lastActivity(a)).getTime();
+  if (idle > 3 * 3600000) finishSession(true);
 }
 
-/* ---------------- rest timer ---------------- */
-let restEnd = 0, restInt = null;
+/* ---------------- rest timer + wake lock ---------------- */
+let restEnd = 0, restInt = null, wakeLock = null;
 function startRest(sec) {
   restEnd = Date.now() + sec * 1000;
   if (restInt) clearInterval(restInt);
@@ -371,7 +277,7 @@ function startRest(sec) {
 }
 function paintRest() {
   const bar = $('#rest'); const left = Math.round((restEnd - Date.now()) / 1000);
-  if (left <= 0) { bar.classList.remove('show'); clearInterval(restInt); restInt = null; beep(); return; }
+  if (left <= 0) { bar.classList.remove('show'); clearInterval(restInt); restInt = null; if (restEnd) beep(); restEnd = 0; return; }
   bar.classList.add('show');
   $('#restTime').textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0');
 }
@@ -386,350 +292,644 @@ function beep() {
     if (navigator.vibrate) navigator.vibrate([120, 60, 120]);
   } catch (e) {}
 }
+async function wake(on) {
+  try {
+    if (on && 'wakeLock' in navigator && !wakeLock) { wakeLock = await navigator.wakeLock.request('screen'); wakeLock.addEventListener('release', () => wakeLock = null); }
+    if (!on && wakeLock) { await wakeLock.release(); wakeLock = null; }
+  } catch (e) {}
+}
 
 /* ---------------- render ---------------- */
 function render() {
-  const main = $('#main'); main.innerHTML = '';
-  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.route === route));
-  ({ today: viewToday, history: viewHistory, stats: viewStats, settings: viewSettings }[route] || viewToday)(main);
+  const main = $('#main'); const y = window.scrollY; const same = main.dataset.route === route;
+  main.innerHTML = ''; main.dataset.route = route;
+  const top = route.split(':')[0];
+  const tab = { session: 'history', lift: 'stats' }[top] || top;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('on', t.dataset.route === tab));
+  const views = { today: viewToday, history: viewHistory, session: viewSession, stats: viewStats, lift: viewLift, settings: viewSettings };
+  (views[top] || viewToday)(main, route.slice(top.length + 1));
   paintSyncBadge();
+  if (same) window.scrollTo(0, y);
+}
+function card(root, kicker, cls) { const c = el('div', 'card' + (cls ? ' ' + cls : '')); if (kicker) c.appendChild(el('div', 'kicker', kicker)); root.appendChild(c); return c; }
+
+/* --- bottom sheet (set editor, pickers) --- */
+function openSheet(build) {
+  closeSheet();
+  const back = el('div', 'sheet-back'); back.onclick = e => { if (e.target === back) closeSheet(); };
+  const sh = el('div', 'sheet'); back.appendChild(sh);
+  build(sh);
+  document.body.appendChild(back); ui.sheet = back;
+  requestAnimationFrame(() => back.classList.add('show'));
+}
+function closeSheet() { if (ui.sheet) { ui.sheet.remove(); ui.sheet = null; } }
+
+/* number field with - / + and a real decimal keypad (no prompt()) */
+function numField(label, value, step, onChange, opts) {
+  opts = opts || {};
+  const g = el('div', 'stepper');
+  g.appendChild(el('div', 'slabel', label));
+  const row = el('div', 'srow');
+  const inp = el('input', 'sval'); inp.type = 'text'; inp.inputMode = 'decimal'; inp.value = fmtW(value);
+  inp.onfocus = () => inp.select();
+  const clamp = v => opts.min !== undefined ? Math.max(opts.min, v) : v;
+  const setV = v => { v = clamp(Math.round(v * 100) / 100); inp.value = fmtW(v); onChange(v); };
+  inp.onchange = () => { const v = parseFloat(inp.value.replace(',', '.')); if (!isNaN(v)) setV(v); else inp.value = fmtW(value); };
+  row.appendChild(btn('sbtn', '−', () => setV((parseFloat(inp.value) || 0) - step)));
+  row.appendChild(inp);
+  row.appendChild(btn('sbtn', '+', () => setV((parseFloat(inp.value) || 0) + step)));
+  g.appendChild(row);
+  return g;
+}
+function editSetSheet(entry, idx, onDone) {
+  const s = entry.sets[idx]; const info = exInfo(entry.name, db);
+  const w0 = C.warmupFlags(entry.sets, info)[idx];
+  const v = { w: s.w, r: s.r, rir: hasRir(s) ? s.rir : 2, warm: w0 };
+  openSheet(sh => {
+    sh.appendChild(el('div', 'kicker', 'Edit set ' + (idx + 1)));
+    sh.appendChild(el('h3', '', info.name));
+    const g = el('div', 'entry');
+    g.appendChild(numField('Weight', v.w, info.step, x => v.w = x, { min: 0 }));
+    g.appendChild(numField('Reps', v.r, 1, x => v.r = x, { min: 0 }));
+    g.appendChild(numField('RIR', v.rir, 1, x => v.rir = x, { min: 0 }));
+    sh.appendChild(g);
+    const wt = el('label', 'toggle'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = v.warm;
+    cb.onchange = () => v.warm = cb.checked; wt.appendChild(cb); wt.appendChild(el('span', '', 'Warm-up set (not counted)'));
+    sh.appendChild(wt);
+    const row = el('div', 'btnrow');
+    row.appendChild(btn('primary', 'Save', () => {
+      Object.assign(s, { w: v.w, r: v.r, rir: v.rir, t: v.warm ? 'w' : 'n' });
+      closeSheet(); save(true); onDone && onDone(); render();
+    }));
+    row.appendChild(btn('', 'Delete set', () => { entry.sets.splice(idx, 1); closeSheet(); save(true); onDone && onDone(); render(); }));
+    row.appendChild(btn('ghost', 'Cancel', closeSheet));
+    sh.appendChild(row);
+  });
+}
+function pickExerciseSheet(title, onPick, exclude) {
+  openSheet(sh => {
+    sh.appendChild(el('div', 'kicker', title));
+    const inp = el('input'); inp.placeholder = 'Search or type a new name'; sh.appendChild(inp);
+    const list = el('div', 'picklist'); sh.appendChild(list);
+    const names = [...new Set([...Object.keys(C.CATALOG), ...Object.keys(liftSeries(db)), ...Object.keys(db.exercises || {})])]
+      .filter(n => n !== exclude).sort();
+    const paint = () => {
+      list.innerHTML = ''; const q = inp.value.trim().toLowerCase();
+      const hits = names.filter(n => !q || n.toLowerCase().includes(q)).slice(0, 40);
+      if (q && !names.some(n => n.toLowerCase() === q)) hits.unshift('＋ ' + inp.value.trim());
+      hits.forEach(n => list.appendChild(btn('pick', n, () => { closeSheet(); onPick(n.replace(/^＋ /, '')); })));
+    };
+    inp.oninput = paint; paint();
+    sh.appendChild(btn('ghost', 'Cancel', closeSheet));
+    setTimeout(() => inp.focus(), 50);
+  });
 }
 
 /* --- TODAY --- */
 function viewToday(root) {
   if (db.active) return viewActive(root);
-
   const plan = db.plan;
-  const card = el('div', 'card');
+  const c = card(root, plan ? "Coach's plan" + (plan.date ? ' · ' + fmtDate(plan.date) : '') : 'No plan loaded');
   if (plan) {
-    card.appendChild(el('div', 'kicker', "Coach's plan" + (plan.date ? ' · ' + plan.date : '')));
-    card.appendChild(el('h2', '', plan.day || 'Session'));
-    if (plan.focus) card.appendChild(el('p', 'muted', plan.focus));
+    c.appendChild(el('h2', '', plan.day || 'Session'));
+    if (plan.focus) c.appendChild(el('p', 'muted', plan.focus));
+    if (plan.brief) { const b = el('div', 'brief', plan.brief); c.appendChild(b); }
     const list = el('div', 'exlist');
     (plan.ex || []).forEach(e => {
       const row = el('div', 'exrow');
-      const l = el('div', '');
-      l.appendChild(el('div', 'exname', e.name));
-      l.appendChild(el('div', 'muted small', e.target || ''));
+      const l = el('div', ''); l.appendChild(el('div', 'exname', canon(e.name, db))); l.appendChild(el('div', 'muted small', showTarget(e.target, e.rest)));
       row.appendChild(l);
       const lp = lastPerformance(e.name);
-      if (lp) row.appendChild(el('div', 'muted small right', 'last ' + lp.sets.map(s => s.w + '×' + s.r).join(', ')));
+      if (lp) row.appendChild(el('div', 'muted small right', 'last ' + lp.E.work.map(s => setStr(s, lp.E.info)).join(', ')));
       list.appendChild(row);
     });
-    card.appendChild(list);
-    if (plan.notes) card.appendChild(el('p', 'note', plan.notes));
-    const b = el('button', 'primary big', 'Start session'); b.onclick = () => startSession(plan);
-    card.appendChild(b);
+    c.appendChild(list);
+    if (plan.notes) c.appendChild(el('p', 'note', plan.notes));
+    c.appendChild(btn('primary big', 'Start session', () => startSession(plan)));
+    c.appendChild(btn('ghost', 'Clear plan', () => { db.plan = null; save(true); render(); }));
   } else {
-    card.appendChild(el('div', 'kicker', 'No plan loaded'));
-    card.appendChild(el('h2', '', 'Ask the coach'));
-    card.appendChild(el('p', 'muted', 'Message Claude for today\'s session, then tap the link it gives you. Or start from the stored program.'));
-    const b = el('button', 'primary big', 'Start ' + (fallbackPlan().day || 'session') + ' from program');
-    b.onclick = () => startSession(fallbackPlan());
-    card.appendChild(b);
+    c.appendChild(el('h2', '', 'Get today\'s session'));
+    c.appendChild(el('p', 'muted small', db.settings.apiKey ? 'Ask the coach below, or paste a plan from the Claude chat.' : 'Copy the plan block from the Claude chat, then tap Paste plan.'));
   }
-  root.appendChild(card);
 
-  // paste-a-plan
-  const pc = el('div', 'card');
-  pc.appendChild(el('div', 'kicker', 'Load a plan'));
-  const ta = el('textarea'); ta.placeholder = "Paste the coach's plan here (text, JSON or link)"; ta.rows = 4;
-  pc.appendChild(ta);
-  const pb = el('button', '', 'Load plan');
-  pb.onclick = () => {
-    const v = ta.value.trim(); if (!v) return;
-    try { db.plan = parseAnyPlan(v); save(true); render(); toast('Plan loaded'); }
-    catch (e) { toast('Could not read that plan'); }
-  };
-  pc.appendChild(pb);
-  root.appendChild(pc);
+  // handoff: paste (always) + ask the coach (when an API key is set)
+  const h = card(root, 'Load a plan');
+  const row = el('div', 'btnrow');
+  row.appendChild(btn(plan ? '' : 'primary', 'Paste plan', pastePlan));
+  if (!plan) row.appendChild(btn('', 'Start ' + (fallbackPlan().day || 'session') + ' from program', () => startSession(fallbackPlan())));
+  h.appendChild(row);
+  if (db.settings.apiKey) {
+    const note = el('input'); note.placeholder = 'Anything today? e.g. 45 min, shoulder cranky';
+    h.appendChild(note);
+    const ask = btn(plan ? '' : 'primary', 'Ask the coach for today\'s plan', async () => {
+      ask.disabled = true; ask.textContent = 'Coach is thinking…';
+      try { db.plan = await askCoach(note.value.trim()); save(true); render(); toast('Plan loaded'); }
+      catch (e) { toast('Coach failed: ' + e.message); ask.disabled = false; ask.textContent = 'Try again'; }
+    });
+    h.appendChild(ask);
+  }
+  const det = el('details'); det.appendChild(el('summary', 'muted small', 'Paste manually'));
+  const ta = el('textarea'); ta.placeholder = "Paste the coach's reply or plan block"; ta.rows = 4; det.appendChild(ta);
+  det.appendChild(btn('', 'Load', () => loadPlanText(ta.value)));
+  h.appendChild(det);
 
-  // notes for the coach
-  const nc = el('div', 'card');
-  nc.appendChild(el('div', 'kicker', 'Standing notes for the coach'));
+  const nc = card(root, 'Standing notes for the coach');
   const nta = el('textarea'); nta.rows = 3; nta.value = db.coachNotes || '';
   nta.placeholder = 'e.g. left shoulder dislikes flat barbell benching; only 45 min on Thursdays';
   nta.onchange = () => { db.coachNotes = nta.value; save(true); };
   nc.appendChild(nta);
-  root.appendChild(nc);
 
-  // bodyweight quick entry
-  const bc = el('div', 'card row');
-  const bi = el('input'); bi.type = 'number'; bi.step = '0.1'; bi.placeholder = 'Bodyweight (' + unit() + ')';
-  const bb = el('button', '', 'Log');
-  bb.onclick = () => {
+  const bc = card(root, null, 'row');
+  const bi = el('input'); bi.type = 'text'; bi.inputMode = 'decimal'; bi.placeholder = 'Bodyweight (' + unit() + ')';
+  bc.appendChild(bi);
+  bc.appendChild(btn('', 'Log', () => {
     const v = parseFloat(bi.value); if (!v) return;
     db.bodyweight = (db.bodyweight || []).filter(x => x.date !== today());
-    db.bodyweight.push({ date: today(), w: v });
-    db.bodyweight.sort((a, b) => a.date < b.date ? -1 : 1);
+    db.bodyweight.push({ date: today(), w: v }); db.bodyweight.sort(byDateAsc);
     bi.value = ''; save(true); toast('Bodyweight logged');
-  };
-  bc.appendChild(bi); bc.appendChild(bb);
-  root.appendChild(bc);
+  }));
+}
+function loadPlanText(v) {
+  v = String(v || '').trim(); if (!v) return false;
+  try { db.plan = C.parseAnyPlan(v); save(true); render(); toast('Plan loaded: ' + db.plan.day); return true; }
+  catch (e) { toast('Could not read that plan'); return false; }
+}
+async function pastePlan() {
+  try {
+    const t = await navigator.clipboard.readText();
+    if (!loadPlanText(t)) toast('Clipboard has no plan. Copy the plan block in Claude first.');
+  } catch (e) { toast('Clipboard blocked. Use "Paste manually".'); }
 }
 
 /* --- ACTIVE SESSION --- */
 function viewActive(root) {
   const a = db.active;
-  const head = el('div', 'card');
-  head.appendChild(el('div', 'kicker', 'In progress · ' + a.date));
+  const head = card(root, 'In progress · ' + fmtDate(a.date));
   head.appendChild(el('h2', '', a.day));
-  const st = el('div', 'muted small', 'Volume ' + sessionVolume(a).toLocaleString() + ' ' + unit());
-  head.appendChild(st);
-  root.appendChild(head);
+  const mins = Math.round((Date.now() - new Date(a.start).getTime()) / 60000);
+  head.appendChild(el('div', 'muted small', mins + ' min · ' + countSets(a) + ' sets · volume ' + sessionVolume(a, db).toLocaleString() + ' ' + unit()));
 
   a.ex.forEach((e, ei) => {
-    const c = el('div', 'card');
+    const info = exInfo(e.name, db), t = parseTarget(e.target);
+    const done = (e.sets || []).length, workDone = C.warmupFlags(e.sets, info).filter(w => !w).length;
+    const complete = t.sets && workDone >= t.sets;
+    const key = ei + ':' + e.name;
+    const open = ui.open[key] !== undefined ? ui.open[key] : !complete;
+    const c = card(root, null, complete ? 'done' : '');
     const top = el('div', 'exhead');
-    const l = el('div', '');
-    l.appendChild(el('div', 'exname', e.name));
-    l.appendChild(el('div', 'muted small', e.target || ''));
+    const l = el('div', ''); l.onclick = () => { ui.open[key] = !open; render(); };
+    l.appendChild(el('div', 'exname', info.name));
+    l.appendChild(el('div', 'muted small', showTarget(e.target, restFor(e))));
     top.appendChild(l);
-    const del = el('button', 'ghost tiny', '✕'); del.onclick = () => { if (confirm('Remove ' + e.name + '?')) { a.ex.splice(ei, 1); save(true); render(); } };
-    top.appendChild(del);
+    top.appendChild(el('div', 'chip' + (complete ? ' ok' : ''), (t.sets ? workDone + '/' + t.sets : String(done))));
+    top.appendChild(btn('ghost tiny', '⋯', () => exerciseMenu(a, ei)));
     c.appendChild(top);
+    if (!open) return;
 
     const lp = lastPerformance(e.name, a.id);
-    if (lp) c.appendChild(el('div', 'lastline', 'Last (' + lp.date + '): ' + lp.sets.map(s => s.w + '×' + s.r + (s.rir !== '' && s.rir !== null && s.rir !== undefined ? '@' + s.rir : '')).join('  ') + '  ·  e1RM ' + lp.e1rm));
+    if (lp) c.appendChild(el('div', 'lastline', 'Last ' + fmtDate(lp.date) + ': ' + lp.E.work.map(s => setStr(s, info) + (s.rir !== '' ? '@' + s.rir : '')).join('  ') + '  ·  e1RM ' + lp.e1rm));
     if (e.cue) c.appendChild(el('div', 'note', e.cue));
+    c.appendChild(el('div', 'muted tiny-note', 'Weight is ' + (LOAD_NOTE[info.load] || '') + (info.perSide ? ' · log each side as its own set' : '')));
 
+    const flags = C.warmupFlags(e.sets, info);
     (e.sets || []).forEach((s, si) => {
-      const r = el('div', 'setrow');
-      r.appendChild(el('div', 'setno', String(si + 1)));
-      r.appendChild(el('div', 'setval', s.w + ' ' + unit() + '  ×  ' + s.r + (s.rir === '' || s.rir === null || s.rir === undefined ? '' : '  @' + s.rir + ' RIR')));
-      r.appendChild(el('div', 'muted small', 'e1RM ' + e1rm(s.w, s.r)));
-      const x = el('button', 'ghost tiny', '✕'); x.onclick = () => { e.sets.splice(si, 1); save(true); render(); };
-      r.appendChild(x);
+      const r = el('div', 'setrow' + (flags[si] ? ' warm' : ''));
+      r.onclick = () => editSetSheet(e, si);
+      r.appendChild(el('div', 'setno', flags[si] ? 'W' : String(flags.slice(0, si + 1).filter(x => !x).length)));
+      r.appendChild(el('div', 'setval', setStr(s, info) + (hasRir(s) ? '  @' + s.rir : '')));
+      r.appendChild(el('div', 'muted small', flags[si] ? 'warm-up' : 'e1RM ' + e1rm(C.effLoad(db, info, s.w, a.date), s.r)));
       c.appendChild(r);
     });
-
-    c.appendChild(setEntry(e, lp));
-    root.appendChild(c);
+    c.appendChild(setEntry(e, lp, info, t));
   });
 
-  const add = el('div', 'card');
-  add.appendChild(el('div', 'kicker', 'Add exercise'));
-  const sel = el('select');
-  sel.appendChild(el('option', '', '— pick —'));
-  Object.keys(EXLIB).sort().forEach(n => { const o = el('option', '', n); o.value = n; sel.appendChild(o); });
-  const custom = el('input'); custom.placeholder = 'or type a name';
-  const ab = el('button', '', 'Add');
-  ab.onclick = () => {
-    const n = (custom.value.trim() || sel.value); if (!n || n === '— pick —') return;
-    a.ex.push({ name: n, target: '', sets: [] }); custom.value = ''; save(true); render();
-  };
-  add.appendChild(sel); add.appendChild(custom); add.appendChild(ab);
-  root.appendChild(add);
+  const add = card(root, null);
+  add.appendChild(btn('big', '＋ Add exercise', () => pickExerciseSheet('Add exercise', n => {
+    a.ex.push({ name: canon(n, db), target: '', sets: [] }); save(true); render();
+  })));
 
-  const nc = el('div', 'card');
-  nc.appendChild(el('div', 'kicker', 'Session notes'));
+  const nc = card(root, 'Session notes');
   const ta = el('textarea'); ta.rows = 2; ta.value = a.notes || '';
-  ta.placeholder = 'Energy, pain, sleep, anything the coach should know';
+  ta.placeholder = 'Energy, pain, sleep, swaps, anything the coach should know';
   ta.onchange = () => { a.notes = ta.value; save(true); };
   nc.appendChild(ta);
-  root.appendChild(nc);
 
-  const fin = el('div', 'card');
-  const f = el('button', 'primary big', 'Finish & sync'); f.onclick = finishSession;
-  const d = el('button', 'ghost', 'Discard session');
-  d.onclick = () => { if (confirm('Discard this session?')) { db.active = null; save(true); render(); } };
-  fin.appendChild(f); fin.appendChild(d);
-  root.appendChild(fin);
+  const fin = card(root, null);
+  fin.appendChild(btn('primary big', 'Finish & sync', () => finishSession(false)));
+  fin.appendChild(btn('ghost', 'Discard session', () => { if (confirm('Discard this session?')) { db.active = null; wake(false); save(true); render(); } }));
 }
-
-/* the fast set-entry widget: steppers, no keyboard needed */
-function setEntry(e, lp) {
+function exerciseMenu(a, ei) {
+  const e = a.ex[ei];
+  openSheet(sh => {
+    sh.appendChild(el('div', 'kicker', exInfo(e.name, db).name));
+    sh.appendChild(btn('big', 'Swap for another exercise', () => pickExerciseSheet('Swap ' + e.name + ' for', n => {
+      const from = e.name; e.name = canon(n, db);
+      a.notes = (a.notes ? a.notes + ' ' : '') + '[swapped ' + from + ' → ' + e.name + ']';
+      save(true); render();
+    }, e.name)));
+    if (ei > 0) sh.appendChild(btn('big', 'Move up', () => { a.ex.splice(ei - 1, 0, a.ex.splice(ei, 1)[0]); closeSheet(); save(true); render(); }));
+    sh.appendChild(btn('big', 'Remove from session', () => { if (confirm('Remove ' + e.name + '?')) { a.ex.splice(ei, 1); closeSheet(); save(true); render(); } }));
+    sh.appendChild(btn('ghost', 'Cancel', closeSheet));
+  });
+}
+/* the fast set-entry widget */
+function setEntry(e, lp, info, t) {
   const prev = (e.sets || [])[e.sets.length - 1];
-  const seed = prev || (lp ? lp.sets[lp.sets.length - 1] : null);
-  const step = unit() === 'kg' ? 2.5 : 5;
-  let w = seed ? seed.w : 0, r = seed ? seed.r : 8, rir = seed && seed.rir !== '' ? seed.rir : 2;
-  if (!prev && e.target) {                                  // seed from "3x8-10 @2RIR 185lb" style targets
-    // "4x6-8" -> aim for the top of the range, which is what double progression asks for
-    const m = /(\d+)\s*[x×]\s*(\d+)(?:\s*[-–]\s*(\d+))?/i.exec(e.target);
-    if (m) r = parseInt(m[3] || m[2], 10);
-    const sw = seedWeight(e.target); if (sw) w = sw;
+  const lastWork = lp ? lp.E.work[lp.E.work.length - 1] : null;
+  let w = prev ? prev.w : lastWork ? lastWork.w : 0, r = prev ? prev.r : lastWork ? lastWork.r : 8;
+  let rir = prev && hasRir(prev) ? prev.rir : t.rir !== null ? t.rir : 2;
+  if (!prev && e.target) {                         // aim at the top of the range, at the prescribed load
+    if (t.hi) r = t.hi;
+    if (t.load !== null) w = info.load === 'assisted' ? Math.abs(t.load) : Math.max(0, t.load);
   }
-
+  let warm = false;
   const box = el('div', 'entry');
-  const mk = (label, get, set, inc, fmt) => {
-    const g = el('div', 'stepper');
-    g.appendChild(el('div', 'slabel', label));
-    const row = el('div', 'srow');
-    const minus = el('button', 'sbtn', '−');
-    const val = el('div', 'sval', fmt(get()));
-    const plus = el('button', 'sbtn', '+');
-    minus.onclick = () => { set(Math.max(0, get() - inc)); val.textContent = fmt(get()); };
-    plus.onclick = () => { set(get() + inc); val.textContent = fmt(get()); };
-    val.onclick = () => { const v = prompt(label, get()); if (v !== null && !isNaN(parseFloat(v))) { set(parseFloat(v)); val.textContent = fmt(get()); } };
-    row.appendChild(minus); row.appendChild(val); row.appendChild(plus);
-    g.appendChild(row);
-    return g;
-  };
-  box.appendChild(mk('Weight', () => w, v => w = v, step, v => v + ''));
-  box.appendChild(mk('Reps', () => r, v => r = v, 1, v => v + ''));
-  box.appendChild(mk('RIR', () => rir, v => rir = v, 1, v => v + ''));
-  const log = el('button', 'primary logbtn', 'Log set');
-  log.onclick = () => {
+  box.appendChild(numField(info.load === 'assisted' ? 'Assist' : info.load === 'bw' ? 'Added' : 'Weight', w, info.step, v => w = v, { min: 0 }));
+  box.appendChild(numField('Reps', r, 1, v => r = v, { min: 0 }));
+  box.appendChild(numField('RIR', rir, 1, v => rir = v, { min: 0 }));
+  const wb = btn('warmbtn', 'Warm-up', () => { warm = !warm; wb.classList.toggle('on', warm); });
+  box.appendChild(wb);
+  box.appendChild(btn('primary logbtn', 'Log set', () => {
     if (!r) return;
-    e.sets.push({ w: w, r: r, rir: rir });
-    save(true); startRest(e.rest || 150); render();
-  };
-  box.appendChild(log);
+    const best = warm ? 0 : bestEver(e.name, db.active.id);
+    e.sets.push({ w, r, rir, t: warm ? 'w' : 'n', at: new Date().toISOString() });
+    save(true); startRest(warm ? 60 : restFor(e)); render();
+    const now = warm ? 0 : e1rm(C.effLoad(db, info, w, db.active.date), r);
+    if (best && now > best) { toast('New e1RM PR on ' + info.name + ': ' + now + ' ' + unit()); if (navigator.vibrate) navigator.vibrate([60, 40, 60, 40, 120]); }
+  }));
   return box;
 }
 
 /* --- HISTORY --- */
 function viewHistory(root) {
-  const s = db.sessions.slice().sort((a, b) => a.date < b.date ? 1 : -1);
-  if (!s.length) { root.appendChild(el('div', 'card', 'No sessions yet.')); return; }
+  const s = db.sessions.slice().sort(byDateDesc);
+  if (!s.length) { card(root, null).textContent = 'No sessions yet.'; return; }
   s.forEach(sess => {
-    const c = el('div', 'card');
-    c.appendChild(el('div', 'kicker', sess.date + ' · ' + (sess.day || '')));
+    const c = card(root, fmtDate(sess.date) + ' · ' + (sess.day || ''), 'tap');
+    c.onclick = () => go('session:' + sess.id);
     (sess.ex || []).forEach(e => {
+      const E = readEntry(db, sess, e);
       const r = el('div', 'exrow');
-      r.appendChild(el('div', 'exname small', e.name));
-      r.appendChild(el('div', 'muted small right', (e.sets || []).map(x => x.w + '×' + x.r).join(', ')));
+      r.appendChild(el('div', 'exname small', E.name));
+      r.appendChild(el('div', 'muted small right', E.work.map(x => setStr(x, E.info)).join(', ')));
       c.appendChild(r);
     });
-    c.appendChild(el('div', 'muted small', 'Volume ' + sessionVolume(sess).toLocaleString() + ' ' + unit()));
-    if (sess.notes) c.appendChild(el('div', 'note', sess.notes));
-    root.appendChild(c);
+    c.appendChild(el('div', 'muted small', 'Volume ' + sessionVolume(sess, db).toLocaleString() + ' ' + unit()));
+    if (sess.notes) c.appendChild(el('div', 'note clamp', sess.notes));
   });
+}
+function viewSession(root, id) {
+  const sess = db.sessions.find(s => s.id === id);
+  if (!sess) { go('history'); return; }
+  root.appendChild(btn('ghost back', '‹ History', () => go('history')));
+  const h = card(root, 'Session');
+  const d = el('input'); d.type = 'date'; d.value = sess.date; d.onchange = () => { if (d.value) { sess.date = d.value; save(true); } };
+  const day = el('input'); day.value = sess.day || ''; day.onchange = () => { sess.day = day.value.trim(); save(true); };
+  h.appendChild(d); h.appendChild(day);
+  (sess.ex || []).forEach(e => {
+    const E = readEntry(db, sess, e);
+    const c = card(root, null);
+    const top = el('div', 'exhead');
+    const l = el('div', ''); l.appendChild(el('div', 'exname', E.name));
+    l.appendChild(el('div', 'muted small', (e.target || '') + (E.raw !== E.name ? ' · logged as ' + E.raw : '')));
+    l.onclick = () => go('lift:' + E.name);
+    top.appendChild(l); c.appendChild(top);
+    E.sets.forEach((s, si) => {
+      const r = el('div', 'setrow' + (s.warm ? ' warm' : ''));
+      r.onclick = () => editSetSheet(e, si);
+      r.appendChild(el('div', 'setno', s.warm ? 'W' : String(E.sets.slice(0, si + 1).filter(x => !x.warm).length)));
+      r.appendChild(el('div', 'setval', setStr(s, E.info) + (s.rir !== '' ? '  @' + s.rir : '')));
+      r.appendChild(el('div', 'muted small', s.warm ? 'warm-up' : 'e1RM ' + s.e1));
+      c.appendChild(r);
+    });
+    c.appendChild(el('div', 'muted small', 'Tap a set to edit it or mark it as a warm-up.'));
+  });
+  const nc = card(root, 'Notes');
+  const ta = el('textarea'); ta.rows = 4; ta.value = sess.notes || ''; ta.onchange = () => { sess.notes = ta.value; save(true); };
+  nc.appendChild(ta);
+  const dc = card(root, null);
+  dc.appendChild(btn('ghost', 'Delete this session', () => {
+    if (confirm('Delete the ' + sess.day + ' session from ' + sess.date + '? It stays in GitHub history.')) {
+      db.sessions = db.sessions.filter(s => s.id !== id); save(true); go('history');
+    }
+  }));
 }
 
 /* --- STATS --- */
 function viewStats(root) {
+  const series = liftSeries(db);
+  const names = Object.keys(series);
+  const lc = card(root, 'Lifts · latest e1RM · tap for history');
+  if (!names.length) lc.appendChild(el('div', 'muted', 'No lifts logged yet.'));
+  const groups = {};
+  names.forEach(n => { const k = exInfo(n, db).known ? exInfo(n, db).kind : '?'; (groups[k] = groups[k] || []).push(n); });
+  ['lc', 'uc', 'iso', 'core', '?'].forEach(k => {
+    if (!groups[k]) return;
+    lc.appendChild(el('div', 'group', KIND_LABEL[k]));
+    groups[k].sort((a, b) => series[b].length - series[a].length || a.localeCompare(b)).forEach(n => {
+      const S = series[n], sum = liftSummary(S);
+      const r = el('div', 'liftrow'); r.onclick = () => go('lift:' + n);
+      const l = el('div', 'lname'); l.appendChild(el('div', 'exname small', n));
+      l.appendChild(el('div', 'muted tiny-note', S.length + ' session' + (S.length > 1 ? 's' : '') + ' · last ' + fmtDate(sum.last.date)));
+      r.appendChild(l);
+      r.appendChild(sparkline(S.slice(-10).map(p => p.best)));
+      const v = el('div', 'lval'); v.appendChild(el('div', 'num', String(Math.round(sum.last.best))));
+      v.appendChild(trendChip(sum));
+      r.appendChild(v);
+      lc.appendChild(r);
+    });
+  });
+
   const last28 = db.sessions.filter(s => daysAgo(s.date) <= 28);
-  const wk = hardSetsByMuscle(last28);
-  const c = el('div', 'card');
-  c.appendChild(el('div', 'kicker', 'Weekly hard sets (28-day average)'));
+  const wk = hardSetsByMuscle(last28, db);
+  const c = card(root, 'Weekly hard sets (28-day average, warm-ups excluded)');
   MUSCLES.forEach(m => {
-    const v = Math.round(wk[m] / 4 * 10) / 10;
+    const v = round1(wk[m] / 4);
     const row = el('div', 'bar');
     row.appendChild(el('div', 'blabel', MUSCLE_LABEL[m]));
-    const track = el('div', 'btrack');
-    const fill = el('div', 'bfill'); fill.style.width = Math.min(100, v / 20 * 100) + '%';
+    const track = el('div', 'btrack'); const fill = el('div', 'bfill'); fill.style.width = Math.min(100, v / 20 * 100) + '%';
     if (v < 8) fill.classList.add('low'); else if (v > 22) fill.classList.add('high');
-    track.appendChild(fill);
-    row.appendChild(track);
+    track.appendChild(fill); row.appendChild(track);
     row.appendChild(el('div', 'bval', String(v)));
     c.appendChild(row);
   });
   c.appendChild(el('div', 'muted small', 'Target band for growth: roughly 10-20 hard sets per muscle per week.'));
-  root.appendChild(c);
 
-  const lifts = {};
-  db.sessions.forEach(s => (s.ex || []).forEach(e => {
-    const b = bestE1rm(e.sets || []);
-    if (!lifts[e.name] || b > lifts[e.name].v) lifts[e.name] = { v: b, d: s.date };
-  }));
-  const pc = el('div', 'card');
-  pc.appendChild(el('div', 'kicker', 'Estimated 1RM bests'));
-  Object.keys(lifts).sort((a, b) => lifts[b].v - lifts[a].v).forEach(n => {
-    const r = el('div', 'exrow');
-    r.appendChild(el('div', 'exname small', n));
-    r.appendChild(el('div', 'muted small right', lifts[n].v + ' ' + unit() + ' · ' + lifts[n].d));
-    pc.appendChild(r);
-  });
-  root.appendChild(pc);
-
-  const bw = db.bodyweight || [];
+  const bw = (db.bodyweight || []).slice().sort(byDateAsc);
   if (bw.length) {
-    const b = el('div', 'card');
-    b.appendChild(el('div', 'kicker', 'Bodyweight'));
-    const last = bw.slice(-7);
-    const avg = Math.round(last.reduce((s, x) => s + x.w, 0) / last.length * 10) / 10;
-    b.appendChild(el('div', 'big-num', avg + ' ' + unit()));
-    b.appendChild(el('div', 'muted small', '7-day average · latest ' + bw[bw.length - 1].w + ' on ' + bw[bw.length - 1].date));
-    root.appendChild(b);
+    const b = card(root, 'Bodyweight');
+    const last7 = bw.filter(x => daysAgo(x.date) <= 7);
+    const src = last7.length ? last7 : bw.slice(-1);
+    b.appendChild(el('div', 'big-num', round1(src.reduce((s, x) => s + x.w, 0) / src.length) + ' ' + unit()));
+    b.appendChild(el('div', 'muted small', (last7.length ? '7-day average' : 'latest') + ' · ' + bw.length + ' entries'));
+    if (bw.length >= 3) b.appendChild(lineChart(bw.map(x => ({ date: x.date, y: x.w, label: x.w + ' ' + unit() })), { height: 130 }));
   }
 
-  const g = el('div', 'card');
-  g.appendChild(el('div', 'kicker', 'Goal'));
-  g.appendChild(el('div', '', db.profile.goal));
-  g.appendChild(el('div', 'muted small', 'DXA baseline ' + db.profile.baseline_dxa.date + ' · retest around ' + '2026-10-24'));
-  root.appendChild(g);
+  const g = card(root, 'Body composition');
+  const scans = (db.scans || []).slice().sort(byDateAsc), tgt = db.profile.target || {};
+  const L = scans[scans.length - 1];
+  if (L) {
+    const grid = el('div', 'tiles');
+    tile(grid, 'Body fat', L.body_fat_pct + '%', tgt.body_fat_pct ? 'target ' + tgt.body_fat_pct + '%' : '');
+    tile(grid, 'Lean mass', L.lean_mass_lb + ' lb', tgt.lean_mass_lb ? 'target ' + tgt.lean_mass_lb + ' lb' : '');
+    if (scans.length > 1) {
+      const F = scans[0];
+      tile(grid, 'Since first scan', (L.lean_mass_lb - F.lean_mass_lb >= 0 ? '+' : '') + round1(L.lean_mass_lb - F.lean_mass_lb) + ' lb lean', round1(L.body_fat_pct - F.body_fat_pct) + ' pts body fat');
+    }
+    g.appendChild(grid);
+    g.appendChild(el('div', 'muted small', 'Last scan ' + fmtDate(L.date) + ' · next retest around ' + fmtDate(addDays(L.date, 90))));
+  }
+  g.appendChild(btn('', '＋ Add a scan', () => go('settings')));
+}
+function trendChip(sum) {
+  if (sum.stalled) return el('div', 'chip warn', '⏸ stalled');
+  if (sum.trend === null) return el('div', 'chip', sum.sessions < 3 ? 'new' : '—');
+  const up = sum.trend >= 0;
+  return el('div', 'chip ' + (up ? 'ok' : 'down'), (up ? '▲ +' : '▼ ') + sum.trend + '%/4wk');
+}
+function tile(root, label, value, sub) {
+  const t = el('div', 'tile'); t.appendChild(el('div', 'tlabel', label)); t.appendChild(el('div', 'tval', value));
+  if (sub) t.appendChild(el('div', 'muted tiny-note', sub)); root.appendChild(t); return t;
+}
+
+/* --- charts (inline SVG, single series, no library) --- */
+const SVGNS = 'http://www.w3.org/2000/svg';
+const sv = (tag, attrs) => { const n = document.createElementNS(SVGNS, tag); Object.keys(attrs || {}).forEach(k => n.setAttribute(k, attrs[k])); return n; };
+function sparkline(vals) {
+  const W = 64, H = 24, s = sv('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}`, class: 'spark', 'aria-hidden': 'true' });
+  if (vals.length < 2) return s;
+  const lo = Math.min(...vals), hi = Math.max(...vals), span = hi - lo || 1;
+  const pts = vals.map((v, i) => [2 + i * (W - 6) / (vals.length - 1), H - 3 - (v - lo) / span * (H - 6)]);
+  s.appendChild(sv('polyline', { points: pts.map(p => p.join(',')).join(' '), fill: 'none', stroke: 'var(--muted)', 'stroke-width': 1.5, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+  const e = pts[pts.length - 1];
+  s.appendChild(sv('circle', { cx: e[0], cy: e[1], r: 2.5, fill: 'var(--accent)' }));
+  return s;
+}
+function niceTicks(lo, hi, n) {
+  const span = hi - lo || Math.abs(hi) || 1, raw = span / n, mag = Math.pow(10, Math.floor(Math.log10(raw)));
+  const step = [1, 2, 2.5, 5, 10].map(m => m * mag).find(s => s >= raw) || raw;
+  const a = Math.floor(lo / step) * step, b = Math.ceil(hi / step) * step, out = [];
+  for (let v = a; v <= b + step / 2; v += step) out.push(Math.round(v * 100) / 100);
+  return out;
+}
+/* points: [{date, y, label, pr}] oldest first. Time on x, so gaps between sessions read honestly. */
+function lineChart(points, opts) {
+  opts = opts || {};
+  const wrap = el('div', 'chart');
+  const W = Math.max(280, Math.min(600, (document.querySelector('#main') || {}).clientWidth - 52 || 320)), H = opts.height || 190;
+  const pad = { l: 40, r: 12, t: 12, b: 24 };
+  const t0 = new Date(points[0].date + 'T00:00:00').getTime(), t1 = new Date(points[points.length - 1].date + 'T00:00:00').getTime();
+  const tspan = Math.max(t1 - t0, 86400000 * 7);
+  const ys = points.map(p => p.y), ticks = niceTicks(Math.min(...ys), Math.max(...ys), 4);
+  const ylo = ticks[0], yhi = ticks[ticks.length - 1] === ylo ? ylo + 1 : ticks[ticks.length - 1];
+  const X = p => pad.l + (new Date(p.date + 'T00:00:00').getTime() - t0) / tspan * (W - pad.l - pad.r);
+  const Y = v => pad.t + (1 - (v - ylo) / (yhi - ylo)) * (H - pad.t - pad.b);
+  const s = sv('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': opts.label || 'trend chart' });
+  ticks.forEach(v => {
+    s.appendChild(sv('line', { x1: pad.l, x2: W - pad.r, y1: Y(v), y2: Y(v), stroke: 'var(--grid)', 'stroke-width': 1 }));
+    const tx = sv('text', { x: pad.l - 6, y: Y(v) + 4, 'text-anchor': 'end', class: 'axis' }); tx.textContent = v.toLocaleString(); s.appendChild(tx);
+  });
+  [points[0], points[points.length - 1]].forEach((p, i) => {
+    if (i === 1 && points.length === 1) return;
+    const tx = sv('text', { x: X(p), y: H - 6, 'text-anchor': i ? 'end' : 'start', class: 'axis' }); tx.textContent = fmtDate(p.date); s.appendChild(tx);
+  });
+  const xy = points.map(p => [X(p), Y(p.y)]);
+  if (points.length > 1) {
+    s.appendChild(sv('path', { d: 'M' + xy.map(q => q.join(',')).join('L') + `L${xy[xy.length - 1][0]},${Y(ylo)}L${xy[0][0]},${Y(ylo)}Z`, fill: 'var(--accent)', opacity: 0.1 }));
+    s.appendChild(sv('polyline', { points: xy.map(q => q.join(',')).join(' '), fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
+  }
+  points.forEach((p, i) => s.appendChild(sv('circle', { cx: xy[i][0], cy: xy[i][1], r: p.pr ? 5 : 4, fill: p.pr ? 'var(--accent)' : 'var(--card)', stroke: p.pr ? 'var(--card)' : 'var(--accent)', 'stroke-width': 2 })));
+  const lastP = points[points.length - 1], lt = sv('text', { x: xy[xy.length - 1][0] - 8, y: xy[xy.length - 1][1] - 12, 'text-anchor': 'end', class: 'vlabel' });
+  lt.textContent = lastP.y; s.appendChild(lt);
+  // crosshair + tooltip: snaps to the nearest session
+  const cross = sv('line', { y1: pad.t, y2: H - pad.b, stroke: 'var(--muted)', 'stroke-width': 1, visibility: 'hidden' });
+  s.appendChild(cross);
+  const tip = el('div', 'tip');
+  const move = ev => {
+    const rect = s.getBoundingClientRect(); const x = (ev.clientX - rect.left) * (W / rect.width);
+    let bi = 0; xy.forEach((q, i) => { if (Math.abs(q[0] - x) < Math.abs(xy[bi][0] - x)) bi = i; });
+    cross.setAttribute('x1', xy[bi][0]); cross.setAttribute('x2', xy[bi][0]); cross.setAttribute('visibility', 'visible');
+    tip.innerHTML = ''; tip.appendChild(el('strong', '', String(points[bi].y))); tip.appendChild(el('span', '', ' ' + fmtDate(points[bi].date) + (points[bi].label ? ' · ' + points[bi].label : '') + (points[bi].pr ? ' · PR' : '')));
+    tip.style.display = 'block';
+    const px = xy[bi][0] / W * rect.width; tip.style.left = Math.max(0, Math.min(rect.width - 170, px - 85)) + 'px';
+  };
+  s.addEventListener('pointermove', move); s.addEventListener('pointerdown', move);
+  s.addEventListener('pointerleave', () => { cross.setAttribute('visibility', 'hidden'); tip.style.display = 'none'; });
+  wrap.appendChild(s); wrap.appendChild(tip);
+  return wrap;
+}
+
+/* --- LIFT DETAIL --- */
+function viewLift(root, name) {
+  const series = liftSeries(db), S = series[name];
+  root.appendChild(btn('ghost back', '‹ Stats', () => go('stats')));
+  if (!S) { card(root, null).textContent = 'No working sets logged for ' + name + ' yet.'; return; }
+  const info = exInfo(name, db), sum = liftSummary(S);
+  const h = card(root, (info.known ? KIND_LABEL[info.kind] + ' · ' + info.pattern : 'Not in library'));
+  h.appendChild(el('h2', '', name));
+  const grid = el('div', 'tiles');
+  tile(grid, 'Best e1RM', sum.best + ' ' + unit(), fmtDate(sum.bestDate));
+  tile(grid, 'Since first', (sum.change >= 0 ? '+' : '') + sum.change + ' ' + unit(), sum.changePct !== null ? (sum.changePct >= 0 ? '+' : '') + sum.changePct + '% over ' + sum.sessions + ' sessions' : '');
+  const tt = tile(grid, '8-week trend', sum.trend === null ? 'n/a' : (sum.trend >= 0 ? '+' : '') + sum.trend + '%', 'per 4 weeks');
+  if (sum.stalled) tt.appendChild(el('div', 'chip warn', '⏸ stalled ' + sum.sinceBest + ' sessions'));
+  tile(grid, 'Since last PR', sum.sinceBest === 0 ? 'PR last time' : sum.sinceBest + ' session' + (sum.sinceBest === 1 ? '' : 's'), sum.hitTop === true ? 'top of range hit last time' : sum.hitTop === false ? 'top of range not hit yet' : '');
+  h.appendChild(grid);
+  const prSet = new Set(sum.prIdx);
+  h.appendChild(el('div', 'kicker spaced', 'Estimated 1RM per session'));
+  h.appendChild(lineChart(S.map((p, i) => ({ date: p.date, y: p.best, label: setStr(p.top, info), pr: prSet.has(i) })), { label: name + ' e1RM over time' }));
+  h.appendChild(el('div', 'muted tiny-note', 'Filled dots are PRs. Warm-ups excluded (shown in brackets below). Weight is ' + (LOAD_NOTE[info.load] || '') + '.'));
+
+  const t = card(root, 'Sessions');
+  S.slice().reverse().forEach((p, ri) => {
+    const i = S.length - 1 - ri;
+    const r = el('div', 'exrow');
+    const l = el('div', ''); l.appendChild(el('div', 'small', fmtDate(p.date) + (prSet.has(i) ? '  ★' : '')));
+    l.appendChild(el('div', 'muted tiny-note', p.target || ''));
+    r.appendChild(l);
+    const setsTxt = p.sets.map(s => (s.warm ? '(' : '') + setStr(s, info) + (s.warm ? ')' : '')).join(' ');
+    const rr = el('div', 'right'); rr.appendChild(el('div', 'small', setsTxt)); rr.appendChild(el('div', 'muted tiny-note', 'e1RM ' + p.best + (p.raw !== name ? ' · as ' + p.raw : '')));
+    r.appendChild(rr);
+    r.onclick = () => go('session:' + p.sid);
+    t.appendChild(r);
+  });
+
+  if (sum.repPRs.length) {
+    const rp = card(root, 'Best reps at each weight');
+    sum.repPRs.slice(0, 8).forEach(x => {
+      const r = el('div', 'exrow'); r.appendChild(el('div', 'small', setStr({ w: x.w, r: x.r }, info).replace(/×\d+$/, '') + ' ' + (info.load === 'bw' || info.load === 'assisted' ? '' : unit())));
+      r.appendChild(el('div', 'muted small right', x.r + ' reps · ' + fmtDate(x.date))); rp.appendChild(r);
+    });
+  }
+
+  const m = card(root, 'Name & tracking');
+  const aliases = [...new Set(S.map(p => p.raw).filter(r => r !== name))];
+  const userAliasesIn = Object.keys(db.aliases || {}).filter(k => db.aliases[k] === name && k !== name);
+  if (aliases.length || userAliasesIn.length) m.appendChild(el('div', 'muted small', 'Also logged as: ' + [...new Set([...aliases, ...userAliasesIn])].join(', ')));
+  userAliasesIn.forEach(k => m.appendChild(btn('tiny', 'Unmerge ' + k, () => { delete db.aliases[k]; save(true); render(); })));
+  m.appendChild(btn('', 'Merge into another lift…', () => pickExerciseSheet('Merge "' + name + '" into', target => {
+    const to = canon(target, db);
+    if (to === name) return;
+    if (!confirm('Treat every "' + name + '" set as "' + to + '"? Your raw log keeps the original name, and you can unmerge later.')) return;
+    db.aliases = db.aliases || {};
+    Object.keys(db.aliases).forEach(k => { if (db.aliases[k] === name) db.aliases[k] = to; });
+    db.aliases[name] = to; save(true); go('lift:' + to);
+  }, name)));
+  if (!C.CATALOG[name]) {
+    m.appendChild(el('div', 'kicker spaced', 'Classify (for muscle set counts)'));
+    const cur = db.exercises[name] || {};
+    const ms = el('select'); ms.appendChild(el('option', '', 'Primary muscle…'));
+    MUSCLES.forEach(k => { const o = el('option', '', MUSCLE_LABEL[k]); o.value = k; if (cur.m && cur.m[k] === 1) o.selected = true; ms.appendChild(o); });
+    const ks = el('select'); [['iso', 'Isolation'], ['uc', 'Upper compound'], ['lc', 'Lower compound'], ['core', 'Core']].forEach(([v, l]) => { const o = el('option', '', l); o.value = v; if (cur.kind === v) o.selected = true; ks.appendChild(o); });
+    const ls = el('select'); Object.keys(LOAD_NOTE).forEach(v => { const o = el('option', '', v + ' (' + LOAD_NOTE[v] + ')'); o.value = v; if (cur.load === v) o.selected = true; ls.appendChild(o); });
+    m.appendChild(ms); m.appendChild(ks); m.appendChild(ls);
+    m.appendChild(btn('', 'Save', () => {
+      if (!MUSCLES.includes(ms.value)) return toast('Pick a muscle');
+      db.exercises[name] = Object.assign({}, cur, { m: { [ms.value]: 1 }, kind: ks.value, load: ls.value, pattern: cur.pattern || 'other' });
+      save(true); render(); toast('Saved');
+    }));
+  }
+  const ps = el('label', 'toggle'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = info.perSide;
+  cb.onchange = () => { db.exercises[name] = Object.assign({}, db.exercises[name], { perSide: cb.checked }); save(true); };
+  ps.appendChild(cb); ps.appendChild(el('span', '', 'I log each side as its own set (halves the set count)'));
+  m.appendChild(ps);
 }
 
 /* --- SETTINGS --- */
 function viewSettings(root) {
   const s = db.settings;
-  const c = el('div', 'card');
-  c.appendChild(el('div', 'kicker', 'GitHub sync'));
-  const f = (label, key, type, ph) => {
-    const w = el('div', 'field');
-    w.appendChild(el('label', '', label));
+  const f = (c, label, key, type, ph) => {
+    const w = el('div', 'field'); w.appendChild(el('label', '', label));
     const i = el('input'); i.type = type || 'text'; i.value = s[key] || ''; i.placeholder = ph || '';
-    i.onchange = () => { s[key] = i.value.trim(); save(); };
-    w.appendChild(i); return w;
+    i.autocapitalize = 'off'; i.autocomplete = 'off'; i.spellcheck = false;
+    i.onchange = () => { s[key] = i.value.trim(); save(); render(); };
+    w.appendChild(i); c.appendChild(w);
   };
-  c.appendChild(f('Owner (your GitHub username)', 'owner', 'text', 'jamesmcauley'));
-  c.appendChild(f('Repo', 'repo', 'text', 'liftlog'));
-  c.appendChild(f('Branch', 'branch', 'text', 'main'));
-  c.appendChild(f('Fine-grained token', 'token', 'password', 'github_pat_…'));
-  const u = el('div', 'field');
-  u.appendChild(el('label', '', 'Units'));
+  const c = card(root, 'GitHub sync');
+  f(c, 'Owner (your GitHub username)', 'owner', 'text', '00caesar00');
+  f(c, 'Repo', 'repo', 'text', 'liftlog');
+  f(c, 'Branch', 'branch', 'text', 'main');
+  f(c, 'Fine-grained token (Contents: read & write)', 'token', 'password', 'github_pat_…');
+  const u = el('div', 'field'); u.appendChild(el('label', '', 'Units'));
   const us = el('select');
   ['lb', 'kg'].forEach(x => { const o = el('option', '', x); o.value = x; if (s.unit === x) o.selected = true; us.appendChild(o); });
   us.onchange = () => { s.unit = us.value; save(true); render(); };
   u.appendChild(us); c.appendChild(u);
+  c.appendChild(btn('primary', 'Sync now', () => syncNow()));
+  c.appendChild(btn('', 'Restore from GitHub', restoreFromGitHub));
+  c.appendChild(el('div', 'muted small', (db.lastSync ? 'Last sync ' + new Date(db.lastSync).toLocaleString() : 'Never synced') + (db.dirty ? ' · unsynced changes' : '')));
+  if (db.lastSyncError && db.dirty) c.appendChild(el('div', 'muted tiny-note', 'Last error: ' + db.lastSyncError));
 
-  const b1 = el('button', 'primary', 'Sync now'); b1.onclick = () => syncNow();
-  const b2 = el('button', '', 'Restore from GitHub'); b2.onclick = restoreFromGitHub;
-  c.appendChild(b1); c.appendChild(b2);
-  c.appendChild(el('div', 'muted small', db.lastSync ? 'Last sync ' + new Date(db.lastSync).toLocaleString() : 'Never synced'));
-  root.appendChild(c);
+  const k = card(root, 'Coach in the app (optional)');
+  k.appendChild(el('div', 'muted small', 'With a Claude API key, the Today tab gets an "Ask the coach" button that writes the plan straight into the app. Get a key at platform.claude.com. It is stored only on this phone.'));
+  f(k, 'Claude API key', 'apiKey', 'password', 'sk-ant-…');
+  f(k, 'Model', 'model', 'text', 'claude-sonnet-5');
 
-  const d = el('div', 'card');
-  d.appendChild(el('div', 'kicker', 'Data'));
-  const ex = el('button', '', 'Copy digest (what the coach sees)');
-  ex.onclick = () => { navigator.clipboard.writeText(JSON.stringify(buildDigest(db))); toast('Digest copied'); };
-  const dl = el('button', '', 'Download full backup');
-  dl.onclick = () => {
-    const blob = new Blob([JSON.stringify(db, null, 1)], { type: 'application/json' });
-    const a = document.createElement('a'); a.href = URL.createObjectURL(blob);
-    a.download = 'liftlog-backup-' + today() + '.json'; a.click();
-  };
-  const rs = el('button', 'ghost', 'Reset local data');
-  rs.onclick = () => { if (confirm('Erase local data? Synced data in GitHub is kept.')) { localStorage.removeItem(KEY); db = load(); render(); } };
-  d.appendChild(ex); d.appendChild(dl); d.appendChild(rs);
-  root.appendChild(d);
+  const sc = card(root, 'Body composition scans');
+  (db.scans || []).slice().sort(byDateDesc).forEach(x => {
+    const r = el('div', 'exrow'); r.appendChild(el('div', 'small', fmtDate(x.date) + ' · ' + (x.source || 'scan')));
+    r.appendChild(el('div', 'muted small right', x.body_fat_pct + '% · ' + x.lean_mass_lb + ' lb lean'));
+    sc.appendChild(r);
+  });
+  const det = el('details'); det.appendChild(el('summary', 'small', '＋ Add a scan'));
+  const vals = { date: today() };
+  const fld = (label, key, type) => { const w = el('div', 'field'); w.appendChild(el('label', '', label)); const i = el('input'); i.type = type || 'text'; if (type !== 'date') i.inputMode = 'decimal'; i.value = vals[key] || ''; i.onchange = () => vals[key] = type === 'date' ? i.value : parseFloat(i.value); w.appendChild(i); det.appendChild(w); };
+  fld('Date', 'date', 'date'); fld('Body fat %', 'body_fat_pct'); fld('Lean mass (lb)', 'lean_mass_lb'); fld('Fat mass (lb)', 'fat_mass_lb');
+  fld('Total mass (lb)', 'total_mass_lb'); fld('Visceral fat (lb)', 'visceral_fat_lb'); fld('A/G ratio', 'ag_ratio'); fld('ALMI', 'almi'); fld('FFMI', 'ffmi');
+  det.appendChild(btn('primary', 'Save scan', () => {
+    if (!vals.date || !vals.body_fat_pct || !vals.lean_mass_lb) return toast('Date, body fat % and lean mass are required');
+    const rec = { source: 'DXA' }; Object.keys(vals).forEach(k2 => { if (vals[k2] !== undefined && !(typeof vals[k2] === 'number' && isNaN(vals[k2]))) rec[k2] = vals[k2]; });
+    db.scans = (db.scans || []).filter(x => x.date !== rec.date).concat([rec]).sort(byDateAsc);
+    save(true); render(); toast('Scan saved');
+  }));
+  sc.appendChild(det);
 
-  const p = el('div', 'card');
-  p.appendChild(el('div', 'kicker', 'Program (JSON)'));
+  const d = card(root, 'Data');
+  d.appendChild(btn('', 'Copy digest (what the coach sees)', () => { navigator.clipboard.writeText(JSON.stringify(buildDigest(db))); toast('Digest copied'); }));
+  d.appendChild(btn('', 'Download full backup', () => {
+    const blob = new Blob([JSON.stringify(Object.assign({}, db, { settings: Object.assign({}, db.settings, { token: '', apiKey: '' }) }), null, 1)], { type: 'application/json' });
+    const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = 'liftlog-backup-' + today() + '.json'; a.click();
+  }));
+  d.appendChild(btn('ghost', 'Reset local data', () => {
+    if (confirm('Erase local data on this phone? Synced data in GitHub is kept.')) { localStorage.removeItem(KEY); localStorage.removeItem(KEY_V1); db = load(); render(); }
+  }));
+  d.appendChild(el('div', 'muted tiny-note', 'Data format v' + db.v + (db.migrated && db.migrated.from1 ? ' · upgraded from v1 on ' + new Date(db.migrated.from1).toLocaleDateString() : '')));
+
+  const p = card(root, 'Program (JSON)');
   const ta = el('textarea'); ta.rows = 6; ta.value = db.program ? JSON.stringify(db.program) : '';
   ta.onchange = () => { try { db.program = JSON.parse(ta.value); save(true); toast('Program saved'); } catch (e) { toast('Invalid JSON'); } };
   p.appendChild(ta);
-  root.appendChild(p);
 }
 
 /* ---------------- boot ---------------- */
 function handleHash() {
   const h = location.hash || '';
   if (h.startsWith('#plan=') || h.startsWith('#t=')) {
-    try {
-      db.plan = parseAnyPlan(location.href);
-      history.replaceState(null, '', location.pathname);
-      save(true); route = 'today'; toast('Plan loaded from coach');
-    } catch (e) { toast('Bad plan link'); }
+    try { db.plan = C.parseAnyPlan(location.href); history.replaceState(null, '', location.pathname); save(true); route = 'today'; toast('Plan loaded from coach'); }
+    catch (e) { toast('Bad plan link'); }
   }
 }
-window.addEventListener('hashchange', () => { handleHash(); render(); });
-document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.tab').forEach(t => t.onclick = () => { route = t.dataset.route; render(); });
-  $('#restStop').onclick = () => { restEnd = 0; paintRest(); };
-  $('#restPlus').onclick = () => { restEnd += 30000; paintRest(); };
-  $('#syncdot').onclick = () => syncNow();
-  if (!db.program) {
-    fetch('data/program.json').then(r => r.ok ? r.json() : null).then(j => { if (j) { db.program = j; save(); render(); } }).catch(() => {});
-  }
-  handleHash(); render();
-  window.addEventListener('online', () => { if (db.dirty) syncNow(true); });
-  if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
-});
+if (typeof window !== 'undefined' && typeof document !== 'undefined' && document.addEventListener) {
+  window.addEventListener('hashchange', () => { handleHash(); render(); });
+  document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.tab').forEach(t => t.onclick = () => go(t.dataset.route));
+    $('#restStop').onclick = () => { restEnd = 0; paintRest(); };
+    $('#restPlus').onclick = () => { restEnd += 30000; paintRest(); };
+    $('#syncdot').onclick = () => syncNow();
+    if (!db.program) {
+      fetch('data/program.json').then(r => r.ok ? r.json() : null).then(j => { if (j) { db.program = j; save(); render(); } }).catch(() => {});
+    }
+    save();                         // persists the v2 copy under the new key on first run
+    autoFinishStale(); handleHash(); render();
+    if (db.active) wake(true);
+    window.addEventListener('online', () => { if (db.dirty) syncNow(true); });
+    document.addEventListener('visibilitychange', () => {
+      if (document.visibilityState === 'hidden') { if (db.dirty && GH.ok()) syncNow(true); }
+      else { autoFinishStale(); if (db.active) wake(true); render(); }
+    });
+    if (db.dirty) scheduleSync();
+    if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
+  });
+}
 
 /* export for headless tests */
-if (typeof module !== 'undefined') module.exports = {
-  e1rm, bestE1rm, sessionVolume, hardSetsByMuscle, buildDigest, daysAgo,
-  parseTextPlan, parseAnyPlan, seedWeight, b64urlEncode, b64urlDecode, b64EncodeUtf8, EXLIB, DEFAULT_DB
-};
+if (typeof module !== 'undefined' && module.exports) module.exports = { GH, v1BackupEntries, syncNow, restoreFromGitHub, askCoach, _db: () => db, _setDb: d => db = d };

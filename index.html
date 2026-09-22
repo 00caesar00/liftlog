@@ -12,7 +12,7 @@
 <style>
 :root{
   --bg:#0e1116; --card:#171c24; --card2:#1f2630; --line:#2a323d;
-  --fg:#e8edf3; --muted:#8b97a6; --accent:#4ade80; --accent2:#22d3ee; --warn:#fbbf24; --bad:#f87171;
+  --fg:#e8edf3; --muted:#8b97a6; --accent:#4ade80; --accent2:#22d3ee; --warn:#fbbf24; --bad:#f87171; --grid:#252c36;
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
 html,body{margin:0; background:var(--bg); color:var(--fg);
@@ -67,12 +67,15 @@ textarea{resize:vertical}
   display:grid; place-items:center; font-size:12px; font-weight:700; flex:none}
 .setval{font-variant-numeric:tabular-nums; font-weight:600; flex:1}
 .entry{display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-top:10px}
-.stepper{background:var(--card2); border-radius:12px; padding:6px}
+.warmbtn{margin:2px 0 0; padding:11px 6px; font-size:14px; color:var(--muted)}
+.warmbtn.on{background:var(--warn); color:#2a1d00; border-color:transparent}
+.stepper{background:var(--card2); border-radius:12px; padding:6px 3px; min-width:0}
 .slabel{font-size:10.5px; text-transform:uppercase; letter-spacing:.7px; color:var(--muted); text-align:center}
 .srow{display:flex; align-items:center; gap:2px}
-.sbtn{flex:none; width:34px; padding:8px 0; margin:0; font-size:19px; line-height:1; background:transparent; border:none; color:var(--accent2)}
-.sval{flex:1; text-align:center; font-size:19px; font-weight:700; font-variant-numeric:tabular-nums; padding:6px 0}
-.logbtn{grid-column:1/-1; width:100%; margin:2px 0 0}
+.sbtn{flex:none; width:28px; padding:8px 0; margin:0; font-size:19px; line-height:1; background:transparent; border:none; color:var(--accent2)}
+.sval{flex:1; min-width:0; width:100%; text-align:center; font-size:18px; letter-spacing:-.3px; font-weight:700; font-variant-numeric:tabular-nums; padding:6px 0; margin:0; background:transparent; border:none; border-radius:8px}
+.sval:focus{outline:1px solid var(--accent2); background:var(--card)}
+.logbtn{grid-column:2/-1; width:100%; margin:2px 0 0}
 .bar{display:flex; align-items:center; gap:9px; margin:7px 0}
 .blabel{width:62px; font-size:13px; color:var(--muted)}
 .btrack{flex:1; height:9px; background:var(--card2); border-radius:6px; overflow:hidden}
@@ -96,6 +99,52 @@ nav{position:fixed; bottom:0; left:0; right:0; z-index:20; display:flex;
   background:#e8edf3; color:#0e1116; padding:11px 16px; border-radius:12px; font-size:14px; font-weight:600;
   opacity:0; pointer-events:none; transition:.25s; z-index:40; max-width:90vw; text-align:center}
 #toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+
+.tiny-note{font-size:12px}
+.card.done{opacity:.72}
+.card.tap{cursor:pointer}
+.card.tap:active{background:var(--card2)}
+.chip{font-size:12px; font-weight:650; padding:3px 8px; border-radius:999px; background:var(--card2); color:var(--muted); white-space:nowrap; flex:none}
+.chip.ok{color:var(--accent)} .chip.down{color:var(--bad)} .chip.warn{color:var(--warn)}
+.exhead .chip{margin-top:2px}
+.setrow{cursor:pointer}
+.setrow.warm{opacity:.6}
+.setrow.warm .setno{background:var(--muted)}
+.btnrow{display:flex; flex-wrap:wrap; gap:0}
+.brief{white-space:pre-wrap; font-size:14px; background:var(--card2); border-radius:10px; padding:9px 11px; margin:8px 0; color:var(--fg)}
+.clamp{display:-webkit-box; -webkit-line-clamp:3; -webkit-box-orient:vertical; overflow:hidden}
+details{margin-top:10px} summary{cursor:pointer; padding:4px 0}
+.toggle{display:flex; align-items:center; gap:10px; margin:12px 0 4px; font-size:14px}
+.toggle input{width:22px; height:22px; margin:0; flex:none; accent-color:var(--accent)}
+button.back{margin:0 0 8px; padding:6px 4px}
+.group{font-size:11px; letter-spacing:.8px; text-transform:uppercase; color:var(--muted); margin:14px 0 2px; font-weight:600}
+.group:first-of-type{margin-top:4px}
+.liftrow{display:flex; align-items:center; gap:10px; padding:9px 0; border-top:1px solid var(--line); cursor:pointer}
+.liftrow .lname{flex:1; min-width:0}
+.liftrow .lname .exname{white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.spark{flex:none}
+.lval{text-align:right; flex:none; width:92px}
+.lval .num{font-weight:700; font-size:16px}
+.lval .chip{display:inline-block; margin-top:2px}
+.tiles{display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:10px 0}
+.tile{background:var(--card2); border-radius:12px; padding:10px 11px}
+.tlabel{font-size:12px; color:var(--muted)}
+.tval{font-size:20px; font-weight:700; margin-top:2px}
+.kicker.spaced{margin-top:14px}
+.chart{position:relative; margin:6px 0 2px; touch-action:pan-y}
+.chart svg{display:block; width:100%; height:auto; overflow:visible}
+.chart .axis{font-size:11px; fill:var(--muted); font-variant-numeric:tabular-nums}
+.chart .vlabel{font-size:12px; font-weight:700; fill:var(--fg)}
+.tip{display:none; position:absolute; top:-4px; width:170px; background:var(--fg); color:var(--bg); border-radius:9px; padding:6px 9px; font-size:12.5px; pointer-events:none}
+.tip strong{font-size:14px}
+.sheet-back{position:fixed; inset:0; z-index:50; background:rgba(0,0,0,.5); display:flex; align-items:flex-end; opacity:0; transition:opacity .15s}
+.sheet-back.show{opacity:1}
+.sheet{width:100%; max-width:640px; margin:0 auto; background:var(--card); border:1px solid var(--line); border-bottom:none;
+  border-radius:18px 18px 0 0; padding:16px 14px calc(16px + env(safe-area-inset-bottom)); max-height:85vh; overflow:auto}
+.sheet h3{margin:0 0 4px; font-size:19px}
+.sheet button.big{margin-top:8px}
+.picklist{max-height:45vh; overflow:auto; margin:4px 0}
+button.pick{display:block; width:100%; text-align:left; margin:4px 0; font-weight:500}
 </style>
 </head>
 <body>
@@ -120,6 +169,7 @@ nav{position:fixed; bottom:0; left:0; right:0; z-index:20; display:flex;
 </nav>
 
 <div id="toast"></div>
+<script src="core.js"></script>
 <script src="app.js"></script>
 </body>
 </html>

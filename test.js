@@ -1,15 +1,8 @@
-/* Headless checks for the pure logic in app.js.  Run: node test.js  */
+/* Headless checks for the pure logic in core.js, including a golden test against the real log.
+   Run: node test.js                                                                            */
 'use strict';
-// minimal DOM/storage shims so app.js can be require()d outside a browser
-const store = {};
-global.localStorage = { getItem: k => store[k] ?? null, setItem: (k, v) => store[k] = v, removeItem: k => delete store[k] };
-global.document = { addEventListener() {}, querySelector: () => ({ dataset: {}, classList: { add() {}, remove() {}, toggle() {} }, textContent: '' }), querySelectorAll: () => [], createElement: () => ({ classList: { add() {} }, appendChild() {}, style: {} }) };
-global.window = { addEventListener() {} };
-global.location = { hash: '', pathname: '/', href: '/' };
-global.history = { replaceState() {} };
-global.fetch = () => Promise.reject(new Error('no network in tests'));
-
-const A = require('./app.js');
+const fs = require('fs');
+const C = require('./core.js');
 let pass = 0, fail = 0;
 const eq = (name, got, want) => {
   const g = JSON.stringify(got), w = JSON.stringify(want);
@@ -17,108 +10,139 @@ const eq = (name, got, want) => {
   else { fail++; console.log('  FAIL ' + name + '\n       got  ' + g + '\n       want ' + w); }
 };
 const ok = (name, cond) => eq(name, !!cond, true);
+const iso = d => { const x = new Date(); x.setDate(x.getDate() - d); return C.today(x); };
 
 console.log('\ne1RM (Epley)');
-eq('225x5', A.e1rm(225, 5), 262.5);
-eq('100x1 = 100', A.e1rm(100, 1), 103.3);
-eq('reps capped at 12', A.e1rm(100, 20), A.e1rm(100, 12));
-eq('zero weight', A.e1rm(0, 8), 0);
-eq('best of a set list', A.bestE1rm([{ w: 100, r: 5 }, { w: 120, r: 3 }, { w: 90, r: 10 }]), 132);
+eq('225x5', C.e1rm(225, 5), 262.5);
+eq('reps capped at 12', C.e1rm(100, 20), C.e1rm(100, 12));
+eq('zero weight', C.e1rm(0, 8), 0);
+eq('best of a set list', C.bestE1rm([{ w: 100, r: 5 }, { w: 120, r: 3 }, { w: 90, r: 10 }]), 132);
+
+console.log('\ntarget parsing');
+eq('full target', C.parseTarget('4x6-8 @2RIR 75lb rest 180'), { sets: 4, lo: 6, hi: 8, rir: 2, load: 75, unit: 'lb', rest: 180 });
+eq('single rep count', C.parseTarget('3x15 @0RIR').hi, 15);
+eq('negative load (assistance)', C.parseTarget('4x6-8 @2RIR -50lb').load, -50);
+eq('rest in minutes', C.parseTarget('3x5 rest 3m').rest, 180);
+eq('rest m:ss', C.parseTarget('3x5 rest 2:30').rest, 150);
+eq('no load', C.seedWeight('3x10 @2RIR'), null);
+
+console.log('\nnames, aliases, catalog');
+eq('builtin alias', C.canon('Overhead Cable Tricep Extension', {}), 'Overhead Cable Extension');
+eq('user alias', C.canon('Crunch Machine', { aliases: { 'Crunch Machine': 'Cable Crunch' } }), 'Cable Crunch');
+eq('user can undo a builtin alias', C.canon('RDL', { aliases: { RDL: 'RDL' } }), 'RDL');
+eq('alias chain', C.canon('A', { aliases: { A: 'B', B: 'Leg Press' } }), 'Leg Press');
+ok('no infinite loop on cycles', C.canon('A', { aliases: { A: 'B', B: 'A' } }));
+eq('unknown exercise marked', C.exInfo('Zercher Carry', {}).known, false);
+eq('user classification', C.exInfo('Zercher Carry', { exercises: { 'Zercher Carry': { m: { abs: 1 }, kind: 'core' } } }).m, { abs: 1 });
+eq('cable step 2.5 lb', C.exInfo('Cable Curl', { settings: { unit: 'lb' } }).step, 2.5);
+eq('barbell step 5 lb', C.exInfo('Back Squat', { settings: { unit: 'lb' } }).step, 5);
+
+console.log('\nwarm-ups');
+const info = C.exInfo('Romanian Deadlift', {});
+eq('leading light set guessed', C.warmupFlags([{ w: 135, r: 8, rir: 2 }, { w: 205, r: 8, rir: 2 }, { w: 205, r: 8, rir: 2 }], info), [true, false, false]);
+eq('very easy leading set guessed', C.warmupFlags([{ w: 180, r: 13, rir: 4 }, { w: 220, r: 12, rir: 2 }], info), [true, false]);
+eq('same-weight sets never guessed', C.warmupFlags([{ w: 120, r: 10, rir: 4 }, { w: 120, r: 12, rir: 4 }], info), [false, false]);
+eq('back-off sets are not warm-ups', C.warmupFlags([{ w: 200, r: 5 }, { w: 140, r: 10 }], info), [false, false]);
+eq('explicit flags win', C.warmupFlags([{ w: 135, r: 8, t: 'n' }, { w: 205, r: 8, t: 'w' }], info), [false, true]);
+eq('bodyweight lifts not guessed', C.warmupFlags([{ w: 0, r: 5 }, { w: 25, r: 5 }], C.exInfo('Pull-Up', {})), [false, false]);
+
+console.log('\nbodyweight loads');
+const bwdb = { settings: { unit: 'lb' }, bodyweight: [{ date: '2026-08-01', w: 170 }], scans: [{ date: '2026-07-26', total_mass_lb: 174.2 }] };
+eq('pull-up uses bodyweight + added', C.effLoad(bwdb, C.exInfo('Pull-Up', {}), 10, '2026-08-05'), 180);
+eq('assisted subtracts assistance', C.effLoad(bwdb, C.exInfo('Assisted Pull-Up', {}), 50, '2026-08-05'), 120);
+eq('falls back to scan mass before first weigh-in', C.bodyweightOn({ settings: {}, bodyweight: [], scans: bwdb.scans }, '2026-07-30'), 174.2);
 
 console.log('\nvolume + weekly sets');
-const sess = {
-  date: '2026-07-27', day: 'Upper A', ex: [
-    { name: 'Flat Dumbbell Press', sets: [{ w: 70, r: 8, rir: 2 }, { w: 70, r: 7, rir: 1 }, { w: 70, r: 6, rir: 1 }, { w: 70, r: 6, rir: 0 }] },
-    { name: 'Chest-Supported Row', sets: [{ w: 120, r: 10, rir: 2 }, { w: 120, r: 9, rir: 1 }, { w: 120, r: 8, rir: 1 }] },
-    { name: 'Triceps Pushdown', sets: [{ w: 50, r: 14, rir: 1 }, { w: 50, r: 12, rir: 0 }, { w: 50, r: 0, rir: 0 }] }
-  ]
-};
-eq('session volume', A.sessionVolume(sess), 70 * 27 + 120 * 27 + 50 * 26);
-const hs = A.hardSetsByMuscle([sess]);
-eq('chest sets', hs.chest, 4);
-eq('back sets', hs.back, 3);
-// DB press contributes 4 x 0.5 as a secondary; pushdown contributes its 2 completed sets
-// (the third has 0 reps and must be ignored). Rows are back/biceps, not triceps.
-eq('triceps: 4*0.5 secondary + 2 direct', hs.tri, 4);
-eq('biceps: rows only, 3*0.5', hs.bi, 1.5);
-eq('zero-rep set excluded', hs.tri, 4);          // would be 5 if the empty pushdown set counted
+const sess = { date: iso(3), day: 'Upper A', ex: [
+  { name: 'Flat Dumbbell Press', sets: [{ w: 40, r: 10, rir: 3 }, { w: 70, r: 8, rir: 2 }, { w: 70, r: 7, rir: 1 }, { w: 70, r: 6, rir: 1 }] },
+  { name: 'Chest-Supported Row', sets: [{ w: 120, r: 10, rir: 2 }, { w: 120, r: 9, rir: 1 }, { w: 120, r: 8, rir: 1 }] },
+  { name: 'Triceps Pushdown', sets: [{ w: 50, r: 14, rir: 1 }, { w: 50, r: 12, rir: 0 }, { w: 50, r: 0, rir: 0 }] },
+  { name: 'Bulgarian Split Squat', sets: [{ w: 50, r: 10 }, { w: 50, r: 10 }] }
+] };
+eq('volume excludes warm-up and zero-rep sets', C.sessionVolume(sess, {}), 70 * 21 + 120 * 27 + 50 * 26 + 50 * 20);
+const hs = C.hardSetsByMuscle([sess], {});
+eq('chest: 3 working DB press sets', hs.chest, 3);
+eq('triceps: 3*0.5 secondary + 2 direct', hs.tri, 3.5);
+eq('per-side split squat counts as 1 set', hs.quad, 1);
 
-console.log('\ntext plan parser');
-const p1 = A.parseTextPlan(`DAY: Upper A
+console.log('\nplan parsing');
+const p1 = C.parseTextPlan(`DAY: Upper A
 FOCUS: horizontal push
 NOTE: shoulder was cranky
-Flat Dumbbell Press | 4x6-8 @2RIR 75lb | pause at the bottom
+Flat Dumbbell Press | 4x6-8 @2RIR 75lb rest 180 | pause at the bottom, rest 2 min if needed
 Chest-Supported Row | 4x8-10 @2RIR 120lb`);
 eq('day', p1.day, 'Upper A');
-eq('focus', p1.focus, 'horizontal push');
-eq('note', p1.notes, 'shoulder was cranky');
 eq('exercise count', p1.ex.length, 2);
-eq('name', p1.ex[0].name, 'Flat Dumbbell Press');
-eq('target', p1.ex[0].target, '4x6-8 @2RIR 75lb');
-eq('cue', p1.ex[0].cue, 'pause at the bottom');
-eq('seed weight parsed', A.seedWeight(p1.ex[0].target), 75);
-eq('seed weight absent', A.seedWeight('3x10 @2RIR'), null);
-
-const p2 = A.parseTextPlan(`**DAY:** Lower A
-1. Back Squat | 4x5-7 @2RIR 205lb
-- Romanian Deadlift | 3x8-10 @2RIR 155lb
-
-* Leg Press | 3x10-12 rest 150`);
+eq('rest from the target only, not the cue', p1.ex[0].rest, 180);
+eq('no rest when absent', p1.ex[1].rest, undefined);
+const p2 = C.parseTextPlan('**DAY:** Lower A\n1. Back Squat | 4x5-7 @2RIR 205lb\n- Romanian Deadlift | 3x8-10\n\n* Leg Press | 3x10-12 rest 150');
 eq('markdown noise stripped', p2.ex.map(e => e.name), ['Back Squat', 'Romanian Deadlift', 'Leg Press']);
-eq('bold day header', p2.day, 'Lower A');
-eq('rest parsed', p2.ex[2].rest, 150);
-eq('bare exercise, no target', p2.ex[2].target, '3x10-12 rest 150');
-
-let threw = false; try { A.parseTextPlan('DAY: nothing here'); } catch (e) { threw = true; }
+let threw = false; try { C.parseTextPlan('DAY: nothing here'); } catch (e) { threw = true; }
 ok('empty plan rejected', threw);
+const reply = 'Upper B today. OHP went 4x8 last time, so +5 lb.\n\n```\nDAY: Upper B\nOverhead Press | 4x6-8 @2RIR 80lb rest 180\nPull-Up | 4x6-8 @2RIR 0lb\n```\n';
+const x = C.extractPlanBlock(reply);
+eq('block extracted from a full reply', C.parseTextPlan(x.block).ex.length, 2);
+ok('brief kept', x.brief.startsWith('Upper B today'));
+eq('parseAnyPlan accepts the whole reply', C.parseAnyPlan(reply).day, 'Upper B');
+eq('parseAnyPlan keeps the brief', !!C.parseAnyPlan(reply).brief, true);
+const enc = C.b64urlEncode(p1);
+eq('base64url round-trip', C.b64urlDecode(enc).ex[1].name, 'Chest-Supported Row');
+eq('parseAnyPlan: #t= link', C.parseAnyPlan('https://x.github.io/liftlog/#t=' + encodeURIComponent('DAY: Upper B\nOverhead Press | 4x6-8')).ex[0].name, 'Overhead Press');
+eq('utf-8 base64', Buffer.from(C.b64EncodeUtf8('café 100 kg'), 'base64').toString('utf8'), 'café 100 kg');
 
-console.log('\nplan transport round-trips');
-const enc = A.b64urlEncode(p1);
-eq('base64url round-trip', A.b64urlDecode(enc).ex[1].name, 'Chest-Supported Row');
-ok('base64url is url-safe', !/[+/=]/.test(enc));
-eq('parseAnyPlan: json', A.parseAnyPlan(JSON.stringify(p1)).day, 'Upper A');
-eq('parseAnyPlan: #plan= link', A.parseAnyPlan('https://x.github.io/liftlog/#plan=' + enc).day, 'Upper A');
-eq('parseAnyPlan: #t= link', A.parseAnyPlan('https://x.github.io/liftlog/#t=' + encodeURIComponent('DAY: Upper B\nOverhead Press | 4x6-8 @2RIR 95lb')).ex[0].name, 'Overhead Press');
-eq('parseAnyPlan: raw text', A.parseAnyPlan('DAY: Lower B\nHip Thrust | 3x8-10').ex.length, 1);
-eq('utf-8 safe base64 for GitHub', typeof A.b64EncodeUtf8('café — 100 kg'), 'string');
-eq('utf-8 decodes back', Buffer.from(A.b64EncodeUtf8('café — 100 kg'), 'base64').toString('utf8'), 'café — 100 kg');
+console.log('\nmigration: golden test against the real v1 log');
+const log = JSON.parse(fs.readFileSync(fs.existsSync('data/log.json') ? 'data/log.json' : 'data/backup/log-v1.json', 'utf8'));
+const m = C.migrate(log);
+eq('schema is 2', m.v, 2);
+eq('every session kept', m.sessions.length, log.sessions.length);
+eq('sessions byte-identical', JSON.stringify(m.sessions), JSON.stringify(log.sessions));
+eq('every set kept', m.sessions.reduce((n, s) => n + s.ex.reduce((k, e) => k + e.sets.length, 0), 0), log.sessions.reduce((n, s) => n + s.ex.reduce((k, e) => k + e.sets.length, 0), 0));
+eq('profile untouched', JSON.stringify(m.profile), JSON.stringify(log.profile));
+eq('coach notes kept', m.coachNotes, log.coachNotes);
+eq('baseline DXA copied into scans', m.scans[0].body_fat_pct, 17.8);
+ok('migrate is idempotent', JSON.stringify(C.migrate(m).sessions) === JSON.stringify(m.sessions) && C.migrate(m).scans.length === 1);
+const localV1 = { v: 1, settings: { owner: 'o', repo: 'r', branch: 'main', token: 'tok', unit: 'lb', shas: { a: 1 } }, sessions: log.sessions, active: null, plan: null, bodyweight: [], coachNotes: 'x', dirty: true, profile: log.profile };
+const lm = C.migrate(localV1);
+eq('local settings kept', [lm.settings.owner, lm.settings.token, lm.settings.unit], ['o', 'tok', 'lb']);
+eq('new settings defaulted', lm.settings.model, 'claude-sonnet-5');
+eq('dirty flag kept', lm.dirty, true);
+ok('input object not mutated', localV1.v === 1 && !localV1.scans);
 
-console.log('\ndigest');
-const iso = d => { const x = new Date(); x.setDate(x.getDate() - d); return x.toISOString().slice(0, 10); };
-const db = {
-  settings: { unit: 'lb' },
-  profile: { goal: 'recomp' },
-  coachNotes: 'left shoulder',
-  bodyweight: [{ date: iso(1), w: 174.2 }],
-  plan: null,
-  sessions: [
-    Object.assign({}, sess, { id: 'a', date: iso(14) }),
-    Object.assign({}, sess, {
-      id: 'b', date: iso(7), ex: [{ name: 'Flat Dumbbell Press', sets: [{ w: 75, r: 8, rir: 2 }, { w: 75, r: 7, rir: 1 }] }]
-    }),
-    Object.assign({}, sess, { id: 'c', date: iso(60) })   // outside the 28-day window
-  ]
-};
-const d = A.buildDigest(db);
-eq('schema', d.schema, 'liftlog/1');
-eq('coach notes carried', d.coach_notes, 'left shoulder');
-eq('28-day session count excludes old', d.status.sessions_last_28d, 2);
-eq('last session date', d.status.last_session_date, iso(7));
-eq('days since last', d.status.days_since_last, 7);
-eq('best e1rm picks the heavier day', d.lifts['Flat Dumbbell Press'].best_e1rm, A.e1rm(75, 8));
-eq('best e1rm dated correctly', d.lifts['Flat Dumbbell Press'].best_date, iso(7));
-eq('lift history newest first', d.lifts['Flat Dumbbell Press'].history[0].date, iso(7));
-eq('history capped at 4', d.lifts['Flat Dumbbell Press'].history.length <= 4, true);
-eq('recent sessions capped at 10', d.recent_sessions.length <= 10, true);
-eq('recent sessions newest first', d.recent_sessions[0].date, iso(7));
-eq('sets compacted to triples', d.recent_sessions[0].ex[0].sets[0], [75, 8, 2]);
-eq('weekly chest sets = (4+2)/4', d.status.weekly_sets_by_muscle_28d.chest, 1.5);
-eq('bodyweight passed through', d.status.bodyweight_recent.length, 1);
-ok('digest is compact', JSON.stringify(d).length < 8000);
+console.log('\nrepo files round-trip');
+const files = C.repoFiles(m);
+ok('meta + one year file', files['data/meta.json'] && files['data/sessions/2026.json']);
+const meta = JSON.parse(files['data/meta.json']);
+eq('meta lists years', meta.years, ['2026']);
+ok('token never written to the repo', !files['data/meta.json'].includes('tok') && !JSON.stringify(files).includes('"token"'));
+const back = C.migrate(C.fromRepoFiles(meta, [JSON.parse(files['data/sessions/2026.json'])]));
+eq('sessions survive the round trip', JSON.stringify(back.sessions), JSON.stringify(m.sessions.slice().sort(C.byDateAsc)));
+const multi = C.repoFiles(Object.assign({}, m, { sessions: m.sessions.concat([{ id: 'y', date: '2027-01-03', day: 'Upper A', ex: [] }]) }));
+ok('sessions split by year', multi['data/sessions/2027.json'] && JSON.parse(multi['data/meta.json']).years.length === 2);
 
-console.log('\ndaysAgo');
-eq('same day', A.daysAgo(iso(0)), 0);
-eq('a week', A.daysAgo(iso(7)), 7);
+console.log('\nreal-data sanity');
+const series = C.liftSeries(m);
+ok('tricep extension variants merged', series['Overhead Cable Extension'].length === 3 && !series['Overhead Cable Tricep Extension']);
+ok('pull-ups have a real e1RM now', series['Assisted Pull-Up'][0].best > 150);
+const rdl = series['Romanian Deadlift'];
+eq('RDL 135 warm-up excluded from working sets', rdl[1].work, 4);
+const d = C.buildDigest(m, '2026-08-27');
+eq('digest schema', d.schema, 'liftlog/2');
+eq('28-day session count', d.status.sessions_last_28d, 8);
+ok('every muscle-credited set counts (no unknown names)', Object.keys(d.lifts).every(n => C.exInfo(n, m).known));
+ok('lift series present', d.lifts['Leg Press'].series.length === 3);
+ok('stall flag is boolean', typeof d.lifts['Chest-Supported Row'].stalled === 'boolean');
+eq('logged_as recorded', d.lifts['Overhead Cable Extension'].logged_as, ['Overhead Cable Tricep Extension']);
+ok('digest well under the old 38 KB file', JSON.stringify(d).length < 25000);
+const sum = C.liftSummary(series['Leg Press'], '2026-08-27');
+eq('leg press best', sum.best, 462);
+eq('leg press PR sessions', sum.prIdx, [0, 1, 2]);
+
+console.log('\ndigest windows');
+const old = { settings: { unit: 'lb' }, profile: {}, bodyweight: [], scans: [], sessions: [] };
+for (let i = 0; i < 60; i++) old.sessions.push({ id: 'o' + i, date: C.addDays('2025-01-06', i * 7), day: 'Lower A', ex: [{ name: 'Leg Press', sets: [{ w: 200 + i, r: 10 }] }] });
+const d2 = C.buildDigest(old, C.addDays('2025-01-06', 59 * 7));
+ok('recent 26 weeks kept per session', d2.lifts['Leg Press'].series.length <= 27);
+ok('older months summarised', d2.lifts['Leg Press'].monthly_best_older.length >= 6);
 
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);
