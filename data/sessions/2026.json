@@ -1,0 +1,1701 @@
+{
+ "v": 2,
+ "year": 2026,
+ "sessions": [
+  {
+   "id": "s1785278618704",
+   "date": "2026-07-28",
+   "day": "Upper A",
+   "start": "2026-07-28T22:43:38.706Z",
+   "notes": "felt pretty weak today and heart rate was up on sets a little high to 130s. Maybe I need to tone down the caffeine during the day. fell apart a bit during curls and decided to wrap for the day to avoid further demoralization. ",
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 70lb",
+     "cue": "pause a beat at the bottom",
+     "sets": [
+      {
+       "w": 50,
+       "r": 10,
+       "rir": 3
+      },
+      {
+       "w": 65,
+       "r": 6,
+       "rir": 0
+      },
+      {
+       "w": 55,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 110lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 120,
+       "r": 10,
+       "rir": 3
+      },
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Press",
+     "target": "3x10-12 @2RIR 45lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 45,
+       "r": 12,
+       "rir": 3
+      },
+      {
+       "w": 45,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 45,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 120lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 120,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "3x10-12 @1RIR 25lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 25,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 25,
+       "r": 6,
+       "rir": 0
+      },
+      {
+       "w": 25,
+       "r": 6,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-07-28T23:44:04.434Z"
+  },
+  {
+   "id": "s1785360466066",
+   "date": "2026-07-29",
+   "day": "Lower A",
+   "start": "2026-07-29T21:27:46.067Z",
+   "notes": "definitely easier today. Leaving reps in the tank keeps me way less exhausted. I think im used to going all out to near failure on a lot of lifts so maybe its hard to judge appropriate weight. Some of these felt low-low/medium. Skipped leg raises and replaced with some crunches as the machine was occupied. Otherwise complete workout.",
+   "ex": [
+    {
+     "name": "Smith Machine Squat",
+     "target": "4x5-7 @2RIR 135lb",
+     "cue": "work up, last set is the money set",
+     "sets": [
+      {
+       "w": 135,
+       "r": 7,
+       "rir": 2
+      },
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Dumbbell Romanian Deadlift",
+     "target": "3x8-10 @2RIR 60lb",
+     "cue": "hinge back, feel the hamstring stretch",
+     "sets": [
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Leg Press",
+     "target": "3x10-12 @1RIR 180lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 180,
+       "r": 13,
+       "rir": 4
+      },
+      {
+       "w": 220,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 220,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Seated Leg Curl",
+     "target": "3x10-12 @1RIR 80lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 80,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 80,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 80,
+       "r": 10,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "3x8-12 @1RIR 120lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 120,
+       "r": 10,
+       "rir": 4
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 4
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 4
+      }
+     ]
+    }
+   ],
+   "end": "2026-07-29T22:42:39.596Z"
+  },
+  {
+   "id": "s1785601789546",
+   "date": "2026-08-01",
+   "day": "Upper B",
+   "start": "2026-08-01T16:29:49.548Z",
+   "notes": "Low energy todaay. made the mistake of coming on 6oz raspberries one 130 calorie greek yogurt and a dream at 1:00pm. Ill eat more next time beforehand. Still a reasonable workout. I ran out of time for the last couple exercises though. Maybe we can cut the average number of different movements by 1?",
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "4x6-8 @2RIR 75lb",
+     "cue": "squeeze glutes, do not lean back",
+     "sets": [
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 0
+      },
+      {
+       "w": 75,
+       "r": 6,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Assisted Pull-Up",
+     "target": "4x6-8 @2RIR -50lb",
+     "cue": "reduce assistance when you clear 8 clean",
+     "sets": [
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "3x10-12 @1RIR 120lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @1RIR 130lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 130,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "4x15 @0RIR 30lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 25,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Cable Curl",
+     "target": "3x12-15 @1RIR 40lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 30,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 20,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 20,
+       "r": 13,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Extension",
+     "target": "4x12-15 @1RIR 40lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 40,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 13,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-01T17:56:55.835Z"
+  },
+  {
+   "id": "s1786741141862",
+   "date": "2026-08-14",
+   "day": "Lower B",
+   "start": "2026-08-14T20:59:01.865Z",
+   "notes": "Ate so much before workout so plenty of fuel. Started with RDLs but needed to put on hand wraps to support bar at 195lbs to prevent forearm failure. Cut trap bar for convenience. I record each leg as a separate set for split squats. I am very inactive during the day and have weak core and lower back due to lack of use. I can feel my back more than anything else on RDL and even split squats. I think it will catch up with time and effort. Im not sure if research suggests combining upper/lower helps at all\nbut god bless its hard switching to only lower only upper days. Feels like it really exhausts the muscle group by the end. I skipped hip thrust due to feeling super weak by the end.",
+   "ex": [
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "3x8-10 @2RIR",
+     "cue": "",
+     "sets": [
+      {
+       "w": 95,
+       "r": 9,
+       "rir": 2
+      },
+      {
+       "w": 95,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 115,
+       "r": 10,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR",
+     "cue": "",
+     "sets": [
+      {
+       "w": 70,
+       "r": 12,
+       "rir": 5
+      },
+      {
+       "w": 100,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "3x12-15 @1RIR",
+     "cue": "",
+     "sets": [
+      {
+       "w": 110,
+       "r": 9,
+       "rir": 1
+      },
+      {
+       "w": 90,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 80,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15",
+     "cue": "",
+     "sets": [
+      {
+       "w": 60,
+       "r": 15,
+       "rir": 5
+      },
+      {
+       "w": 80,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 80,
+       "r": 15,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Romanian Deadlift",
+     "target": "",
+     "sets": [
+      {
+       "w": 145,
+       "r": 8,
+       "rir": 4
+      },
+      {
+       "w": 195,
+       "r": 5,
+       "rir": 0
+      },
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-14T22:34:24.745Z"
+  },
+  {
+   "id": "s1786814511558",
+   "date": "2026-08-15",
+   "day": "Upper A",
+   "start": "2026-08-15T17:21:51.560Z",
+   "notes": "",
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 55lb",
+     "cue": "pause a beat at the bottom",
+     "sets": [
+      {
+       "w": 40,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 140lb",
+     "cue": "chest stays glued to the pad",
+     "sets": [
+      {
+       "w": 90,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 10,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 140,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 120lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 70,
+       "r": 10,
+       "rir": 4
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Lateral Raise",
+     "target": "3x12-15 @0RIR 15lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 12.5,
+       "r": 13,
+       "rir": 0
+      },
+      {
+       "w": 12.5,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 12.5,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "3x10-12 @1RIR 20lb",
+     "cue": "dropped from 25lb, you need reps not load",
+     "sets": [
+      {
+       "w": 20,
+       "r": 12,
+       "rir": 4
+      },
+      {
+       "w": 20,
+       "r": 13,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Tricep Extension",
+     "target": "",
+     "sets": [
+      {
+       "w": 37.5,
+       "r": 14,
+       "rir": 2
+      },
+      {
+       "w": 42.5,
+       "r": 13,
+       "rir": 0
+      },
+      {
+       "w": 37.5,
+       "r": 14,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-17T21:45:43.208Z"
+  },
+  {
+   "id": "s1787003330280",
+   "date": "2026-08-17",
+   "day": "Lower A",
+   "start": "2026-08-17T21:48:50.280Z",
+   "notes": "I couldnt find the usual wrap-grip attachment for cable crunches so I swapped for an abdominal crunch machine.. not the exact same but similar movement. I was struggling at lbs to have enough leverage to finish the crunch on the cable without lifting my legs some",
+   "ex": [
+    {
+     "name": "Leg Press",
+     "target": "4x10-12 @2RIR 270lb",
+     "cue": "220x15 was far too light",
+     "sets": [
+      {
+       "w": 140,
+       "r": 12,
+       "rir": 4
+      },
+      {
+       "w": 270,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 270,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 270,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 280,
+       "r": 16,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR 100lb",
+     "cue": "stop at 1 RIR, do not grind to failure",
+     "sets": [
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Hip Abduction",
+     "target": "3x15 @1RIR 90lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 110,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 130,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 150lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 90,
+       "r": 10,
+       "rir": 4
+      },
+      {
+       "w": 150,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 3
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "cue": "brace hard, this is your weak link",
+     "sets": [
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 1
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-20T23:28:01.867Z"
+  },
+  {
+   "id": "s1787344714714",
+   "date": "2026-08-21",
+   "day": "Upper B",
+   "start": "2026-08-21T20:38:34.723Z",
+   "notes": "I did not take assistance on pullups, hence the 0lbs figure. On rear delt fly I used a machine. Sometimes its unclear if weight targets are per-arm or total load statistics. (particularly when on something like cable flys I would not sum the total typically whereas on a machine it’s pre-loaded as one number). Not sure what happened on triceps tbh I felt good\ntoday but couldnt anywhere near hit the same numbers.",
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "4x6-8 @2RIR 75lb",
+     "cue": "squeeze glutes, do not lean back",
+     "sets": [
+      {
+       "w": 75,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 9,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 75,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Assisted Pull-Up",
+     "target": "4x6-8 @2RIR",
+     "cue": "drop assistance 20lb from last time, log the number",
+     "sets": [
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "3x10-12 @1RIR 150lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 155,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 135,
+       "r": 5,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @1RIR 115lb",
+     "cue": "130 to failure cost you reps last time",
+     "sets": [
+      {
+       "w": 115,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 115,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "4x15 @0RIR 30lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 30,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 40,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 50,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 60,
+       "r": 15,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Tricep Extension",
+     "target": "4x12-15 @1RIR 42.5lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 42.5,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 42.5,
+       "r": 7,
+       "rir": 0
+      },
+      {
+       "w": 37.5,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 37.5,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lateral Raise",
+     "target": "",
+     "sets": [
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-22T17:02:03.547Z"
+  },
+  {
+   "id": "s1787515533323",
+   "date": "2026-08-23",
+   "day": "Lower B",
+   "start": "2026-08-23T20:05:33.323Z",
+   "notes": "",
+   "ex": [
+    {
+     "name": "Romanian Deadlift",
+     "target": "4x6-8 @2RIR 205lb",
+     "cue": "push hips back, stop the set when the back rounds",
+     "sets": [
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "3x8-10 @2RIR 125lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 125,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 125,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 125,
+       "r": 10,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "3x10-12 @1RIR 100lb",
+     "cue": "110 was too heavy last time",
+     "sets": [
+      {
+       "w": 100,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 100,
+       "r": 10,
+       "rir": 1
+      },
+      {
+       "w": 100,
+       "r": 10,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Back Extension",
+     "target": "3x12-15 @2RIR",
+     "cue": "squeeze glutes at the top, no hyperextension",
+     "sets": [
+      {
+       "w": 35,
+       "r": 13,
+       "rir": 2
+      },
+      {
+       "w": 35,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 35,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 170lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 90,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 90,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 90,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-25T19:40:58.350Z"
+  },
+  {
+   "id": "s1787688552915",
+   "date": "2026-08-25",
+   "day": "Upper A",
+   "start": "2026-08-25T20:09:12.925Z",
+   "notes": "Some later rows ended up being kind of poor form to try to hit targets. Not awful but definitely was near failure. ",
+   "ex": [
+    {
+     "name": "Flat Dumbbell Press",
+     "target": "4x6-8 @2RIR 60lb",
+     "cue": "pause a beat at the bottom",
+     "sets": [
+      {
+       "w": 60,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 60,
+       "r": 8,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Chest-Supported Row",
+     "target": "4x8-10 @2RIR 125lb",
+     "cue": "chest glued to the pad, stop at 2 RIR",
+     "sets": [
+      {
+       "w": 130,
+       "r": 10,
+       "rir": 2
+      },
+      {
+       "w": 130,
+       "r": 10,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 9,
+       "rir": 0
+      },
+      {
+       "w": 130,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Lat Pulldown",
+     "target": "3x10-12 @1RIR 125lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 125,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 125,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 125,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Lateral Raise",
+     "target": "3x12-15 @0RIR 12.5lb",
+     "cue": "per arm, earn 15 reps before adding weight",
+     "sets": [
+      {
+       "w": 10,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 10,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 10,
+       "r": 11,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "4x10-12 @1RIR 22.5lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 22.5,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Triceps Pushdown",
+     "target": "4x12-15 @1RIR 50lb",
+     "cue": "new lift, first set is a feeler",
+     "sets": [
+      {
+       "w": 50,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 55,
+       "r": 14,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-27T20:11:49.471Z"
+  },
+  {
+   "id": "s1787862469144",
+   "date": "2026-08-27",
+   "day": "Lower A",
+   "start": "2026-08-27T20:27:49.144Z",
+   "notes": "After failing last set of leg press the extensions were tough. Across the board i felt that lactic acid overload at the end of the reps. I tried letting the form loosen a bit to have shorter rep times and that got me to 14 on my second set. Back extensions were absolutely brutal in the hamstrings today. I didnt do normal cable crunches but used a resistance crunch machine (I think its easier so maybe discount these reps some)",
+   "ex": [
+    {
+     "name": "Leg Press",
+     "target": "4x10-12 @2RIR 330lb",
+     "cue": "280x16 means you were 50lb light",
+     "sets": [
+      {
+       "w": 330,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 330,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 330,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 330,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Leg Extension",
+     "target": "3x12-15 @1RIR 100lb",
+     "cue": "get 15 clean reps before adding weight",
+     "sets": [
+      {
+       "w": 100,
+       "r": 12,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 14,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 14,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Hip Abduction",
+     "target": "3x15 @1RIR 150lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 130,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 140,
+       "r": 15,
+       "rir": 1
+      },
+      {
+       "w": 150,
+       "r": 15,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Back Extension",
+     "target": "3x12-15 @2RIR 45lb",
+     "cue": "squeeze glutes at the top, no hyperextension",
+     "sets": [
+      {
+       "w": 45,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 45,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "4x8-12 @1RIR 200lb",
+     "cue": "pause 2 seconds at the bottom",
+     "sets": [
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 200,
+       "r": 12,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "3x12-15 @1RIR 90lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 100,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 100,
+       "r": 15,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-27T21:52:17.520Z"
+  },
+  {
+   "id": "s1787948829505",
+   "date": "2026-08-28",
+   "day": "Upper B",
+   "start": "2026-08-28T20:27:09.505Z",
+   "notes": "on the machine chest press I switched to a weight loaded machine which probably had a base weight on each arm of ~15lbs I dropped this for simplicity and did 55 on each side (hence the weight discontinuity) accept this is the weight you asked for just factored down for the new machine. On triceps I kept failing around 8 and having to drop weight to keep going to hit even 11. Not sure why. Will try to lower weight amap to get to the rep range and log the lowest weight I end on.",
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "4x6-8 @2RIR 85lb",
+     "cue": "squeeze glutes, do not lean back",
+     "sets": [
+      {
+       "w": 85,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 85,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 85,
+       "r": 8,
+       "rir": 1
+      },
+      {
+       "w": 85,
+       "r": 8,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Pull-Up",
+     "target": "4x6-8 @2RIR +10lb",
+     "cue": "belt or dumbbell between the feet",
+     "sets": [
+      {
+       "w": 10,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 10,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 10,
+       "r": 8,
+       "rir": 2
+      },
+      {
+       "w": 10,
+       "r": 8,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "4x10-12 @1RIR 145lb",
+     "cue": "155 blew up last time, four clean sets instead",
+     "sets": [
+      {
+       "w": 110,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 110,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 110,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 110,
+       "r": 12,
+       "rir": 2
+      }
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @1RIR 120lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 2
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 1
+      },
+      {
+       "w": 120,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "4x15 @1RIR 70lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 70,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 70,
+       "r": 15,
+       "rir": 2
+      },
+      {
+       "w": 70,
+       "r": 15,
+       "rir": 1
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Tricep Extension",
+     "target": "4x12-15 @1RIR 40lb",
+     "cue": "",
+     "sets": [
+      {
+       "w": 40,
+       "r": 15,
+       "rir": 0
+      },
+      {
+       "w": 35,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 11,
+       "rir": 0
+      },
+      {
+       "w": 30,
+       "r": 12,
+       "rir": 0
+      }
+     ]
+    }
+   ],
+   "end": "2026-08-28T20:27:09.505Z"
+  }
+ ]
+}
