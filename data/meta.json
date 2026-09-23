@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-09-23T22:38:48.815Z",
+ "updated": "2026-09-23T22:42:27.259Z",
  "years": [
   "2026"
  ],
@@ -311,7 +311,15 @@
     "target": "3x8-10 @3RIR 115lb rest 150",
     "cue": "strict, no body English",
     "rest": 150,
-    "sets": []
+    "sets": [
+     {
+      "w": 110,
+      "r": 10,
+      "rir": 3,
+      "t": "n",
+      "at": "2026-09-23T22:42:24.936Z"
+     }
+    ]
    },
    {
     "name": "Lat Pulldown",
