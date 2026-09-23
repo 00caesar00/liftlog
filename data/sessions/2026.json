@@ -1696,6 +1696,169 @@
     }
    ],
    "end": "2026-08-28T20:27:09.505Z"
+  },
+  {
+   "id": "s1790114260210",
+   "date": "2026-09-22",
+   "day": "Lower B",
+   "start": "2026-09-22T21:57:40.210Z",
+   "notes": "my bulgarian split squat is done with a bar so its logged as one weight — not separate dumbbells.",
+   "ex": [
+    {
+     "name": "Romanian Deadlift",
+     "target": "3x8 @3RIR 185lb rest 180",
+     "cue": "warm up 135x8 first, log it as a warm-up",
+     "rest": 180,
+     "sets": [
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 3,
+       "t": "w",
+       "at": "2026-09-22T22:03:51.114Z"
+      },
+      {
+       "w": 185,
+       "r": 8,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:07:31.745Z"
+      },
+      {
+       "w": 185,
+       "r": 8,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:12:13.192Z"
+      },
+      {
+       "w": 185,
+       "r": 8,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:17:30.295Z"
+      }
+     ]
+    },
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "2x8-10 @3RIR 110lb rest 120",
+     "cue": "",
+     "rest": 120,
+     "sets": [
+      {
+       "w": 95,
+       "r": 10,
+       "rir": 3,
+       "t": "w",
+       "at": "2026-09-22T22:30:03.074Z"
+      },
+      {
+       "w": 145,
+       "r": 10,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:34:02.638Z"
+      },
+      {
+       "w": 145,
+       "r": 10,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:45:09.107Z"
+      }
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "2x10-12 @3RIR 90lb rest 90",
+     "cue": "",
+     "rest": 90,
+     "sets": [
+      {
+       "w": 90,
+       "r": 12,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T23:05:03.132Z"
+      },
+      {
+       "w": 90,
+       "r": 12,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T23:14:07.846Z"
+      }
+     ]
+    },
+    {
+     "name": "Back Extension",
+     "target": "2x12-15 @3RIR 35lb rest 90",
+     "cue": "controlled, no grinding",
+     "rest": 90,
+     "sets": [
+      {
+       "w": 35,
+       "r": 12,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T23:14:15.314Z"
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "3x10-12 @3RIR 180lb rest 60",
+     "cue": "",
+     "rest": 60,
+     "sets": [
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:50:14.791Z"
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:51:28.360Z"
+      },
+      {
+       "w": 180,
+       "r": 12,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:54:32.982Z"
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "2x12-15 @3RIR 80lb rest 60",
+     "cue": "",
+     "rest": 60,
+     "sets": [
+      {
+       "w": 80,
+       "r": 15,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T22:58:48.768Z"
+      },
+      {
+       "w": 80,
+       "r": 10,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-09-22T23:01:00.419Z"
+      }
+     ]
+    }
+   ],
+   "end": "2026-09-22T23:14:15.314Z"
   }
  ]
 }
