@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-09-23T22:04:25.724Z",
+ "updated": "2026-09-23T22:06:50.973Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,105 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Upper A",
+  "focus": "first upper session back, light and clean",
+  "notes": "feeling sick, everything at 3 RIR, drop curls and pushdowns if energy tanks",
+  "date": "2026-09-23",
+  "ex": [
+   {
+    "name": "Flat Dumbbell Press",
+    "target": "3x6-8 @3RIR 55lb rest 180",
+    "cue": "",
+    "sets": [],
+    "rest": 180
+   },
+   {
+    "name": "Chest-Supported Row",
+    "target": "3x8-10 @3RIR 115lb rest 150",
+    "cue": "strict, no body English",
+    "sets": [],
+    "rest": 150
+   },
+   {
+    "name": "Lat Pulldown",
+    "target": "2x10-12 @3RIR 110lb rest 120",
+    "cue": "",
+    "sets": [],
+    "rest": 120
+   },
+   {
+    "name": "Cable Lateral Raise",
+    "target": "2x12-15 @3RIR 7.5lb rest 75",
+    "cue": "",
+    "sets": [],
+    "rest": 75
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "2x10-12 @3RIR 20lb rest 75",
+    "cue": "",
+    "sets": [],
+    "rest": 75
+   },
+   {
+    "name": "Triceps Pushdown",
+    "target": "2x12-15 @3RIR 50lb rest 75",
+    "cue": "",
+    "sets": [],
+    "rest": 75
+   }
+  ]
+ },
+ "active": {
+  "id": "s1790201176936",
+  "date": "2026-09-23",
+  "day": "Upper A",
+  "start": "2026-09-23T22:06:16.936Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Flat Dumbbell Press",
+    "target": "3x6-8 @3RIR 55lb rest 180",
+    "cue": "",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Chest-Supported Row",
+    "target": "3x8-10 @3RIR 115lb rest 150",
+    "cue": "strict, no body English",
+    "rest": 150,
+    "sets": []
+   },
+   {
+    "name": "Lat Pulldown",
+    "target": "2x10-12 @3RIR 110lb rest 120",
+    "cue": "",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Cable Lateral Raise",
+    "target": "2x12-15 @3RIR 7.5lb rest 75",
+    "cue": "",
+    "rest": 75,
+    "sets": []
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "2x10-12 @3RIR 20lb rest 75",
+    "cue": "",
+    "rest": 75,
+    "sets": []
+   },
+   {
+    "name": "Triceps Pushdown",
+    "target": "2x12-15 @3RIR 50lb rest 75",
+    "cue": "",
+    "rest": 75,
+    "sets": []
+   }
+  ]
+ }
 }
