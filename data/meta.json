@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-09-23T23:19:17.775Z",
+ "updated": "2026-09-27T16:50:36.576Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,105 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Lower A",
+  "focus": "return to quad day, 2 RIR, clean reps",
+  "notes": "skip back extensions if the right lower back ache returns",
+  "date": "2026-09-27",
+  "ex": [
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @2RIR 300lb rest 180",
+    "cue": "full depth, stop with 2 left",
+    "sets": [],
+    "rest": 180
+   },
+   {
+    "name": "Leg Extension",
+    "target": "2x12-15 @2RIR 90lb rest 90",
+    "cue": "",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Hip Abduction",
+    "target": "2x15 @2RIR 135lb rest 60",
+    "cue": "",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @3RIR 35lb rest 90",
+    "cue": "skip if the back ache is back",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 190lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 80lb rest 60",
+    "cue": "",
+    "sets": [],
+    "rest": 60
+   }
+  ]
+ },
+ "active": {
+  "id": "s1790527832619",
+  "date": "2026-09-27",
+  "day": "Lower A",
+  "start": "2026-09-27T16:50:32.619Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @2RIR 300lb rest 180",
+    "cue": "full depth, stop with 2 left",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Leg Extension",
+    "target": "2x12-15 @2RIR 90lb rest 90",
+    "cue": "",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Hip Abduction",
+    "target": "2x15 @2RIR 135lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @3RIR 35lb rest 90",
+    "cue": "skip if the back ache is back",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 190lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 80lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   }
+  ]
+ }
 }
