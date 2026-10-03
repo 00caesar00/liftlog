@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-03T16:52:25.297Z",
+ "updated": "2026-10-03T17:06:27.956Z",
  "years": [
   "2026"
  ],
@@ -282,7 +282,15 @@
     "target": "3x6-8 @2RIR 75lb rest 180",
     "cue": "squeeze glutes, no layback",
     "rest": 180,
-    "sets": []
+    "sets": [
+     {
+      "w": 85,
+      "r": 8,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-03T17:05:57.943Z"
+     }
+    ]
    },
    {
     "name": "Pull-Up",
