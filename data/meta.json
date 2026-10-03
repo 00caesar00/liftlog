@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-09-27T18:27:20.799Z",
+ "updated": "2026-10-03T16:52:25.297Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,105 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Upper B",
+  "focus": "first Upper B since the break, own every rep",
+  "notes": "stop every set with 2 reps left, no grinding",
+  "date": "2026-10-03",
+  "ex": [
+   {
+    "name": "Overhead Press",
+    "target": "3x6-8 @2RIR 75lb rest 180",
+    "cue": "squeeze glutes, no layback",
+    "sets": [],
+    "rest": 180
+   },
+   {
+    "name": "Pull-Up",
+    "target": "3x6-8 @2RIR +0lb rest 150",
+    "cue": "full hang at the bottom",
+    "sets": [],
+    "rest": 150
+   },
+   {
+    "name": "Machine Chest Press",
+    "target": "3x10-12 @2RIR 100lb rest 120",
+    "cue": "same plate-loaded machine as last time",
+    "sets": [],
+    "rest": 120
+   },
+   {
+    "name": "Seated Cable Row",
+    "target": "3x10-12 @2RIR 110lb rest 120",
+    "cue": "",
+    "sets": [],
+    "rest": 120
+   },
+   {
+    "name": "Rear Delt Fly",
+    "target": "3x15 @2RIR 65lb rest 60",
+    "cue": "",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Overhead Cable Extension",
+    "target": "3x12-15 @2RIR 30lb rest 75",
+    "cue": "deep stretch, stop at 2 left",
+    "sets": [],
+    "rest": 75
+   }
+  ]
+ },
+ "active": {
+  "id": "s1791046340305",
+  "date": "2026-10-03",
+  "day": "Upper B",
+  "start": "2026-10-03T16:52:20.305Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Overhead Press",
+    "target": "3x6-8 @2RIR 75lb rest 180",
+    "cue": "squeeze glutes, no layback",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Pull-Up",
+    "target": "3x6-8 @2RIR +0lb rest 150",
+    "cue": "full hang at the bottom",
+    "rest": 150,
+    "sets": []
+   },
+   {
+    "name": "Machine Chest Press",
+    "target": "3x10-12 @2RIR 100lb rest 120",
+    "cue": "same plate-loaded machine as last time",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Seated Cable Row",
+    "target": "3x10-12 @2RIR 110lb rest 120",
+    "cue": "",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Rear Delt Fly",
+    "target": "3x15 @2RIR 65lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Overhead Cable Extension",
+    "target": "3x12-15 @2RIR 30lb rest 75",
+    "cue": "deep stretch, stop at 2 left",
+    "rest": 75,
+    "sets": []
+   }
+  ]
+ }
 }
