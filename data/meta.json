@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-03T17:59:14.510Z",
+ "updated": "2026-10-03T18:03:00.764Z",
  "years": [
   "2026"
  ],
@@ -275,7 +275,7 @@
   "date": "2026-10-03",
   "day": "Upper B",
   "start": "2026-10-03T16:52:20.305Z",
-  "notes": "",
+  "notes": "Double red blood cell donation three days ago, been resting since. Recovery was tough today. Should improve over time.",
   "ex": [
    {
     "name": "Overhead Press",
@@ -405,7 +405,15 @@
     "target": "3x12-15 @2RIR 30lb rest 75",
     "cue": "deep stretch, stop at 2 left",
     "rest": 75,
-    "sets": []
+    "sets": [
+     {
+      "w": 30,
+      "r": 15,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-03T18:02:10.687Z"
+     }
+    ]
    }
   ]
  }
