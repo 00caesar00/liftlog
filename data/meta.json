@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-03T18:33:58.950Z",
+ "updated": "2026-10-04T16:02:19.137Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,105 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Lower B",
+  "focus": "first progression on Lower B, clean reps at 2 RIR",
+  "notes": "4 days post donation, rest full time, drop RDL to 185 if the back aches",
+  "date": "2026-10-04",
+  "ex": [
+   {
+    "name": "Romanian Deadlift",
+    "target": "3x8 @2RIR 195lb rest 180",
+    "cue": "warm up 135x8 first, bar stays on legs",
+    "sets": [],
+    "rest": 180
+   },
+   {
+    "name": "Bulgarian Split Squat",
+    "target": "2x8-10 @2RIR 155lb rest 120",
+    "cue": "barbell, total weight",
+    "sets": [],
+    "rest": 120
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "2x10-12 @2RIR 95lb rest 90",
+    "cue": "",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 40lb rest 90",
+    "cue": "controlled, no grinding",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 220lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 85lb rest 60",
+    "cue": "",
+    "sets": [],
+    "rest": 60
+   }
+  ]
+ },
+ "active": {
+  "id": "s1791129730797",
+  "date": "2026-10-04",
+  "day": "Lower B",
+  "start": "2026-10-04T16:02:10.797Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Romanian Deadlift",
+    "target": "3x8 @2RIR 195lb rest 180",
+    "cue": "warm up 135x8 first, bar stays on legs",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Bulgarian Split Squat",
+    "target": "2x8-10 @2RIR 155lb rest 120",
+    "cue": "barbell, total weight",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "2x10-12 @2RIR 95lb rest 90",
+    "cue": "",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 40lb rest 90",
+    "cue": "controlled, no grinding",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 220lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 85lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   }
+  ]
+ }
 }
