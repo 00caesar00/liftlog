@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-04T16:50:40.578Z",
+ "updated": "2026-10-04T17:02:04.284Z",
  "years": [
   "2026"
  ],
@@ -311,7 +311,15 @@
     "target": "2x8-10 @2RIR 155lb rest 120",
     "cue": "barbell, total weight",
     "rest": 120,
-    "sets": []
+    "sets": [
+     {
+      "w": 165,
+      "r": 8,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-04T17:01:34.280Z"
+     }
+    ]
    },
    {
     "name": "Lying Leg Curl",
