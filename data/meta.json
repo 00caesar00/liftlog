@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-06T23:07:53.278Z",
+ "updated": "2026-10-06T23:11:25.097Z",
  "years": [
   "2026"
  ],
@@ -376,7 +376,15 @@
     "target": "3x12-15 @2RIR 15lb rest 75",
     "cue": "3 second lowering",
     "rest": 75,
-    "sets": []
+    "sets": [
+     {
+      "w": 15,
+      "r": 15,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-06T23:11:22.391Z"
+     }
+    ]
    },
    {
     "name": "Incline Dumbbell Curl",
