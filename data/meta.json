@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-10T19:37:49.609Z",
+ "updated": "2026-10-10T19:42:10.233Z",
  "years": [
   "2026"
  ],
@@ -289,7 +289,7 @@
   "date": "2026-10-10",
   "day": "Upper B",
   "start": "2026-10-10T18:49:53.187Z",
-  "notes": "",
+  "notes": "trying to speed up on pullups to not sit hanging too long. That helps me not fail too early. Probably a form of “cheating” out reps though. I do go all the way down but kind of bounce back up.",
   "ex": [
    {
     "name": "Overhead Press",
@@ -332,6 +332,13 @@
       "rir": 2,
       "t": "n",
       "at": "2026-10-10T19:37:28.190Z"
+     },
+     {
+      "w": 0,
+      "r": 8,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-10T19:40:40.035Z"
      }
     ]
    },
