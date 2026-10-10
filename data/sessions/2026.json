@@ -2776,6 +2776,255 @@
     }
    ],
    "end": "2026-10-06T23:39:51.084Z"
+  },
+  {
+   "id": "s1791658193187",
+   "date": "2026-10-10",
+   "day": "Upper B",
+   "start": "2026-10-10T18:49:53.187Z",
+   "notes": "trying to speed up on pullups to not sit hanging too long. That helps me not fail too early. Probably a form of “cheating” out reps though. I do go all the way down but kind of bounce back up.",
+   "ex": [
+    {
+     "name": "Overhead Press",
+     "target": "3x6-8 @2RIR 85lb rest 180",
+     "cue": "squeeze glutes, no layback",
+     "rest": 180,
+     "sets": [
+      {
+       "w": 85,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T19:21:49.447Z"
+      },
+      {
+       "w": 85,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T19:24:11.294Z"
+      },
+      {
+       "w": 85,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T19:31:21.595Z"
+      }
+     ]
+    },
+    {
+     "name": "Pull-Up",
+     "target": "3x6-8 @2RIR +0lb rest 150",
+     "cue": "full hang at the bottom",
+     "rest": 150,
+     "sets": [
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T19:37:28.190Z"
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T19:40:40.035Z"
+      },
+      {
+       "w": 0,
+       "r": 8,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-10-10T19:44:24.526Z"
+      }
+     ]
+    },
+    {
+     "name": "Machine Chest Press",
+     "target": "3x10-12 @2RIR 145lb rest 120",
+     "cue": "same plate-loaded machine",
+     "rest": 120,
+     "sets": [
+      {
+       "w": 90,
+       "r": 12,
+       "rir": 2,
+       "t": "w",
+       "at": "2026-10-10T19:47:29.189Z"
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T19:51:03.247Z"
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-10-10T19:55:36.101Z"
+      },
+      {
+       "w": 150,
+       "r": 12,
+       "rir": 0,
+       "t": "n",
+       "at": "2026-10-10T20:00:54.595Z"
+      }
+     ]
+    },
+    {
+     "name": "Seated Cable Row",
+     "target": "3x10-12 @2RIR 110lb rest 120",
+     "cue": "brace your feet gently, no knee strain",
+     "rest": 120,
+     "sets": [
+      {
+       "w": 110,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:07:42.689Z"
+      },
+      {
+       "w": 110,
+       "r": 12,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-10-10T20:08:46.817Z"
+      },
+      {
+       "w": 110,
+       "r": 9,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-10-10T20:12:58.140Z"
+      }
+     ]
+    },
+    {
+     "name": "Rear Delt Fly",
+     "target": "3x15 @2RIR 70lb rest 60",
+     "cue": "",
+     "rest": 60,
+     "sets": [
+      {
+       "w": 70,
+       "r": 15,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:28:56.654Z"
+      },
+      {
+       "w": 70,
+       "r": 15,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:31:55.701Z"
+      },
+      {
+       "w": 70,
+       "r": 15,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:35:47.759Z"
+      }
+     ]
+    },
+    {
+     "name": "Overhead Cable Extension",
+     "target": "3x10-12 @2RIR 30lb rest 90",
+     "cue": "deep stretch",
+     "rest": 90,
+     "sets": [
+      {
+       "w": 30,
+       "r": 15,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:19:00.238Z"
+      },
+      {
+       "w": 30,
+       "r": 12,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-10-10T20:22:01.698Z"
+      },
+      {
+       "w": 30,
+       "r": 10,
+       "rir": 0,
+       "t": "n",
+       "at": "2026-10-10T20:26:09.213Z"
+      }
+     ]
+    },
+    {
+     "name": "Lateral Raise",
+     "target": "3x12-15 @2RIR 15lb rest 75",
+     "cue": "3 second lowering",
+     "rest": 75,
+     "sets": [
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:40:43.300Z"
+      },
+      {
+       "w": 15,
+       "r": 15,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-10-10T20:45:08.907Z"
+      },
+      {
+       "w": 15,
+       "r": 12,
+       "rir": 0,
+       "t": "n",
+       "at": "2026-10-10T20:49:54.087Z"
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "2x10-12 @2RIR 20lb rest 75",
+     "cue": "optional, drop if short on time",
+     "rest": 75,
+     "sets": [
+      {
+       "w": 20,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:54:22.092Z"
+      },
+      {
+       "w": 20,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-10T20:58:09.414Z"
+      },
+      {
+       "w": 20,
+       "r": 8,
+       "rir": 0,
+       "t": "n",
+       "at": "2026-10-10T21:01:45.389Z"
+      }
+     ]
+    }
+   ],
+   "end": "2026-10-10T21:01:49.031Z"
   }
  ]
 }
