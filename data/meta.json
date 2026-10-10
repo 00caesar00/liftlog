@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-10T19:31:51.600Z",
+ "updated": "2026-10-10T19:37:49.609Z",
  "years": [
   "2026"
  ],
@@ -325,7 +325,15 @@
     "target": "3x6-8 @2RIR +0lb rest 150",
     "cue": "full hang at the bottom",
     "rest": 150,
-    "sets": []
+    "sets": [
+     {
+      "w": 0,
+      "r": 8,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-10T19:37:28.190Z"
+     }
+    ]
    },
    {
     "name": "Machine Chest Press",
