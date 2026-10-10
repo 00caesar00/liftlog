@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-10T20:01:13.031Z",
+ "updated": "2026-10-10T20:07:45.954Z",
  "years": [
   "2026"
  ],
@@ -390,7 +390,15 @@
     "target": "3x10-12 @2RIR 110lb rest 120",
     "cue": "brace your feet gently, no knee strain",
     "rest": 120,
-    "sets": []
+    "sets": [
+     {
+      "w": 110,
+      "r": 12,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-10T20:07:42.689Z"
+     }
+    ]
    },
    {
     "name": "Rear Delt Fly",
