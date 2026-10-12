@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-12T21:24:14.046Z",
+ "updated": "2026-10-12T21:31:10.355Z",
  "years": [
   "2026"
  ],
@@ -289,7 +289,15 @@
     "target": "3x8 @2RIR 205lb rest 180",
     "cue": "warm up 135x8 first, drop to 195 if the back aches",
     "rest": 180,
-    "sets": []
+    "sets": [
+     {
+      "w": 205,
+      "r": 8,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-12T21:30:59.660Z"
+     }
+    ]
    },
    {
     "name": "Bulgarian Split Squat",
