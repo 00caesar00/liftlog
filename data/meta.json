@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-12T22:16:04.870Z",
+ "updated": "2026-10-12T22:18:04.838Z",
  "years": [
   "2026"
  ],
@@ -282,7 +282,7 @@
   "date": "2026-10-12",
   "day": "Lower B",
   "start": "2026-10-12T21:23:56.679Z",
-  "notes": "",
+  "notes": "skipped a few things for time",
   "ex": [
    {
     "name": "Romanian Deadlift",
@@ -369,13 +369,6 @@
     "target": "2x12-15 @2RIR 45lb rest 90",
     "cue": "controlled, no grinding",
     "rest": 90,
-    "sets": []
-   },
-   {
-    "name": "Standing Calf Raise",
-    "target": "3x10-12 @2RIR 230lb rest 60",
-    "cue": "",
-    "rest": 60,
     "sets": []
    },
    {
