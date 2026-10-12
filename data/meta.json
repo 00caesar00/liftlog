@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-12T22:10:54.743Z",
+ "updated": "2026-10-12T22:13:31.301Z",
  "years": [
   "2026"
  ],
@@ -347,7 +347,15 @@
     "target": "2x10-12 @2RIR 95lb rest 90",
     "cue": "skip if the knee complains",
     "rest": 90,
-    "sets": []
+    "sets": [
+     {
+      "w": 95,
+      "r": 12,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-12T22:13:27.616Z"
+     }
+    ]
    },
    {
     "name": "Back Extension",
