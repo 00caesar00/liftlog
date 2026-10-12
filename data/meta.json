@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-12T21:23:25.408Z",
+ "updated": "2026-10-12T21:24:14.046Z",
  "years": [
   "2026"
  ],
@@ -221,24 +221,31 @@
  "aliases": {},
  "exercises": {},
  "plan": {
-  "day": "Lower A",
-  "focus": "knee-friendly lower, test the knee on leg press",
-  "notes": "left knee 5 days post injury, stop knee work if pain is sharp, climbing, or over 2/10",
+  "day": "Lower B",
+  "focus": "progress RDL, protect the left knee",
+  "notes": "left knee 5 days post injury, skip any exercise where pain is sharp, climbing, or over 2/10",
   "date": "2026-10-12",
   "ex": [
    {
-    "name": "Leg Press",
-    "target": "3x10-12 @3RIR 300lb rest 180",
-    "cue": "usual machine, pain-free depth only",
+    "name": "Romanian Deadlift",
+    "target": "3x8 @2RIR 205lb rest 180",
+    "cue": "warm up 135x8 first, drop to 195 if the back aches",
     "sets": [],
     "rest": 180
    },
    {
-    "name": "Hip Abduction",
-    "target": "2x15 @2RIR 145lb rest 60",
-    "cue": "",
+    "name": "Bulgarian Split Squat",
+    "target": "2x8-10 @3RIR 135lb rest 120",
+    "cue": "left leg first, pain-free depth only",
     "sets": [],
-    "rest": 60
+    "rest": 120
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "2x10-12 @2RIR 95lb rest 90",
+    "cue": "skip if the knee complains",
+    "sets": [],
+    "rest": 90
    },
    {
     "name": "Back Extension",
@@ -250,7 +257,7 @@
    {
     "name": "Standing Calf Raise",
     "target": "3x10-12 @2RIR 230lb rest 60",
-    "cue": "skip if the knee complains",
+    "cue": "",
     "sets": [],
     "rest": 60
    },
@@ -270,5 +277,62 @@
    }
   ]
  },
- "active": null
+ "active": {
+  "id": "s1791840236679",
+  "date": "2026-10-12",
+  "day": "Lower B",
+  "start": "2026-10-12T21:23:56.679Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Romanian Deadlift",
+    "target": "3x8 @2RIR 205lb rest 180",
+    "cue": "warm up 135x8 first, drop to 195 if the back aches",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Bulgarian Split Squat",
+    "target": "2x8-10 @3RIR 135lb rest 120",
+    "cue": "left leg first, pain-free depth only",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "2x10-12 @2RIR 95lb rest 90",
+    "cue": "skip if the knee complains",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 45lb rest 90",
+    "cue": "controlled, no grinding",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 230lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 90lb rest 60",
+    "cue": "kneel on a thick pad",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Lateral Raise",
+    "target": "3x12-15 @2RIR 15lb rest 75",
+    "cue": "3 second lowering",
+    "rest": 75,
+    "sets": []
+   }
+  ]
+ }
 }
