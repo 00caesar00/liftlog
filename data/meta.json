@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-10T21:01:49.069Z",
+ "updated": "2026-10-12T21:21:18.033Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,105 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Lower A",
+  "focus": "knee-friendly lower, test the knee on leg press",
+  "notes": "left knee 5 days post injury, stop knee work if pain is sharp, climbing, or over 2/10",
+  "date": "2026-10-12",
+  "ex": [
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @3RIR 300lb rest 180",
+    "cue": "usual machine, pain-free depth only",
+    "sets": [],
+    "rest": 180
+   },
+   {
+    "name": "Hip Abduction",
+    "target": "2x15 @2RIR 145lb rest 60",
+    "cue": "",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 45lb rest 90",
+    "cue": "controlled, no grinding",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 230lb rest 60",
+    "cue": "skip if the knee complains",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 90lb rest 60",
+    "cue": "kneel on a thick pad",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Lateral Raise",
+    "target": "3x12-15 @2RIR 15lb rest 75",
+    "cue": "3 second lowering",
+    "sets": [],
+    "rest": 75
+   }
+  ]
+ },
+ "active": {
+  "id": "s1791840056759",
+  "date": "2026-10-12",
+  "day": "Lower A",
+  "start": "2026-10-12T21:20:56.759Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @3RIR 300lb rest 180",
+    "cue": "usual machine, pain-free depth only",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Hip Abduction",
+    "target": "2x15 @2RIR 145lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 45lb rest 90",
+    "cue": "controlled, no grinding",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 230lb rest 60",
+    "cue": "skip if the knee complains",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 90lb rest 60",
+    "cue": "kneel on a thick pad",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Lateral Raise",
+    "target": "3x12-15 @2RIR 15lb rest 75",
+    "cue": "3 second lowering",
+    "rest": 75,
+    "sets": []
+   }
+  ]
+ }
 }
