@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-12T21:42:31.833Z",
+ "updated": "2026-10-12T21:49:21.662Z",
  "years": [
   "2026"
  ],
@@ -318,7 +318,15 @@
     "target": "2x8-10 @3RIR 135lb rest 120",
     "cue": "left leg first, pain-free depth only",
     "rest": 120,
-    "sets": []
+    "sets": [
+     {
+      "w": 135,
+      "r": 8,
+      "rir": 3,
+      "t": "w",
+      "at": "2026-10-12T21:49:10.636Z"
+     }
+    ]
    },
    {
     "name": "Lying Leg Curl",
