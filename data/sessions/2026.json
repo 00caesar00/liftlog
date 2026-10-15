@@ -3025,6 +3025,96 @@
     }
    ],
    "end": "2026-10-10T21:01:49.031Z"
+  },
+  {
+   "id": "s1791840236679",
+   "date": "2026-10-12",
+   "day": "Lower B",
+   "start": "2026-10-12T21:23:56.679Z",
+   "notes": "skipped a few things for time",
+   "ex": [
+    {
+     "name": "Romanian Deadlift",
+     "target": "3x8 @2RIR 205lb rest 180",
+     "cue": "warm up 135x8 first, drop to 195 if the back aches",
+     "rest": 180,
+     "sets": [
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-12T21:30:59.660Z"
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-12T21:36:32.949Z"
+      },
+      {
+       "w": 205,
+       "r": 8,
+       "rir": 0,
+       "t": "n",
+       "at": "2026-10-12T21:42:21.656Z"
+      }
+     ]
+    },
+    {
+     "name": "Bulgarian Split Squat",
+     "target": "2x8-10 @3RIR 135lb rest 120",
+     "cue": "left leg first, pain-free depth only",
+     "rest": 120,
+     "sets": [
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 3,
+       "t": "w",
+       "at": "2026-10-12T21:49:10.636Z"
+      },
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-10-12T21:58:42.130Z"
+      },
+      {
+       "w": 135,
+       "r": 8,
+       "rir": 3,
+       "t": "n",
+       "at": "2026-10-12T22:10:33.470Z"
+      }
+     ]
+    },
+    {
+     "name": "Lying Leg Curl",
+     "target": "2x10-12 @2RIR 95lb rest 90",
+     "cue": "skip if the knee complains",
+     "rest": 90,
+     "sets": [
+      {
+       "w": 95,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-10-12T22:13:27.616Z"
+      },
+      {
+       "w": 95,
+       "r": 10,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-10-12T22:16:02.715Z"
+      }
+     ]
+    }
+   ],
+   "end": "2026-10-12T22:16:02.715Z"
   }
  ]
 }
