@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-15T19:31:29.611Z",
+ "updated": "2026-10-15T19:37:59.656Z",
  "years": [
   "2026"
  ],
@@ -318,7 +318,15 @@
     "target": "3x8-10 @2RIR 130lb rest 150",
     "cue": "chest stays on the pad",
     "rest": 150,
-    "sets": []
+    "sets": [
+     {
+      "w": 130,
+      "r": 10,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-10-15T19:37:29.652Z"
+     }
+    ]
    },
    {
     "name": "Lat Pulldown",
