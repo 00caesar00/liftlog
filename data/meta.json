@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-10-15T20:17:50.241Z",
+ "updated": "2026-10-15T20:19:15.171Z",
  "years": [
   "2026"
  ],
@@ -405,7 +405,15 @@
     "target": "3x8-10 @2RIR 25lb rest 75",
     "cue": "full stretch at the bottom",
     "rest": 75,
-    "sets": []
+    "sets": [
+     {
+      "w": 25,
+      "r": 12,
+      "rir": 0,
+      "t": "n",
+      "at": "2026-10-15T20:19:08.884Z"
+     }
+    ]
    },
    {
     "name": "Triceps Pushdown",
