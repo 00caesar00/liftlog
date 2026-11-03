@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T00:09:35.484Z",
+ "updated": "2026-11-03T00:25:55.393Z",
  "years": [
   "2026"
  ],
@@ -277,5 +277,62 @@
    }
   ]
  },
- "active": null
+ "active": {
+  "id": "s1793665525387",
+  "date": "2026-11-02",
+  "day": "Lower A",
+  "start": "2026-11-03T00:25:25.387Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @3RIR 350lb rest 180",
+    "cue": "pain-free depth only",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Leg Extension",
+    "target": "2x12-15 @3RIR 80lb rest 90",
+    "cue": "knee test, skip if it complains",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Hip Abduction",
+    "target": "2x15 @2RIR 145lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 50lb rest 90",
+    "cue": "controlled, no grinding",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 230lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 90lb rest 60",
+    "cue": "kneel on a thick pad",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Lateral Raise",
+    "target": "3x10-12 @2RIR 20lb rest 75",
+    "cue": "strict, no swinging",
+    "rest": 75,
+    "sets": []
+   }
+  ]
+ }
 }
