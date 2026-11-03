@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T23:12:38.989Z",
+ "updated": "2026-11-03T23:16:42.414Z",
  "years": [
   "2026"
  ],
@@ -372,13 +372,6 @@
     ]
    },
    {
-    "name": "Seated Cable Row",
-    "target": "3x10-12 @2RIR 100lb rest 120",
-    "cue": "no body English",
-    "rest": 120,
-    "sets": []
-   },
-   {
     "name": "Rear Delt Fly",
     "target": "2x15 @2RIR 65lb rest 60",
     "cue": "",
@@ -413,6 +406,19 @@
     "cue": "full stretch at the bottom",
     "rest": 75,
     "sets": []
+   },
+   {
+    "name": "Chest-Supported Row",
+    "target": "",
+    "sets": [
+     {
+      "w": 140,
+      "r": 12,
+      "rir": 0,
+      "t": "n",
+      "at": "2026-11-03T23:15:24.525Z"
+     }
+    ]
    }
   ]
  }
