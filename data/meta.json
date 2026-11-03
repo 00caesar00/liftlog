@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T23:05:25.201Z",
+ "updated": "2026-11-03T23:10:31.379Z",
  "years": [
   "2026"
  ],
@@ -383,7 +383,15 @@
     "target": "2x15 @2RIR 65lb rest 60",
     "cue": "",
     "rest": 60,
-    "sets": []
+    "sets": [
+     {
+      "w": 65,
+      "r": 15,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-11-03T23:10:01.375Z"
+     }
+    ]
    },
    {
     "name": "Overhead Cable Extension",
