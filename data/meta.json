@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T00:34:53.117Z",
+ "updated": "2026-11-03T00:40:17.327Z",
  "years": [
   "2026"
  ],
@@ -318,7 +318,15 @@
     "target": "2x12-15 @3RIR 80lb rest 90",
     "cue": "knee test, skip if it complains",
     "rest": 90,
-    "sets": []
+    "sets": [
+     {
+      "w": 80,
+      "r": 15,
+      "rir": 3,
+      "t": "n",
+      "at": "2026-11-03T00:39:47.317Z"
+     }
+    ]
    },
    {
     "name": "Hip Abduction",
