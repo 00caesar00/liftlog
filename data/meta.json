@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T00:52:44.673Z",
+ "updated": "2026-11-03T00:59:19.921Z",
  "years": [
   "2026"
  ],
@@ -384,7 +384,15 @@
     "target": "2x12-15 @2RIR 90lb rest 60",
     "cue": "kneel on a thick pad",
     "rest": 60,
-    "sets": []
+    "sets": [
+     {
+      "w": 90,
+      "r": 15,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-11-03T00:59:13.195Z"
+     }
+    ]
    },
    {
     "name": "Lateral Raise",
