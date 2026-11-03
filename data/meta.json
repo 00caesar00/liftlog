@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T00:25:55.393Z",
+ "updated": "2026-11-03T00:26:04.236Z",
  "years": [
   "2026"
  ],
@@ -289,7 +289,15 @@
     "target": "3x10-12 @3RIR 350lb rest 180",
     "cue": "pain-free depth only",
     "rest": 180,
-    "sets": []
+    "sets": [
+     {
+      "w": 360,
+      "r": 10,
+      "rir": 1,
+      "t": "n",
+      "at": "2026-11-03T00:26:01.529Z"
+     }
+    ]
    },
    {
     "name": "Leg Extension",
