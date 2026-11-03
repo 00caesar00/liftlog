@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T23:22:38.742Z",
+ "updated": "2026-11-03T23:23:11.241Z",
  "years": [
   "2026"
  ],
@@ -392,13 +392,6 @@
       "at": "2026-11-03T23:12:10.685Z"
      }
     ]
-   },
-   {
-    "name": "Overhead Cable Extension",
-    "target": "2x10-12 @2RIR 27.5lb rest 90",
-    "cue": "deep stretch",
-    "rest": 90,
-    "sets": []
    },
    {
     "name": "Incline Dumbbell Curl",
