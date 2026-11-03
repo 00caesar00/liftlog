@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T01:16:11.732Z",
+ "updated": "2026-11-03T22:26:09.060Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,119 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Upper B",
+  "focus": "first Upper B in 24 days, clean reps after illness",
+  "notes": "everything at 2 RIR, stop at the top of each range, no weight bumps mid-session",
+  "date": "2026-11-03",
+  "ex": [
+   {
+    "name": "Overhead Press",
+    "target": "3x6-8 @2RIR 75lb rest 180",
+    "cue": "squeeze glutes, no layback",
+    "sets": [],
+    "rest": 180
+   },
+   {
+    "name": "Pull-Up",
+    "target": "3x6-8 @2RIR +0lb rest 150",
+    "cue": "full hang at the bottom",
+    "sets": [],
+    "rest": 150
+   },
+   {
+    "name": "Machine Chest Press",
+    "target": "3x10-12 @2RIR 135lb rest 120",
+    "cue": "same plate-loaded machine",
+    "sets": [],
+    "rest": 120
+   },
+   {
+    "name": "Seated Cable Row",
+    "target": "3x10-12 @2RIR 100lb rest 120",
+    "cue": "no body English",
+    "sets": [],
+    "rest": 120
+   },
+   {
+    "name": "Rear Delt Fly",
+    "target": "2x15 @2RIR 65lb rest 60",
+    "cue": "",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Overhead Cable Extension",
+    "target": "2x10-12 @2RIR 27.5lb rest 90",
+    "cue": "deep stretch",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "2x10-12 @2RIR 20lb rest 75",
+    "cue": "full stretch at the bottom",
+    "sets": [],
+    "rest": 75
+   }
+  ]
+ },
+ "active": {
+  "id": "s1793744762314",
+  "date": "2026-11-03",
+  "day": "Upper B",
+  "start": "2026-11-03T22:26:02.315Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Overhead Press",
+    "target": "3x6-8 @2RIR 75lb rest 180",
+    "cue": "squeeze glutes, no layback",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Pull-Up",
+    "target": "3x6-8 @2RIR +0lb rest 150",
+    "cue": "full hang at the bottom",
+    "rest": 150,
+    "sets": []
+   },
+   {
+    "name": "Machine Chest Press",
+    "target": "3x10-12 @2RIR 135lb rest 120",
+    "cue": "same plate-loaded machine",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Seated Cable Row",
+    "target": "3x10-12 @2RIR 100lb rest 120",
+    "cue": "no body English",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Rear Delt Fly",
+    "target": "2x15 @2RIR 65lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Overhead Cable Extension",
+    "target": "2x10-12 @2RIR 27.5lb rest 90",
+    "cue": "deep stretch",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "2x10-12 @2RIR 20lb rest 75",
+    "cue": "full stretch at the bottom",
+    "rest": 75,
+    "sets": []
+   }
+  ]
+ }
 }
