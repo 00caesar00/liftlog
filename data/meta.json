@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-06T23:28:54.437Z",
+ "updated": "2026-11-06T23:30:44.714Z",
  "years": [
   "2026"
  ],
@@ -354,7 +354,15 @@
     "target": "3x10-12 @2RIR 240lb rest 60",
     "cue": "pause at the bottom stretch",
     "rest": 60,
-    "sets": []
+    "sets": [
+     {
+      "w": 240,
+      "r": 12,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-11-06T23:30:33.612Z"
+     }
+    ]
    },
    {
     "name": "Cable Crunch",
