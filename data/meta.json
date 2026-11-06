@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-06T23:43:08.885Z",
+ "updated": "2026-11-06T23:46:12.768Z",
  "years": [
   "2026"
  ],
@@ -289,7 +289,7 @@
   "date": "2026-11-06",
   "day": "Lower B",
   "start": "2026-11-06T22:53:13.375Z",
-  "notes": "I cut split squats today because of pain slash instability in my left knee under load.. not sure what caused it. Generally I used to reserve split squats for a “major” movement rather than combining after another major movement so I can warm it up a bit more. Maybe lets consider creating a lower C with split squats and lower D with typical squat rack back squats. ",
+  "notes": "I cut split squats today because of pain slash instability in my left knee under load.. not sure what caused it. Generally I used to reserve split squats for a “major” movement rather than combining after another major movement so I can warm it up a bit more. Maybe lets consider creating a lower C with split squats and lower D with typical squat rack back squats. I also am playing a lot more tennis so a few dynamic movements could be fun maybe a couple sets of box jumps.",
   "ex": [
    {
     "name": "Romanian Deadlift",
@@ -405,7 +405,15 @@
     "target": "2x10-12 @2RIR 20lb rest 75",
     "cue": "full stretch at the bottom",
     "rest": 75,
-    "sets": []
+    "sets": [
+     {
+      "w": 20,
+      "r": 12,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-11-06T23:46:03.288Z"
+     }
+    ]
    }
   ]
  }
