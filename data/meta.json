@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-06T23:14:25.249Z",
+ "updated": "2026-11-06T23:18:28.157Z",
  "years": [
   "2026"
  ],
@@ -319,13 +319,6 @@
       "at": "2026-11-06T23:04:56.266Z"
      }
     ]
-   },
-   {
-    "name": "Bulgarian Split Squat",
-    "target": "2x8-10 @2RIR 135lb rest 120",
-    "cue": "left leg first, pain-free depth",
-    "rest": 120,
-    "sets": []
    },
    {
     "name": "Lying Leg Curl",
