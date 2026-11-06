@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-03T23:28:40.720Z",
+ "updated": "2026-11-06T22:53:40.223Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,133 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Lower B",
+  "focus": "rebuild RDL and leg curl clean, add arm and delt volume",
+  "notes": "hip stretches before RDLs, stop at the top of every range, no swaps or weight bumps",
+  "date": "2026-11-06",
+  "ex": [
+   {
+    "name": "Romanian Deadlift",
+    "target": "3x8 @2RIR 185lb rest 180",
+    "cue": "warm up 135x8 first, bar stays on legs",
+    "sets": [],
+    "rest": 180
+   },
+   {
+    "name": "Bulgarian Split Squat",
+    "target": "2x8-10 @2RIR 135lb rest 120",
+    "cue": "left leg first, pain-free depth",
+    "sets": [],
+    "rest": 120
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "2x10-12 @2RIR 85lb rest 90",
+    "cue": "",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 45lb rest 90",
+    "cue": "controlled, no grinding",
+    "sets": [],
+    "rest": 90
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 240lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 95lb rest 60",
+    "cue": "kneel on a thick pad",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Lateral Raise",
+    "target": "2x12-15 @2RIR 20lb rest 75",
+    "cue": "strict, no swinging",
+    "sets": [],
+    "rest": 75
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "2x10-12 @2RIR 20lb rest 75",
+    "cue": "full stretch at the bottom",
+    "sets": [],
+    "rest": 75
+   }
+  ]
+ },
+ "active": {
+  "id": "s1794005593374",
+  "date": "2026-11-06",
+  "day": "Lower B",
+  "start": "2026-11-06T22:53:13.375Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Romanian Deadlift",
+    "target": "3x8 @2RIR 185lb rest 180",
+    "cue": "warm up 135x8 first, bar stays on legs",
+    "rest": 180,
+    "sets": []
+   },
+   {
+    "name": "Bulgarian Split Squat",
+    "target": "2x8-10 @2RIR 135lb rest 120",
+    "cue": "left leg first, pain-free depth",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "2x10-12 @2RIR 85lb rest 90",
+    "cue": "",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Back Extension",
+    "target": "2x12-15 @2RIR 45lb rest 90",
+    "cue": "controlled, no grinding",
+    "rest": 90,
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "3x10-12 @2RIR 240lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 95lb rest 60",
+    "cue": "kneel on a thick pad",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Lateral Raise",
+    "target": "2x12-15 @2RIR 20lb rest 75",
+    "cue": "strict, no swinging",
+    "rest": 75,
+    "sets": []
+   },
+   {
+    "name": "Incline Dumbbell Curl",
+    "target": "2x10-12 @2RIR 20lb rest 75",
+    "cue": "full stretch at the bottom",
+    "rest": 75,
+    "sets": []
+   }
+  ]
+ }
 }
