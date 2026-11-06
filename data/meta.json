@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-06T23:18:28.157Z",
+ "updated": "2026-11-06T23:25:47.896Z",
  "years": [
   "2026"
  ],
@@ -332,7 +332,15 @@
     "target": "2x12-15 @2RIR 45lb rest 90",
     "cue": "controlled, no grinding",
     "rest": 90,
-    "sets": []
+    "sets": [
+     {
+      "w": 45,
+      "r": 15,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-11-06T23:25:45.390Z"
+     }
+    ]
    },
    {
     "name": "Standing Calf Raise",
