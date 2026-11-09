@@ -3645,6 +3645,155 @@
     }
    ],
    "end": "2026-11-03T23:28:40.694Z"
+  },
+  {
+   "id": "s1794005593374",
+   "date": "2026-11-06",
+   "day": "Lower B",
+   "start": "2026-11-06T22:53:13.375Z",
+   "notes": "I cut split squats today because of pain slash instability in my left knee under load.. not sure what caused it. Generally I used to reserve split squats for a “major” movement rather than combining after another major movement so I can warm it up a bit more. Maybe lets consider creating a lower C with split squats and lower D with typical squat rack back squats. I also am playing a lot more tennis so a few dynamic movements could be fun maybe a couple sets of box jumps.",
+   "ex": [
+    {
+     "name": "Romanian Deadlift",
+     "target": "3x8 @2RIR 185lb rest 180",
+     "cue": "warm up 135x8 first, bar stays on legs",
+     "rest": 180,
+     "sets": [
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T22:55:28.968Z"
+      },
+      {
+       "w": 195,
+       "r": 8,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T22:59:29.112Z"
+      },
+      {
+       "w": 195,
+       "r": 9,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T23:04:56.266Z"
+      }
+     ]
+    },
+    {
+     "name": "Back Extension",
+     "target": "2x12-15 @2RIR 45lb rest 90",
+     "cue": "controlled, no grinding",
+     "rest": 90,
+     "sets": [
+      {
+       "w": 45,
+       "r": 15,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T23:25:45.390Z"
+      },
+      {
+       "w": 45,
+       "r": 15,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T23:27:04.175Z"
+      }
+     ]
+    },
+    {
+     "name": "Standing Calf Raise",
+     "target": "3x10-12 @2RIR 240lb rest 60",
+     "cue": "pause at the bottom stretch",
+     "rest": 60,
+     "sets": [
+      {
+       "w": 240,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T23:30:33.612Z"
+      },
+      {
+       "w": 240,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T23:34:26.846Z"
+      },
+      {
+       "w": 240,
+       "r": 12,
+       "rir": 0,
+       "t": "n",
+       "at": "2026-11-06T23:34:38.662Z"
+      }
+     ]
+    },
+    {
+     "name": "Cable Crunch",
+     "target": "2x12-15 @2RIR 95lb rest 60",
+     "cue": "kneel on a thick pad",
+     "rest": 60,
+     "sets": [
+      {
+       "w": 95,
+       "r": 15,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-11-06T23:38:03.469Z"
+      },
+      {
+       "w": 95,
+       "r": 15,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-11-06T23:41:42.454Z"
+      }
+     ]
+    },
+    {
+     "name": "Lateral Raise",
+     "target": "2x12-15 @2RIR 20lb rest 75",
+     "cue": "strict, no swinging",
+     "rest": 75,
+     "sets": [
+      {
+       "w": 20,
+       "r": 15,
+       "rir": 1,
+       "t": "n",
+       "at": "2026-11-06T23:51:12.634Z"
+      }
+     ]
+    },
+    {
+     "name": "Incline Dumbbell Curl",
+     "target": "2x10-12 @2RIR 20lb rest 75",
+     "cue": "full stretch at the bottom",
+     "rest": 75,
+     "sets": [
+      {
+       "w": 20,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T23:46:03.288Z"
+      },
+      {
+       "w": 20,
+       "r": 12,
+       "rir": 2,
+       "t": "n",
+       "at": "2026-11-06T23:48:26.044Z"
+      }
+     ]
+    }
+   ],
+   "end": "2026-11-06T23:51:12.634Z"
   }
  ]
 }
