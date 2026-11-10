@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-10T23:47:57.419Z",
+ "updated": "2026-11-10T23:56:03.327Z",
  "years": [
   "2026"
  ],
@@ -268,7 +268,15 @@
     "target": "3x10-12 @2RIR 340lb rest 150",
     "cue": "stop above the unstable depth",
     "rest": 150,
-    "sets": []
+    "sets": [
+     {
+      "w": 360,
+      "r": 12,
+      "rir": 2,
+      "t": "n",
+      "at": "2026-11-10T23:55:52.961Z"
+     }
+    ]
    },
    {
     "name": "Hip Abduction",
