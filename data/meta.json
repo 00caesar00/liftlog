@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-09T23:27:13.291Z",
+ "updated": "2026-11-10T23:47:57.419Z",
  "years": [
   "2026"
  ],
@@ -220,6 +220,77 @@
  ],
  "aliases": {},
  "exercises": {},
- "plan": null,
- "active": null
+ "plan": {
+  "day": "Lower A",
+  "focus": "short session, protect the left knee",
+  "notes": "pain-free, stable depth only on leg press; skip it if the knee feels unstable",
+  "date": "2026-11-10",
+  "ex": [
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @2RIR 340lb rest 150",
+    "cue": "stop above the unstable depth",
+    "sets": [],
+    "rest": 150
+   },
+   {
+    "name": "Hip Abduction",
+    "target": "2x15 @2RIR 155lb rest 60",
+    "cue": "",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "2x10-12 @2RIR 240lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "sets": [],
+    "rest": 60
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 95lb rest 60",
+    "cue": "kneel on a thick pad",
+    "sets": [],
+    "rest": 60
+   }
+  ]
+ },
+ "active": {
+  "id": "s1794354455998",
+  "date": "2026-11-10",
+  "day": "Lower A",
+  "start": "2026-11-10T23:47:35.999Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Leg Press",
+    "target": "3x10-12 @2RIR 340lb rest 150",
+    "cue": "stop above the unstable depth",
+    "rest": 150,
+    "sets": []
+   },
+   {
+    "name": "Hip Abduction",
+    "target": "2x15 @2RIR 155lb rest 60",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Standing Calf Raise",
+    "target": "2x10-12 @2RIR 240lb rest 60",
+    "cue": "pause at the bottom stretch",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "2x12-15 @2RIR 95lb rest 60",
+    "cue": "kneel on a thick pad",
+    "rest": 60,
+    "sets": []
+   }
+  ]
+ }
 }
