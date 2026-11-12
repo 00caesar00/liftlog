@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-12T00:26:43.827Z",
+ "updated": "2026-11-12T00:27:27.201Z",
  "years": [
   "2026"
  ],
@@ -282,7 +282,7 @@
   "date": "2026-11-11",
   "day": "Upper B",
   "start": "2026-11-11T23:38:06.813Z",
-  "notes": "",
+  "notes": "removed a couple exercises for time",
   "ex": [
    {
     "name": "Overhead Press",
@@ -401,13 +401,6 @@
     ]
    },
    {
-    "name": "Rear Delt Fly",
-    "target": "3x15 @2RIR 70lb rest 60",
-    "cue": "",
-    "rest": 60,
-    "sets": []
-   },
-   {
     "name": "Overhead Cable Extension",
     "target": "3x10-12 @2RIR 27.5lb rest 90",
     "cue": "deep stretch",
@@ -421,13 +414,6 @@
       "at": "2026-11-12T00:26:37.311Z"
      }
     ]
-   },
-   {
-    "name": "Lateral Raise",
-    "target": "2x12-15 @2RIR 20lb rest 75",
-    "cue": "strict, no swinging",
-    "rest": 75,
-    "sets": []
    }
   ]
  }
