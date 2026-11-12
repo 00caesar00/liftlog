@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-12T00:00:48.422Z",
+ "updated": "2026-11-12T00:03:57.402Z",
  "years": [
   "2026"
  ],
@@ -340,7 +340,15 @@
     "target": "3x10-12 @2RIR 160lb rest 120",
     "cue": "same plate-loaded machine",
     "rest": 120,
-    "sets": []
+    "sets": [
+     {
+      "w": 160,
+      "r": 12,
+      "rir": 1,
+      "t": "n",
+      "at": "2026-11-12T00:03:47.377Z"
+     }
+    ]
    },
    {
     "name": "Seated Cable Row",
