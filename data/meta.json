@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-15T16:49:54.050Z",
+ "updated": "2026-11-15T18:22:10.147Z",
  "years": [
   "2026"
  ],
@@ -221,5 +221,62 @@
  "aliases": {},
  "exercises": {},
  "plan": null,
- "active": null
+ "active": {
+  "id": "s1794766900140",
+  "date": "2026-11-15",
+  "day": "Lower B",
+  "start": "2026-11-15T18:21:40.140Z",
+  "notes": "",
+  "ex": [
+   {
+    "name": "Trap Bar Deadlift",
+    "target": "3x4-6 @2RIR",
+    "cue": "",
+    "rest": 210,
+    "sets": []
+   },
+   {
+    "name": "Bulgarian Split Squat",
+    "target": "3x8-10 @2RIR",
+    "cue": "",
+    "rest": 150,
+    "sets": []
+   },
+   {
+    "name": "Hip Thrust",
+    "target": "3x8-10 @1RIR",
+    "cue": "",
+    "rest": 120,
+    "sets": []
+   },
+   {
+    "name": "Leg Extension",
+    "target": "3x12-15 @1RIR",
+    "cue": "",
+    "rest": 75,
+    "sets": []
+   },
+   {
+    "name": "Lying Leg Curl",
+    "target": "3x12-15 @1RIR",
+    "cue": "",
+    "rest": 75,
+    "sets": []
+   },
+   {
+    "name": "Seated Calf Raise",
+    "target": "4x12-15 @1RIR",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   },
+   {
+    "name": "Cable Crunch",
+    "target": "3x12-15",
+    "cue": "",
+    "rest": 60,
+    "sets": []
+   }
+  ]
+ }
 }
