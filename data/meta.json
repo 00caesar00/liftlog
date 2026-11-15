@@ -1,6 +1,6 @@
 {
  "v": 2,
- "updated": "2026-11-15T18:55:45.576Z",
+ "updated": "2026-11-15T19:01:28.054Z",
  "years": [
   "2026"
  ],
@@ -226,7 +226,7 @@
   "date": "2026-11-15",
   "day": "Lower B",
   "start": "2026-11-15T18:21:40.140Z",
-  "notes": "",
+  "notes": "Im using a barbell on my back for split squats. I see you say log each side as a set, but only asked for 3 sets. Shouldnt it be an even number of sets if you want this? Like 6?",
   "ex": [
    {
     "name": "Trap Bar Deadlift",
@@ -269,6 +269,13 @@
       "rir": 2,
       "t": "w",
       "at": "2026-11-15T18:55:09.180Z"
+     },
+     {
+      "w": 95,
+      "r": 10,
+      "rir": 2,
+      "t": "w",
+      "at": "2026-11-15T18:59:55.987Z"
      }
     ]
    },
