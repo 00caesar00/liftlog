@@ -1,6 +1,7 @@
 /* Headless checks for the pure logic in core.js, including a golden test against the real log.
    Run: node test.js                                                                            */
 'use strict';
+const path = require('path');
 const fs = require('fs');
 const C = require('./core.js');
 let pass = 0, fail = 0;
@@ -14,7 +15,7 @@ const iso = d => { const x = new Date(); x.setDate(x.getDate() - d); return C.to
 
 console.log('\ne1RM (Epley)');
 eq('225x5', C.e1rm(225, 5), 262.5);
-eq('reps capped at 12', C.e1rm(100, 20), C.e1rm(100, 12));
+eq('reps capped at 15', C.e1rm(100, 20), C.e1rm(100, 15));
 eq('zero weight', C.e1rm(0, 8), 0);
 eq('best of a set list', C.bestE1rm([{ w: 100, r: 5 }, { w: 120, r: 3 }, { w: 90, r: 10 }]), 132);
 
@@ -126,13 +127,13 @@ ok('pull-ups have a real e1RM now', series['Assisted Pull-Up'][0].best > 150);
 const rdl = series['Romanian Deadlift'];
 eq('RDL 135 warm-up excluded from working sets', rdl[1].work, 4);
 const d = C.buildDigest(m, '2026-08-27');
-eq('digest schema', d.schema, 'liftlog/2');
+eq('digest schema', d.schema, 'liftlog/3');
 eq('28-day session count', d.status.sessions_last_28d, 8);
 ok('every muscle-credited set counts (no unknown names)', Object.keys(d.lifts).every(n => C.exInfo(n, m).known));
 ok('lift series present', d.lifts['Leg Press'].series.length === 3);
 ok('stall flag is boolean', typeof d.lifts['Chest-Supported Row'].stalled === 'boolean');
 eq('logged_as recorded', d.lifts['Overhead Cable Extension'].logged_as, ['Overhead Cable Tricep Extension']);
-ok('digest well under the old 38 KB file', JSON.stringify(d).length < 25000);
+ok('digest stays under the old 38 KB file', JSON.stringify(d).length < 38000);
 const sum = C.liftSummary(series['Leg Press'], '2026-08-27');
 eq('leg press best', sum.best, 462);
 eq('leg press PR sessions', sum.prIdx, [0, 1, 2]);
@@ -143,6 +144,44 @@ for (let i = 0; i < 60; i++) old.sessions.push({ id: 'o' + i, date: C.addDays('2
 const d2 = C.buildDigest(old, C.addDays('2025-01-06', 59 * 7));
 ok('recent 26 weeks kept per session', d2.lifts['Leg Press'].series.length <= 27);
 ok('older months summarised', d2.lifts['Leg Press'].monthly_best_older.length >= 6);
+
+console.log('\nanalytics on the real 26-session log');
+const real = C.migrate(C.fromRepoFiles(JSON.parse(fs.readFileSync(path.join(__dirname, 'data/meta.json'), 'utf8')), [JSON.parse(fs.readFileSync(path.join(__dirname, 'data/sessions/2026.json'), 'utf8'))]));
+const REF = '2026-11-15';
+eq('e1RM sees reps above 12 now', [C.e1rm(20, 12), C.e1rm(20, 15)], [28, 30]);
+eq('week starts on Monday', [C.weekStart('2026-11-15'), C.weekStart('2026-11-09')], ['2026-11-09', '2026-11-09']);
+eq('three breaks of 10+ days found', C.layoffs(real).map(x => x.days), [13, 25, 18]);
+eq('current block starts after the last break', C.blockStart(real), '2026-11-02');
+const wk = C.weeklyStats(real, 16, REF);
+eq('16 weeks, oldest first', [wk.length, wk[15].start], [16, '2026-11-09']);
+eq('weekly session counts add up', wk.reduce((n, x) => n + x.sessions, 0), real.sessions.filter(x => x.date >= wk[0].start).length);
+eq('this week: 3 sessions', wk[15].sessions, 3);
+ok('weekly muscle sets match the 28-day figure', (() => { const four = C.weeklyStats(real, 4, '2026-11-11'), h = C.hardSetsByMuscle(real.sessions.filter(x => x.date >= four[0].start), real);
+  return C.MUSCLES.every(m => Math.abs(four.reduce((n, x) => n + x.m[m], 0) - h[m]) < 0.2); })());
+const rs = C.liftSeries(real), si = C.strengthIndex(real, rs);
+ok('strength index starts at 100 and has upper and lower', si[0].all === 100 && si[si.length - 1].upper > 100 && si[si.length - 1].lower > 100);
+eq('one index point per training day', si.length, C.sessionDates(real).length);
+const prs = C.prFeed(real, rs);
+ok('PR feed newest first, first sessions excluded', prs[0].date >= prs[1].date && prs.every(p => p.prev > 0 && p.e1 > p.prev));
+const st = n => C.liftSummary(rs[n], REF, { blockStart: C.blockStart(real) });
+eq('row after a break is rebuilding, not stalled', [st('Chest-Supported Row').status, st('Chest-Supported Row').stalled], ['rebuilding', false]);
+eq('lift at its best is flagged as a PR', st('Hip Abduction').status, 'pr');
+eq('old lifts are idle', st('Smith Machine Squat').status, 'idle');
+ok('percent of best reported', st('Leg Press').pct < 100 && st('Machine Chest Press').pct === 100);
+const flat = []; for (let i = 0; i < 6; i++) flat.push({ id: 'f' + i, date: C.addDays('2026-03-02', i * 4), day: 'Upper A', ex: [{ name: 'Lat Pulldown', target: '3x10-12', sets: [{ w: i === 1 ? 125 : 120, r: 10 }, { w: 120, r: 10 }] }] });
+const fdb = { sessions: flat, settings: { unit: 'lb' } };
+eq('real stall still caught (no break, no progress)', C.liftSummary(C.liftSeries(fdb)['Lat Pulldown'], '2026-03-24', { blockStart: C.blockStart(fdb) }).status, 'stalled');
+const rot = C.rotation(real, REF), legp = rot.find(r => r.name === 'Leg Press');
+ok('rotation: leg press is an anchor with squat alternatives', legp.role === 'anchor' && legp.due && legp.alternatives.some(a => a.name === 'Back Squat'));
+ok('rotation: accessories due after 4 exposures', rot.find(r => r.name === 'Incline Dumbbell Curl').role === 'accessory' && rot.find(r => r.name === 'Incline Dumbbell Curl').run >= 4);
+ok('rotation: dropped lifts are not listed', !rot.some(r => r.name === 'Smith Machine Squat'));
+ok('rotation: alternatives stay in the same movement', rot.every(r => r.alternatives.every(a => C.exInfo(a.name, real).pattern === r.pattern)));
+const rd = C.buildDigest(real, REF);
+ok('digest carries consistency, index, PRs and rotation', rd.consistency.layoffs_10d_plus.length === 3 && rd.strength_index.now > 100 && rd.recent_prs.length > 0 && rd.rotation.length > 10);
+ok('digest lifts carry status and percent of best', Object.values(rd.lifts).every(l => typeof l.status === 'string' && typeof l.pct_of_best === 'number'));
+ok('digest stays compact', JSON.stringify(rd).length < 38000);
+ok('jumps are never scored as hard sets', (() => { const j = { sessions: [{ id: 'j', date: '2026-11-14', day: 'Lower A', ex: [{ name: 'Box Jump', sets: [{ w: 0, r: 5 }, { w: 0, r: 5 }] }] }] };
+  const h = C.hardSetsByMuscle(j.sessions, j); return C.MUSCLES.every(m => h[m] === 0) && C.strengthIndex(j).length === 0; })());
 
 console.log('\n' + pass + ' passed, ' + fail + ' failed');
 process.exit(fail ? 1 : 0);

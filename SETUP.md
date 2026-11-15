@@ -89,7 +89,7 @@ The token lives only in your phone's local storage. It is never committed to the
 | Morning | Claude project → "workout" → it reads your log and writes today's session |
 | Copy | Copy the whole reply (or just the plan block) |
 | Gym | Open LiftLog → **Paste plan** → **Start session** |
-| During | ± or tap the number to type it, **Log set**. Tap **Warm-up** first for warm-up sets. Tap any logged set to fix it. |
+| During | ± or tap the number to type it, **Log set**. Tap **Warm-up** first for warm-up sets. Tap any logged set to fix it. Tap the rest bar for the full-screen timer. |
 | End | **Finish & sync**. If you forget, the app closes the session itself and syncs. |
 
 With an API key set (below), the first three rows become one: **Ask the coach** on the Today tab.
@@ -127,6 +127,22 @@ progress checks.
    **Settings**: it should say *Data format v2 · upgraded from v1*.
 4. Tap **Sync now**. That one commit writes `data/meta.json`, `data/sessions/2026.json` and the
    new digest, and moves `data/log.json` to `data/backup/log-v1.json` unchanged.
+5. No change to the Claude project instructions is needed.
+
+---
+
+## Upgrading from v2 to v3
+
+1. On github.com: **Add file → Upload files**, drop in `index.html`, `core.js`, `app.js`, `sw.js`,
+   `COACH.md`, `README.md`, `SETUP.md`, `test.js`, `test-ui.js`, and commit to `main`. Do **not**
+   upload anything into `data/`; the app owns those files.
+2. Wait a minute for Pages, then open LiftLog with signal. Close and reopen it once: the first
+   open still shows the old version while the new one downloads. The fourth tab should now say
+   **Progress**.
+3. Tap the sync dot once. That writes the new `liftlog/3` digest so the coach sees rotation,
+   attendance and lift status. No data is converted: the stored format is unchanged.
+4. Optional: **Settings → Rest timer** to put the timer on the lock screen. Use the
+   **Try a 20 s rest now** button and lock the phone to check it on your device.
 5. No change to the Claude project instructions is needed.
 
 ---

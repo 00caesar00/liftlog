@@ -28,10 +28,24 @@ never disagree, and edits you make on github.com (to COACH.md, say) are preserve
 **Sessions are split by year** (`data/sessions/2026.json`), and reads use the raw media type,
 so there is no 1 MB ceiling on restore no matter how many years accumulate.
 
-**The digest is what the coach reads.** `data/index.json` is regenerated on every sync: per-lift
-history keyed by canonical name (26 weeks per session, monthly bests before that), stall and
-trend signals, weekly hard sets, scans, the last 4 sessions. It stays roughly the same size
+**The digest is what the coach reads.** `data/index.json` (`liftlog/3`) is regenerated on every
+sync: per-lift history keyed by canonical name (26 weeks per session, monthly bests before
+that), a layoff-aware status per lift, weekly attendance, a strength index, what is in rotation
+and for how long, weekly hard sets, scans, the last 4 sessions. It stays roughly the same size
 forever.
+
+**The app shows what the coach sees.** The Progress tab is built from the same functions as the
+digest (`weeklyStats`, `strengthIndex`, `liftSummary`, `prFeed`, `rotation` in `core.js`), so the
+charts and the coach can never tell different stories.
+
+**Nothing on screen depends on the app staying alive.** Half-entered sets, the rest timer and
+your place in the app live in `localStorage` under `liftlog.ui` (never synced), so a lock/unlock
+or iOS reloading the app changes nothing. The rest timer is a timestamp, not a counter.
+
+**Lock-screen timer.** A web app cannot post an iOS Live Activity. The one thing it can put on a
+lock screen without a server is the Now Playing card, so (opt-in, Settings → Rest timer) a rest
+is played as a silent audio track of exactly that length ending in three beeps. iOS hands the
+audio session to LiftLog while it plays, which pauses music from the same phone.
 
 **Raw logs are never rewritten.** Exercise aliases, warm-up detection and bodyweight loads are
 interpreted at read time from `core.js`. Merging two exercise names is an alias you can undo.
@@ -49,8 +63,8 @@ test. `test.js` runs every migration against the real v1 log.
 | | |
 |---|---|
 | `index.html` | shell and styles |
-| `core.js` | pure logic: catalog, aliases, warm-ups, e1RM, digest, migrations, repo layout |
-| `app.js` | UI, GitHub sync, optional Claude API call |
+| `core.js` | pure logic: catalog, aliases, warm-ups, e1RM, analytics, rotation, digest, migrations, repo layout |
+| `app.js` | UI, rest timer, Progress screens, GitHub sync, optional Claude API call |
 | `sw.js` | offline cache |
 | `data/program.json` | the 4-day upper/lower template |
 | `data/meta.json` | profile, program, notes, bodyweight, scans, aliases, plan, open session |

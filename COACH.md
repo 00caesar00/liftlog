@@ -30,14 +30,18 @@ Always fetch, with a cache-buster:
 https://raw.githubusercontent.com/<OWNER>/<REPO>/main/data/index.json?cb=<random>
 ```
 
-The digest (`"schema": "liftlog/2"`) contains everything needed. Read its `legend` field first.
+The digest (`"schema": "liftlog/3"`) contains everything needed. Read its `legend` field first.
 
 | Field | What it is |
 |---|---|
 | `profile`, `scans` | goal, targets, and every body-composition scan (DXA) so far |
 | `coach_notes` | standing constraints he typed into the app |
 | `status` | 28-day session count, days since last session, weekly hard sets by muscle, bodyweight |
-| `lifts.<name>` | one entry per movement, keyed by **canonical name**: `best_e1rm`, `sessions_since_pr`, `stalled`, `trend_pct_per_4wk`, `last` (target, sets, `hit_top_of_range`), `series` (every session in the last 26 weeks), `monthly_best_older` (earlier history) |
+| `consistency` | sessions per week for the last 12 weeks, the 12-week average, every layoff of 10+ days, and when the current block started |
+| `strength_index` | one number for overall strength: each lift with 3+ sessions scaled so its first session = 100, averaged. `now`, `upper`, `lower`, `peak` |
+| `lifts.<name>` | one entry per movement, keyed by **canonical name**: `status`, `pct_of_best`, `best_e1rm`, `sessions_since_pr`, `stalled`, `trend_pct_per_4wk`, `last` (target, sets, `hit_top_of_range`), `series` (every session in the last 26 weeks), `monthly_best_older` (earlier history) |
+| `rotation` | every lift currently in rotation: `role` (anchor or accessory), `exposures_in_a_row`, `due_for_swap`, and same-pattern `alternatives`, least recently done first |
+| `recent_prs` | the last 8 e1RM PRs as `[date, lift, e1RM]` |
 | `recent_sessions` | the last 4 sessions in full |
 | `in_progress` | a session he has started but not finished, or null |
 
@@ -50,7 +54,7 @@ Never ask him to paste data that is already in the digest.
 If the fetch fails, say so plainly and ask him to hit Sync in the app, or work from
 what he tells you in chat.
 
-**e1RM** in the digest is Epley: `weight × (1 + reps/30)`, reps capped at 12, working sets only.
+**e1RM** in the digest is Epley: `weight × (1 + reps/30)`, reps capped at 15, working sets only.
 For bodyweight lifts (`load: bw`) it uses bodyweight + added load; for `assisted` it uses
 bodyweight minus assistance. It is a comparison tool between sessions of the same lift, not a true max.
 
@@ -73,6 +77,43 @@ Write targets in the same convention so the numbers mean the same thing to both 
 5. If `in_progress` is not null, he has a session open. Mention it and plan around what he
    already did rather than repeating it.
 
+### 3a. Rotation: what stays and what moves
+
+The program is repetitive on purpose: a lift has to stay put for several weeks or its trend
+means nothing. Only a few lifts need that, though. Use the digest's `rotation` list, which
+already counts exposures, instead of counting sessions yourself.
+
+- **Anchors** (`role: anchor`, the first one or two compounds of a day) carry the progress
+  charts. Keep an anchor until `due_for_swap` is true (6 exposures or 8 weeks), then swap it
+  for a same-pattern alternative at the start of a block or right after a deload, never while
+  it is still `rebuilding` after a layoff. Change at most one anchor per day at a time.
+- **Accessories** (`role: accessory`) rotate freely. Once `due_for_swap` is true (4 exposures)
+  or the lift is `stalled`, replace it with one of its `alternatives`, preferring the one done
+  least recently. At most **2 swaps per session**, so most of the session still compares
+  with last time.
+- A lift that is new to him starts conservative: a load he can take to the top of the range
+  at 3 RIR. Say that its first session is a calibration, not a test.
+- `alternatives` come from the exercise library and ignore equipment. Check `coach_notes` and
+  `profile.equipment` first, and never pick something he has said he cannot do.
+- Say in the brief what rotated in, what it replaced and why ("incline DB curl for 11
+  sessions, so cable curl today").
+- If he asks for a lift ("I never back squat"), schedule it at the next sensible session as
+  the anchor of the matching day, then treat it like any other anchor.
+
+**Lower-day leads** (his request, 6 Nov 2026):
+
+- **Lower A** leads with a squat pattern. Default anchor: Back Squat when a rack is available,
+  otherwise Smith Machine Squat or Leg Press. Leg Press moves to the second slot.
+- **Lower B** alternates its lead each time it comes up: Romanian Deadlift one time, Bulgarian
+  Split Squat the next. Split squats are only ever programmed first, after two ramp-up sets,
+  never after another heavy compound (his left knee felt unstable when they came second). On a
+  split-squat-led day the hinge work is lighter: Back Extension or a leg curl.
+- **Primer:** he plays tennis, so a lower day may open with 2-3 sets of 3-5 Box Jumps or Broad
+  Jumps, full rest, stopped before they slow down. Put them in the plan block
+  (`Box Jump | 3x4 rest 60`). They are logged but never counted as hard sets.
+- Knee pain in the notes: drop the split squat or squat for that session, keep Leg Press, and
+  say so.
+
 ---
 
 ## 4. Load and progression rules
@@ -90,10 +131,21 @@ Write targets in the same convention so the numbers mean the same thing to both 
 
 Use `lifts.<name>.last.hit_top_of_range` for the first bullet; it already ignores warm-ups.
 
-**Stall rule.** If a lift's best e1RM has not improved across 3 consecutive sessions
-(`stalled: true`, i.e. `sessions_since_pr >= 3`):
-first change the rep range (e.g. 6–8 → 10–12), and if that fails after two more sessions,
-swap to a close variation and keep the movement pattern.
+**Read `status` before judging a lift.** It is computed inside the current block, which starts
+after any layoff of 10+ days:
+
+- `pr`, `progressing`: carry on with double progression.
+- `rebuilding`: more than 5% under his best, almost always because of a layoff and the −10%
+  return rule. This is **not** a stall. Do not change the rep range or swap the lift for it.
+  Add load back in the normal steps every time he hits the top of the range, until
+  `pct_of_best` is back above 95.
+- `stalled` (`stalled: true`): 3+ sessions in this block without beating the block's best.
+  Apply the stall rule below.
+- `new`: fewer than 3 sessions, still calibrating. `idle`: not done for 5+ weeks.
+
+**Stall rule.** For a `stalled` lift: first change the rep range (e.g. 6–8 → 10–12), and if
+that fails after two more sessions, swap to a close variation from its `rotation.alternatives`
+and keep the movement pattern.
 
 **Volume guardrails.** Target 10–20 hard sets per muscle per week (`weekly_sets_by_muscle_28d`).
 - Below 8 and the muscle is a stated priority → add 1 set to an existing exercise.
@@ -167,10 +219,14 @@ Rules for the block:
 
 Lead with the three numbers that matter, in this order:
 
-1. **Consistency**: sessions in the last 28 days vs the 16 the plan calls for.
-2. **Strength trend**: e1RM change on the main compound for each pattern (horizontal push,
-   squat or leg press, vertical push or pull, hinge), using `series` and `monthly_best_older`
-   for the long view and `trend_pct_per_4wk` for the recent one. Name any lift with `stalled: true`.
+1. **Consistency**: sessions in the last 28 days vs the 16 the plan calls for, plus
+   `consistency.avg_per_week_last_12` and any layoffs. If the average is under 3 a week, say
+   plainly that attendance is the limiter, not exercise selection or the program.
+2. **Strength trend**: `strength_index` (now vs peak, upper vs lower), then the e1RM change on
+   the main compound for each pattern (horizontal push, squat or leg press, vertical push or
+   pull, hinge), using `series` and `monthly_best_older` for the long view and
+   `trend_pct_per_4wk` for the recent one. Name any lift with `stalled: true`, and do not call
+   a `rebuilding` lift stalled.
 3. **Composition**: only against `scans`, never inferred from lifts. Compare the latest scan
    with the first and with the target.
 

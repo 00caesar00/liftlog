@@ -1,5 +1,5 @@
 /* Cache the shell so the app opens with no signal in the gym basement. */
-const CACHE = 'liftlog-v2';
+const CACHE = 'liftlog-v3';
 const SHELL = ['./', './index.html', './core.js', './app.js', './manifest.webmanifest', './data/program.json'];
 
 self.addEventListener('install', e => {

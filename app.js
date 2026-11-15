@@ -10,6 +10,13 @@ const { MUSCLES, MUSCLE_LABEL, KIND_LABEL, LOAD_NOTE, e1rm, parseTarget, canon, 
 const KEY = 'liftlog.db';
 const KEY_V1 = 'liftlog.db.v1';
 let db = load();
+/* UI state that has to survive a lock/unlock, or iOS quietly reloading the app: half-entered sets,
+   the rest timer, collapsed cards, where you were. Stays on the phone, never synced. */
+const KEY_UI = 'liftlog.ui';
+const UI_BLANK = () => ({ drafts: {}, rest: null, open: {}, where: null });
+let uiState = loadUi();
+function loadUi() { try { return Object.assign(UI_BLANK(), JSON.parse(localStorage.getItem(KEY_UI) || '{}')); } catch (e) { return UI_BLANK(); } }
+function saveUi() { try { localStorage.setItem(KEY_UI, JSON.stringify(uiState)); } catch (e) {} }
 function load() {
   try {
     const raw = localStorage.getItem(KEY) || localStorage.getItem(KEY_V1);
@@ -79,7 +86,8 @@ function v1BackupEntries(existing) {
 let syncing = null, syncTimer = null, lastSyncAt = 0;
 async function syncNow(silent, reason) {
   if (!GH.ok()) { if (!silent) toast('Add your GitHub details in Settings first'); return false; }
-  if (syncing) return syncing;
+  // a sync already in flight was built from older data: let it land, then send what changed since
+  if (syncing) return syncing.then(() => db.dirty ? syncNow(silent, reason) : true);
   setSyncState('syncing');
   syncing = (async () => {
     const stamp = db.changedAt;
@@ -168,7 +176,7 @@ async function askCoach(note) {
       body: JSON.stringify({
         model: s.model || 'claude-sonnet-5', max_tokens: 3000,
         system: COACH_SYSTEM + '\n\n=== COACH.md ===\n' + coach,
-        messages: [{ role: 'user', content: 'Digest (liftlog/2):\n```json\n' + JSON.stringify(buildDigest(db)) +
+        messages: [{ role: 'user', content: 'Digest (liftlog/3):\n```json\n' + JSON.stringify(buildDigest(db)) +
           '\n```\n\nToday: ' + (note || 'no special constraints') + '\n\nWrite today\'s session.' }]
       })
     });
@@ -187,7 +195,7 @@ const $ = sel => document.querySelector(sel);
 const el = (tag, cls, txt) => { const n = document.createElement(tag); if (cls) n.className = cls; if (txt !== undefined) n.textContent = txt; return n; };
 const btn = (cls, txt, fn) => { const b = el('button', cls, txt); b.onclick = fn; return b; };
 let route = 'today';
-const ui = { open: {}, sheet: null };
+const ui = { sheet: null };
 let toastTimer = null;
 function toast(msg) {
   const t = $('#toast'); if (!t) return; t.textContent = msg; t.classList.add('show');
@@ -230,7 +238,7 @@ function startSession(plan) {
     id: 's' + Date.now(), date: today(), day: p.day || 'Session', start: new Date().toISOString(), notes: '',
     ex: (p.ex || []).map(e => ({ name: canon(e.name, db), target: e.target || '', cue: e.cue || '', rest: e.rest || undefined, sets: [] }))
   };
-  ui.open = {};
+  uiState.open = {}; uiState.drafts = {}; saveUi();
   save(true); go('today'); wake(true);
 }
 function fallbackPlan() {
@@ -252,9 +260,9 @@ function finishSession(auto) {
   a.ex = a.ex.filter(e => (e.sets || []).length);
   if (!a.ex.length) {
     if (!auto && !confirm('No sets logged. Discard this session?')) return;
-    db.active = null; save(true); render(); return;
+    db.active = null; stopRest(); save(true); render(); return;
   }
-  db.sessions.push(a); db.active = null; wake(false);
+  db.sessions.push(a); db.active = null; wake(false); stopRest(); uiState.drafts = {}; uiState.open = {}; saveUi();
   if (db.plan && db.plan.day === a.day) db.plan = null;
   save(true); render();
   if (auto) { toast('Closed ' + a.day + ' from ' + fmtDate(a.date) + ' at its last set'); syncNow(true); return; }
@@ -268,19 +276,114 @@ function autoFinishStale() {
   if (idle > 3 * 3600000) finishSession(true);
 }
 
-/* ---------------- rest timer + wake lock ---------------- */
-let restEnd = 0, restInt = null, wakeLock = null;
-function startRest(sec) {
-  restEnd = Date.now() + sec * 1000;
-  if (restInt) clearInterval(restInt);
-  restInt = setInterval(paintRest, 250); paintRest();
+/* ---------------- rest timer + wake lock ----------------
+   The timer is a timestamp in uiState.rest = {end, total, sub}, not a variable, so it keeps
+   counting through a lock/unlock or a reload. After zero it counts up ("rested +0:40") until
+   the next set is logged, so a glance always answers "how long have I been resting".        */
+let restInt = null, wakeLock = null;
+let restBeeped = !uiState.rest || Date.now() >= uiState.rest.end;
+const clock = sec => Math.floor(sec / 60) + ':' + String(sec % 60).padStart(2, '0');
+function startRest(sec, sub) {
+  uiState.rest = { end: Date.now() + sec * 1000, total: sec, sub: sub || '' }; saveUi();
+  restBeeped = false;
+  LockTimer.start(sec, uiState.rest.sub);
+  if (db.settings.bigTimer) openRestFull();
+  tickRest();
+}
+function tickRest() { if (restInt) clearInterval(restInt); restInt = setInterval(paintRest, 250); paintRest(); }
+function stopRest() { uiState.rest = null; saveUi(); LockTimer.stop(); closeRestFull(); paintRest(); }
+function addRest(sec) {
+  const R = uiState.rest; if (!R) return;
+  const left = R.end - Date.now();
+  if (left <= 0) { R.end = Date.now() + sec * 1000; R.total = sec; restBeeped = false; }
+  else { R.end += sec * 1000; R.total += sec; }
+  saveUi(); LockTimer.start(Math.round((R.end - Date.now()) / 1000), R.sub); tickRest();
 }
 function paintRest() {
-  const bar = $('#rest'); const left = Math.round((restEnd - Date.now()) / 1000);
-  if (left <= 0) { bar.classList.remove('show'); clearInterval(restInt); restInt = null; if (restEnd) beep(); restEnd = 0; return; }
-  bar.classList.add('show');
-  $('#restTime').textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0');
+  const bar = $('#rest'), R = uiState.rest; if (!bar) return;
+  const full = $('#restFull');
+  if (!R) { bar.classList.remove('show'); if (full) full.classList.remove('show'); if (restInt) { clearInterval(restInt); restInt = null; } return; }
+  const ms = R.end - Date.now(), over = ms <= 0;
+  if (over && -ms > 20 * 60000) return stopRest();                 // walked away; clear it
+  if (over && !restBeeped) { restBeeped = true; if (-ms < 4000 && !LockTimer.used) beep(); }
+  const txt = over ? '+' + clock(Math.floor(-ms / 1000)) : clock(Math.ceil(ms / 1000));
+  const frac = over ? 0 : Math.max(0, Math.min(1, ms / (R.total * 1000)));
+  bar.classList.add('show'); bar.classList.toggle('over', over);
+  $('#restTime').textContent = txt; $('#restLabel').textContent = over ? 'Rested' : 'Rest';
+  $('#restSub').textContent = (R.sub || '').replace(/^Next: /, ''); $('#restFill').style.transform = 'scaleX(' + frac + ')';
+  if (full && full.classList.contains('show')) {
+    full.classList.toggle('over', over);
+    $('#rfTime').textContent = txt; $('#rfLabel').textContent = over ? 'Go. Rested' : 'Rest';
+    $('#rfSub').textContent = R.sub || ''; $('#rfFill').style.transform = 'scaleY(' + frac + ')';
+  }
 }
+function openRestFull() { const f = $('#restFull'); if (f && uiState.rest) { f.classList.add('show'); paintRest(); } }
+function closeRestFull() { const f = $('#restFull'); if (f) f.classList.remove('show'); }
+/* What the timer says is coming, e.g. "Lat Pulldown, set 3 of 3". */
+function nextUp(a, e) {
+  const i = a.ex.indexOf(e), order = a.ex.slice(i).concat(a.ex.slice(0, i));
+  for (const x of order) {
+    const info = exInfo(x.name, db), t = parseTarget(x.target);
+    const done = C.warmupFlags(x.sets, info).filter(w => !w).length;
+    if (t.sets ? done < t.sets : (x === e || !(x.sets || []).length))
+      return 'Next: ' + info.name + ', set ' + (done + 1) + (t.sets ? ' of ' + t.sets : '');
+  }
+  return 'All planned sets done';
+}
+
+/* Lock-screen timer (opt-in). A web app cannot post a Live Activity, but anything playing audio
+   gets the lock screen's Now Playing card, with a progress bar and time remaining. So a rest is
+   played as a silent track of exactly that length that ends in three beeps. The cost: iOS gives
+   the audio session to LiftLog, which pauses music playing from the same phone.              */
+const LockTimer = {
+  audio: null, urls: {}, used: false,
+  supported() { return typeof Audio !== 'undefined' && typeof Blob !== 'undefined' && typeof URL !== 'undefined' && !!URL.createObjectURL; },
+  wav(sec) {                                   // 8 kHz 16-bit mono: about 1 MB per minute, in memory only
+    const rate = 8000, n = Math.round(sec * rate), buf = new ArrayBuffer(44 + n * 2), v = new DataView(buf);
+    const str = (o, t) => { for (let i = 0; i < t.length; i++) v.setUint8(o + i, t.charCodeAt(i)); };
+    str(0, 'RIFF'); v.setUint32(4, 36 + n * 2, true); str(8, 'WAVE'); str(12, 'fmt '); v.setUint32(16, 16, true);
+    v.setUint16(20, 1, true); v.setUint16(22, 1, true); v.setUint32(24, rate, true); v.setUint32(28, rate * 2, true);
+    v.setUint16(32, 2, true); v.setUint16(34, 16, true); str(36, 'data'); v.setUint32(40, n * 2, true);
+    const len = Math.round(0.16 * rate), gap = Math.round(0.12 * rate), start = Math.max(0, n - 3 * len - 2 * gap - 400);
+    for (let b = 0; b < 3; b++) for (let i = 0; i < len; i++) {
+      const at = start + b * (len + gap) + i; if (at >= n) break;
+      const env = Math.min(1, i / 80, (len - i) / 80);
+      v.setInt16(44 + at * 2, Math.round(Math.sin(2 * Math.PI * 880 * i / rate) * env * 0.5 * 32767), true);
+    }
+    return buf;
+  },
+  track(sec) {
+    sec = Math.max(2, Math.round(sec));
+    if (this.urls[sec]) return this.urls[sec];
+    const keys = Object.keys(this.urls);
+    if (keys.length >= 8) { URL.revokeObjectURL(this.urls[keys[0]]); delete this.urls[keys[0]]; }
+    return this.urls[sec] = URL.createObjectURL(new Blob([this.wav(sec)], { type: 'audio/wav' }));
+  },
+  start(sec, sub) {
+    this.used = false;
+    if (!db.settings.lockTimer || !this.supported() || sec < 2) return;
+    try {
+      if (!this.audio) { this.audio = new Audio(); this.audio.preload = 'auto'; this.audio.addEventListener('ended', () => this.meta(null)); }
+      this.audio.src = this.track(sec);
+      const p = this.audio.play(); if (p && p.catch) p.catch(() => { this.used = false; });
+      this.used = true; this.meta(sub || 'Rest');
+    } catch (e) { this.used = false; }
+  },
+  meta(title) {
+    const ms = typeof navigator !== 'undefined' && navigator.mediaSession; if (!ms) return;
+    try {
+      if (!title) { ms.playbackState = 'none'; return; }
+      if (typeof MediaMetadata !== 'undefined') ms.metadata = new MediaMetadata({ title, artist: 'Rest timer', album: 'LiftLog',
+        artwork: [{ src: 'icon.png', sizes: '512x512', type: 'image/png' }] });
+      ms.playbackState = 'playing';
+      ms.setActionHandler('nexttrack', () => stopRest());          // lock screen: skip rest
+      ms.setActionHandler('previoustrack', () => addRest(30));     // lock screen: +30 s
+      ms.setActionHandler('pause', () => stopRest());
+      ms.setActionHandler('play', () => {});
+    } catch (e) {}
+  },
+  stop() { if (this.audio && this.used) { try { this.audio.pause(); } catch (e) {} } this.used = false; this.meta(null); }
+};
 function beep() {
   try {
     const c = new (window.AudioContext || window.webkitAudioContext)();
@@ -335,6 +438,7 @@ function numField(label, value, step, onChange, opts) {
   const clamp = v => opts.min !== undefined ? Math.max(opts.min, v) : v;
   const setV = v => { v = clamp(Math.round(v * 100) / 100); inp.value = fmtW(v); onChange(v); };
   inp.onchange = () => { const v = parseFloat(inp.value.replace(',', '.')); if (!isNaN(v)) setV(v); else inp.value = fmtW(value); };
+  inp.oninput = () => { const v = parseFloat(inp.value.replace(',', '.')); if (!isNaN(v)) onChange(clamp(v)); };   // typed but not yet confirmed
   row.appendChild(btn('sbtn', '−', () => setV((parseFloat(inp.value) || 0) - step)));
   row.appendChild(inp);
   row.appendChild(btn('sbtn', '+', () => setV((parseFloat(inp.value) || 0) + step)));
@@ -366,17 +470,30 @@ function editSetSheet(entry, idx, onDone) {
     sh.appendChild(row);
   });
 }
-function pickExerciseSheet(title, onPick, exclude) {
+/* Other library lifts that train the same movement, for one-tap swaps. */
+function sameMovement(name) {
+  const me = exInfo(name, db); if (me.pattern === 'other') return [];
+  const done = liftSeries(db);
+  return Object.keys(C.CATALOG).concat(Object.keys(db.exercises || {})).filter(n => n !== me.name && exInfo(n, db).pattern === me.pattern)
+    .sort((x, y) => (done[y] ? 1 : 0) - (done[x] ? 1 : 0) || x.localeCompare(y));
+}
+function pickExerciseSheet(title, onPick, exclude, suggest) {
   openSheet(sh => {
     sh.appendChild(el('div', 'kicker', title));
     const inp = el('input'); inp.placeholder = 'Search or type a new name'; sh.appendChild(inp);
     const list = el('div', 'picklist'); sh.appendChild(list);
+    suggest = (suggest || []).filter(n => n !== exclude);
     const names = [...new Set([...Object.keys(C.CATALOG), ...Object.keys(liftSeries(db)), ...Object.keys(db.exercises || {})])]
       .filter(n => n !== exclude).sort();
     const paint = () => {
       list.innerHTML = ''; const q = inp.value.trim().toLowerCase();
       const hits = names.filter(n => !q || n.toLowerCase().includes(q)).slice(0, 40);
       if (q && !names.some(n => n.toLowerCase() === q)) hits.unshift('＋ ' + inp.value.trim());
+      if (!q && suggest.length) {
+        list.appendChild(el('div', 'group', 'Same movement'));
+        suggest.forEach(n => list.appendChild(btn('pick', n, () => { closeSheet(); onPick(n); })));
+        list.appendChild(el('div', 'group', 'Everything'));
+      }
       hits.forEach(n => list.appendChild(btn('pick', n, () => { closeSheet(); onPick(n.replace(/^＋ /, '')); })));
     };
     inp.oninput = paint; paint();
@@ -388,6 +505,7 @@ function pickExerciseSheet(title, onPick, exclude) {
 /* --- TODAY --- */
 function viewToday(root) {
   if (db.active) return viewActive(root);
+  weekStrip(root);
   const plan = db.plan;
   const c = card(root, plan ? "Coach's plan" + (plan.date ? ' · ' + fmtDate(plan.date) : '') : 'No plan loaded');
   if (plan) {
@@ -436,18 +554,23 @@ function viewToday(root) {
   const nc = card(root, 'Standing notes for the coach');
   const nta = el('textarea'); nta.rows = 3; nta.value = db.coachNotes || '';
   nta.placeholder = 'e.g. left shoulder dislikes flat barbell benching; only 45 min on Thursdays';
-  nta.onchange = () => { db.coachNotes = nta.value; save(true); };
+  nta.oninput = () => { db.coachNotes = nta.value; save(true); };
   nc.appendChild(nta);
 
-  const bc = card(root, null, 'row');
-  const bi = el('input'); bi.type = 'text'; bi.inputMode = 'decimal'; bi.placeholder = 'Bodyweight (' + unit() + ')';
-  bc.appendChild(bi);
-  bc.appendChild(btn('', 'Log', () => {
-    const v = parseFloat(bi.value); if (!v) return;
-    db.bodyweight = (db.bodyweight || []).filter(x => x.date !== today());
-    db.bodyweight.push({ date: today(), w: v }); db.bodyweight.sort(byDateAsc);
-    bi.value = ''; save(true); toast('Bodyweight logged');
-  }));
+  card(root, null).appendChild(bodyweightRow());
+}
+/* This week at a glance: which days were trained, against the plan. */
+function weekStrip(root) {
+  const target = (db.profile && db.profile.days_per_week) || 4, ws = C.weekStart(today());
+  const days = new Set(db.sessions.map(s => s.date)), c = card(root, null, 'week');
+  const row = el('div', 'wk'); let n = 0;
+  'MTWTFSS'.split('').forEach((l, i) => {
+    const d = addDays(ws, i), on = days.has(d); if (on) n++;
+    const cell = el('div', 'wd' + (on ? ' on' : '') + (d === today() ? ' today' : '')); cell.appendChild(el('i', '', on ? '✓' : '')); cell.appendChild(el('span', '', l)); row.appendChild(cell);
+  });
+  c.appendChild(row);
+  const last = db.sessions.slice().sort(byDateDesc)[0], ago = last ? daysAgo(last.date) : null;
+  c.appendChild(el('div', 'muted small', n + ' of ' + target + ' this week' + (last ? ' · last session ' + (ago === 0 ? 'today' : ago === 1 ? 'yesterday' : ago + ' days ago') + ' (' + last.day + ')' : '')));
 }
 function loadPlanText(v) {
   v = String(v || '').trim(); if (!v) return false;
@@ -466,18 +589,24 @@ function viewActive(root) {
   const a = db.active;
   const head = card(root, 'In progress · ' + fmtDate(a.date));
   head.appendChild(el('h2', '', a.day));
-  const mins = Math.round((Date.now() - new Date(a.start).getTime()) / 60000);
-  head.appendChild(el('div', 'muted small', mins + ' min · ' + countSets(a) + ' sets · volume ' + sessionVolume(a, db).toLocaleString() + ' ' + unit()));
+  const meta = el('div', 'muted small'); meta.id = 'actMeta'; head.appendChild(meta);
+  const planned = a.ex.reduce((n, e) => n + (parseTarget(e.target).sets || 0), 0);
+  const doneWork = a.ex.reduce((n, e) => { const t = parseTarget(e.target).sets, d = C.warmupFlags(e.sets, exInfo(e.name, db)).filter(x => !x).length; return n + (t ? Math.min(d, t) : 0); }, 0);
+  if (planned) {
+    const tr = el('div', 'btrack prog'), fl = el('div', 'bfill'); fl.style.width = Math.round(doneWork / planned * 100) + '%'; tr.appendChild(fl); head.appendChild(tr);
+    head.appendChild(el('div', 'muted tiny-note', doneWork + ' of ' + planned + ' planned sets'));
+  }
+  paintActiveMeta();
 
   a.ex.forEach((e, ei) => {
     const info = exInfo(e.name, db), t = parseTarget(e.target);
     const done = (e.sets || []).length, workDone = C.warmupFlags(e.sets, info).filter(w => !w).length;
     const complete = t.sets && workDone >= t.sets;
     const key = ei + ':' + e.name;
-    const open = ui.open[key] !== undefined ? ui.open[key] : !complete;
+    const open = uiState.open[key] !== undefined ? uiState.open[key] : !complete;
     const c = card(root, null, complete ? 'done' : '');
     const top = el('div', 'exhead');
-    const l = el('div', ''); l.onclick = () => { ui.open[key] = !open; render(); };
+    const l = el('div', ''); l.onclick = () => { uiState.open[key] = !open; saveUi(); render(); };
     l.appendChild(el('div', 'exname', info.name));
     l.appendChild(el('div', 'muted small', showTarget(e.target, restFor(e))));
     top.appendChild(l);
@@ -511,12 +640,17 @@ function viewActive(root) {
   const nc = card(root, 'Session notes');
   const ta = el('textarea'); ta.rows = 2; ta.value = a.notes || '';
   ta.placeholder = 'Energy, pain, sleep, swaps, anything the coach should know';
-  ta.onchange = () => { a.notes = ta.value; save(true); };
+  ta.oninput = () => { a.notes = ta.value; save(true); };
   nc.appendChild(ta);
 
   const fin = card(root, null);
   fin.appendChild(btn('primary big', 'Finish & sync', () => finishSession(false)));
-  fin.appendChild(btn('ghost', 'Discard session', () => { if (confirm('Discard this session?')) { db.active = null; wake(false); save(true); render(); } }));
+  fin.appendChild(btn('ghost', 'Discard session', () => { if (confirm('Discard this session?')) { db.active = null; wake(false); stopRest(); uiState.drafts = {}; saveUi(); save(true); render(); } }));
+}
+function paintActiveMeta() {
+  const m = $('#actMeta'), a = db.active; if (!m || !a) return;
+  const mins = Math.round((Date.now() - new Date(a.start).getTime()) / 60000);
+  m.textContent = mins + ' min · ' + countSets(a) + ' sets · volume ' + sessionVolume(a, db).toLocaleString() + ' ' + unit();
 }
 function exerciseMenu(a, ei) {
   const e = a.ex[ei];
@@ -526,13 +660,14 @@ function exerciseMenu(a, ei) {
       const from = e.name; e.name = canon(n, db);
       a.notes = (a.notes ? a.notes + ' ' : '') + '[swapped ' + from + ' → ' + e.name + ']';
       save(true); render();
-    }, e.name)));
+    }, e.name, sameMovement(e.name))));
     if (ei > 0) sh.appendChild(btn('big', 'Move up', () => { a.ex.splice(ei - 1, 0, a.ex.splice(ei, 1)[0]); closeSheet(); save(true); render(); }));
     sh.appendChild(btn('big', 'Remove from session', () => { if (confirm('Remove ' + e.name + '?')) { a.ex.splice(ei, 1); closeSheet(); save(true); render(); } }));
     sh.appendChild(btn('ghost', 'Cancel', closeSheet));
   });
 }
-/* the fast set-entry widget */
+/* the fast set-entry widget. Whatever is dialled in is kept as a draft until the set is logged,
+   so locking the phone mid-entry never resets it to the defaults. */
 function setEntry(e, lp, info, t) {
   const prev = (e.sets || [])[e.sets.length - 1];
   const lastWork = lp ? lp.E.work[lp.E.work.length - 1] : null;
@@ -543,17 +678,21 @@ function setEntry(e, lp, info, t) {
     if (t.load !== null) w = info.load === 'assisted' ? Math.abs(t.load) : Math.max(0, t.load);
   }
   let warm = false;
+  const dk = db.active.id + '|' + e.name, d = uiState.drafts[dk];
+  if (d) { w = d.w; r = d.r; rir = d.rir; warm = !!d.warm; }
+  const keep = () => { uiState.drafts[dk] = { w, r, rir, warm }; saveUi(); };
   const box = el('div', 'entry');
-  box.appendChild(numField(info.load === 'assisted' ? 'Assist' : info.load === 'bw' ? 'Added' : 'Weight', w, info.step, v => w = v, { min: 0 }));
-  box.appendChild(numField('Reps', r, 1, v => r = v, { min: 0 }));
-  box.appendChild(numField('RIR', rir, 1, v => rir = v, { min: 0 }));
-  const wb = btn('warmbtn', 'Warm-up', () => { warm = !warm; wb.classList.toggle('on', warm); });
+  box.appendChild(numField(info.load === 'assisted' ? 'Assist' : info.load === 'bw' ? 'Added' : 'Weight', w, info.step, v => { w = v; keep(); }, { min: 0 }));
+  box.appendChild(numField('Reps', r, 1, v => { r = v; keep(); }, { min: 0 }));
+  box.appendChild(numField('RIR', rir, 1, v => { rir = v; keep(); }, { min: 0 }));
+  const wb = btn('warmbtn' + (warm ? ' on' : ''), 'Warm-up', () => { warm = !warm; wb.classList.toggle('on', warm); keep(); });
   box.appendChild(wb);
   box.appendChild(btn('primary logbtn', 'Log set', () => {
     if (!r) return;
     const best = warm ? 0 : bestEver(e.name, db.active.id);
     e.sets.push({ w, r, rir, t: warm ? 'w' : 'n', at: new Date().toISOString() });
-    save(true); startRest(warm ? 60 : restFor(e)); render();
+    delete uiState.drafts[dk]; saveUi();
+    save(true); startRest(warm ? 60 : restFor(e), nextUp(db.active, e)); render();
     const now = warm ? 0 : e1rm(C.effLoad(db, info, w, db.active.date), r);
     if (best && now > best) { toast('New e1RM PR on ' + info.name + ': ' + now + ' ' + unit()); if (navigator.vibrate) navigator.vibrate([60, 40, 60, 40, 120]); }
   }));
@@ -615,81 +754,222 @@ function viewSession(root, id) {
   }));
 }
 
-/* --- STATS --- */
-function viewStats(root) {
-  const series = liftSeries(db);
-  const names = Object.keys(series);
-  const lc = card(root, 'Lifts · latest e1RM · tap for history');
-  if (!names.length) lc.appendChild(el('div', 'muted', 'No lifts logged yet.'));
-  const groups = {};
-  names.forEach(n => { const k = exInfo(n, db).known ? exInfo(n, db).kind : '?'; (groups[k] = groups[k] || []).push(n); });
-  ['lc', 'uc', 'iso', 'core', '?'].forEach(k => {
-    if (!groups[k]) return;
-    lc.appendChild(el('div', 'group', KIND_LABEL[k]));
-    groups[k].sort((a, b) => series[b].length - series[a].length || a.localeCompare(b)).forEach(n => {
-      const S = series[n], sum = liftSummary(S);
+/* --- PROGRESS (the Stats tab) ---
+   Four screens, each answering one question:
+   Overview: am I showing up, and is the whole thing moving?   Lifts: which lifts are and are not?
+   Volume: is each muscle getting enough work?                 Body: scans and bodyweight vs the goal. */
+const STATUS = { pr: ['PR', 'ok'], progressing: ['progressing', 'ok'], rebuilding: ['rebuilding', 'warn'], stalled: ['stalled', 'down'], new: ['new', ''], idle: ['resting', ''] };
+const STATUS_NOTE = {
+  pr: 'Best ever last time out.', progressing: 'Within 5% of your best and still moving.',
+  rebuilding: 'More than 5% under your best, usually after a break. Not a stall.',
+  stalled: 'Three or more sessions in this block without beating the block best.',
+  new: 'Fewer than three sessions, too early to judge.', idle: 'Not done in the last five weeks.'
+};
+function statusChip(sum) { const s = STATUS[sum.status] || STATUS.new; return el('div', 'chip ' + s[1], s[0]); }
+function viewStats(root, sub) {
+  sub = sub || 'overview';
+  const seg = el('div', 'seg');
+  [['overview', 'Overview'], ['lifts', 'Lifts'], ['volume', 'Volume'], ['body', 'Body']].forEach(([k, l]) => seg.appendChild(btn(k === sub ? 'on' : '', l, () => go('stats:' + k))));
+  root.appendChild(seg);
+  if (!db.sessions.length && sub !== 'body') { card(root, null).appendChild(el('div', 'muted', 'Nothing logged yet. Your progress shows up here after the first session.')); return; }
+  ({ overview: statsOverview, lifts: statsLifts, volume: statsVolume, body: statsBody }[sub] || statsOverview)(root);
+}
+function statsOverview(root) {
+  const series = liftSeries(db), bs = C.blockStart(db), target = (db.profile && db.profile.days_per_week) || 4;
+  const weeks = C.weeklyStats(db, 16), lo = C.layoffs(db), si = C.strengthIndex(db, series), prs = C.prFeed(db, series);
+  const last28 = db.sessions.filter(s => daysAgo(s.date) <= 28 && daysAgo(s.date) >= 0).length;
+  const w12 = weeks.slice(-12), avg = round1(w12.reduce((n, w) => n + w.sessions, 0) / w12.length);
+
+  // 1. consistency first: it decides everything else on this page
+  const c = card(root, 'Showing up');
+  const h = el('div', 'headline'); h.appendChild(el('span', 'big-num', String(last28))); h.appendChild(el('span', 'muted', ' of ' + target * 4 + ' planned sessions in the last 28 days'));
+  c.appendChild(h);
+  c.appendChild(weekBars(weeks, target));
+  c.appendChild(el('div', 'muted small', 'Sessions per week, last 16 weeks. The line is your plan of ' + target + '. 12-week average: ' + avg + ' a week.'));
+  if (lo.length) c.appendChild(el('div', 'note', lo.length + (lo.length === 1 ? ' break' : ' breaks') + ' of 10+ days so far (' + lo.map(x => x.days + ' days').join(', ') + '). After each one the plan drops loads about 10% and builds back, which is why so many lifts read "rebuilding". Current run: ' +
+    db.sessions.filter(s => s.date >= bs).length + ' sessions since ' + fmtDate(bs) + '.'));
+
+  // 2. one line for overall strength
+  if (si.length >= 2) {
+    const s = card(root, 'Strength index'), L = si[si.length - 1], peak = si.reduce((m, x) => x.all > m.all ? x : m, si[0]);
+    const hh = el('div', 'headline'); hh.appendChild(el('span', 'big-num', String(L.all)));
+    hh.appendChild(el('span', 'muted', ' now · peak ' + peak.all + ' on ' + fmtDate(peak.date)));
+    s.appendChild(hh);
+    const pts = k => si.filter(x => x[k] !== null).map(x => ({ date: x.date, y: x[k] }));
+    s.appendChild(lineChart(pts('all').map(p => Object.assign(p, { label: 'all lifts' })), { height: 180, bands: lo, label: 'Strength index over time', dots: false,
+      extra: [{ points: pts('upper'), color: 'var(--accent2)' }, { points: pts('lower'), color: 'var(--warn)' }] }));
+    const lg = el('div', 'legend');
+    [['var(--accent)', 'All lifts ' + L.all], ['var(--accent2)', 'Upper ' + (L.upper === null ? 'n/a' : L.upper)], ['var(--warn)', 'Lower ' + (L.lower === null ? 'n/a' : L.lower)]].forEach(([col, t]) => {
+      const i = el('span', 'lg'); const d = el('i'); d.style.background = col; i.appendChild(d); i.appendChild(document.createTextNode(t)); lg.appendChild(i); });
+    if (lo.length) { const i = el('span', 'lg'); const d = el('i', 'band'); i.appendChild(d); i.appendChild(document.createTextNode('break')); lg.appendChild(i); }
+    s.appendChild(lg);
+    s.appendChild(el('div', 'muted small', 'Every lift with 3+ sessions, scaled so its first session is 100, then averaged. 110 means you are about 10% stronger across the board than when you started each lift.'));
+  }
+
+  // 3. where each lift stands
+  const names = Object.keys(series), sums = {}; names.forEach(n => sums[n] = liftSummary(series[n], today(), { blockStart: bs }));
+  const live = names.filter(n => sums[n].status !== 'idle');
+  const st = card(root, 'Where each lift stands');
+  const order = ['pr', 'progressing', 'rebuilding', 'stalled', 'new'], count = {}; live.forEach(n => count[sums[n].status] = (count[sums[n].status] || 0) + 1);
+  const split = el('div', 'split');
+  order.forEach(k => { if (!count[k]) return; const b = el('div', 'part ' + (STATUS[k][1] || 'none')); b.style.flex = count[k]; b.textContent = count[k]; split.appendChild(b); });
+  st.appendChild(split);
+  const lg2 = el('div', 'legend');
+  order.forEach(k => { if (!count[k]) return; const i = el('span', 'lg'); const d = el('i', 'sq ' + (STATUS[k][1] || 'none')); i.appendChild(d); i.appendChild(document.createTextNode(count[k] + ' ' + STATUS[k][0])); lg2.appendChild(i); });
+  st.appendChild(lg2);
+  const behind = live.filter(n => sums[n].sessions >= 3 && sums[n].pct < 100).sort((a, b) => sums[a].pct - sums[b].pct).slice(0, 4);
+  if (behind.length) {
+    st.appendChild(el('div', 'group', 'Furthest below their best'));
+    behind.forEach(n => {
       const r = el('div', 'liftrow'); r.onclick = () => go('lift:' + n);
       const l = el('div', 'lname'); l.appendChild(el('div', 'exname small', n));
-      l.appendChild(el('div', 'muted tiny-note', S.length + ' session' + (S.length > 1 ? 's' : '') + ' · last ' + fmtDate(sum.last.date)));
-      r.appendChild(l);
-      r.appendChild(sparkline(S.slice(-10).map(p => p.best)));
-      const v = el('div', 'lval'); v.appendChild(el('div', 'num', String(Math.round(sum.last.best))));
-      v.appendChild(trendChip(sum));
-      r.appendChild(v);
-      lc.appendChild(r);
+      l.appendChild(el('div', 'muted tiny-note', Math.round(sums[n].last.best) + ' now, best ' + Math.round(sums[n].best) + ' on ' + fmtDate(sums[n].bestDate)));
+      r.appendChild(l); r.appendChild(pctBar(sums[n].pct)); st.appendChild(r);
     });
-  });
+  }
+  st.appendChild(btn('', 'All lifts', () => go('stats:lifts')));
 
-  const last28 = db.sessions.filter(s => daysAgo(s.date) <= 28);
-  const wk = hardSetsByMuscle(last28, db);
-  const c = card(root, 'Weekly hard sets (28-day average, warm-ups excluded)');
+  // 4. PR feed
+  const pc = card(root, 'Personal records');
+  const pr28 = prs.filter(p => daysAgo(p.date) <= 28).length;
+  pc.appendChild(el('div', 'muted small', pr28 + ' in the last 28 days, ' + prs.length + ' all time (best estimated 1RM on a lift).'));
+  prs.slice(0, 6).forEach(p => {
+    const r = el('div', 'exrow'); r.onclick = () => go('lift:' + p.name);
+    const l = el('div', ''); l.appendChild(el('div', 'small', p.name)); l.appendChild(el('div', 'muted tiny-note', fmtDate(p.date) + ' · ' + setStr(p.top, exInfo(p.name, db))));
+    r.appendChild(l);
+    const rr = el('div', 'right'); rr.appendChild(el('div', 'small', String(p.e1))); rr.appendChild(el('div', 'tiny-note up', '+' + round1(p.e1 - p.prev)));
+    r.appendChild(rr); pc.appendChild(r);
+  });
+  if (!prs.length) pc.appendChild(el('div', 'muted small', 'None yet.'));
+}
+function pctBar(pct) {
+  const w = el('div', 'pct'); const t = el('div', 'btrack'), f = el('div', 'bfill' + (pct < 85 ? ' high' : pct < 95 ? ' low' : '')); f.style.width = Math.max(4, Math.min(100, pct)) + '%';
+  t.appendChild(f); w.appendChild(t); w.appendChild(el('div', 'bval', pct + '%')); return w;
+}
+function statsLifts(root) {
+  const series = liftSeries(db), bs = C.blockStart(db), names = Object.keys(series), sums = {};
+  names.forEach(n => sums[n] = liftSummary(series[n], today(), { blockStart: bs }));
+  const lc = card(root, 'Estimated 1RM, latest session. Tap a lift for its history.');
+  const row = (n, host) => {
+    const S = series[n], sum = sums[n];
+    const r = el('div', 'liftrow'); r.onclick = () => go('lift:' + n);
+    const l = el('div', 'lname'); l.appendChild(el('div', 'exname small', n));
+    l.appendChild(el('div', 'muted tiny-note', S.length + ' session' + (S.length > 1 ? 's' : '') + ' · last ' + fmtDate(sum.last.date) + (sum.sessions >= 3 && sum.pct < 100 ? ' · ' + sum.pct + '% of best' : '')));
+    r.appendChild(l);
+    r.appendChild(sparkline(S.map(p => p.best)));
+    const v = el('div', 'lval'); v.appendChild(el('div', 'num', String(Math.round(sum.last.best))));
+    v.appendChild(statusChip(sum));
+    r.appendChild(v); host.appendChild(r);
+  };
+  const groups = {}, idle = [];
+  names.forEach(n => { if (sums[n].status === 'idle') return idle.push(n); const i = exInfo(n, db), k = i.known ? i.kind : '?'; (groups[k] = groups[k] || []).push(n); });
+  ['lc', 'uc', 'iso', 'core', 'power', '?'].forEach(k => {
+    if (!groups[k]) return;
+    lc.appendChild(el('div', 'group', KIND_LABEL[k]));
+    groups[k].sort((a, b) => series[b].length - series[a].length || a.localeCompare(b)).forEach(n => row(n, lc));
+  });
+  if (idle.length) {
+    const d = el('details'); d.appendChild(el('summary', 'muted small', idle.length + ' not done in the last 5 weeks'));
+    idle.sort((a, b) => sums[b].last.date < sums[a].last.date ? -1 : 1).forEach(n => row(n, d)); lc.appendChild(d);
+  }
+  const k = card(root, 'What the labels mean');
+  ['pr', 'progressing', 'rebuilding', 'stalled'].forEach(s => { const r = el('div', 'exrow'); r.appendChild(el('div', 'chip ' + STATUS[s][1], STATUS[s][0])); r.appendChild(el('div', 'muted small', STATUS_NOTE[s])); k.appendChild(r); });
+}
+function statsVolume(root) {
+  const weeks = C.weeklyStats(db, 8);
+  const c = card(root, 'Hard sets per muscle, by week');
+  const g = el('div', 'heat');
+  g.appendChild(el('div', 'hh', ''));
+  weeks.forEach((w, i) => g.appendChild(el('div', 'hh', (i === 0 || +w.start.slice(8) <= 7 ? (+w.start.slice(5, 7)) + '/' : '') + (+w.start.slice(8)))));
+  g.appendChild(el('div', 'hh', '4wk'));
   MUSCLES.forEach(m => {
-    const v = round1(wk[m] / 4);
-    const row = el('div', 'bar');
-    row.appendChild(el('div', 'blabel', MUSCLE_LABEL[m]));
-    const track = el('div', 'btrack'); const fill = el('div', 'bfill'); fill.style.width = Math.min(100, v / 20 * 100) + '%';
-    if (v < 8) fill.classList.add('low'); else if (v > 22) fill.classList.add('high');
-    track.appendChild(fill); row.appendChild(track);
-    row.appendChild(el('div', 'bval', String(v)));
-    c.appendChild(row);
+    g.appendChild(el('div', 'hl', MUSCLE_LABEL[m]));
+    weeks.forEach(w => { const v = w.m[m]; g.appendChild(el('div', 'hc ' + (v === 0 ? 'z' : v < 8 ? 'lo' : v > 22 ? 'hi' : 'in'), v ? String(Math.round(v)) : '')); });
+    const a = round1(weeks.slice(-4).reduce((n, w) => n + w.m[m], 0) / 4);
+    g.appendChild(el('div', 'hc avg ' + (a < 8 ? 'lo' : a > 22 ? 'hi' : 'in'), String(a)));
   });
-  c.appendChild(el('div', 'muted small', 'Target band for growth: roughly 10-20 hard sets per muscle per week.'));
+  g.appendChild(el('div', 'hl', 'Sessions'));
+  weeks.forEach(w => g.appendChild(el('div', 'hc ses', w.sessions ? String(w.sessions) : '')));
+  g.appendChild(el('div', 'hc ses', String(round1(weeks.slice(-4).reduce((n, w) => n + w.sessions, 0) / 4))));
+  c.appendChild(g);
+  c.appendChild(el('div', 'muted tiny-note', 'Each column is a week, labelled by its Monday. The last column is the 4-week average.'));
+  const lg = el('div', 'legend');
+  [['in', '8 to 22: growth range'], ['lo', 'under 8: maintenance at best'], ['hi', 'over 22: more than you can recover from']].forEach(([k, t]) => { const i = el('span', 'lg'); i.appendChild(el('i', 'sq hc ' + k)); i.appendChild(document.createTextNode(t)); lg.appendChild(i); });
+  c.appendChild(lg);
+  c.appendChild(el('div', 'muted small', 'A hard set is a working set (warm-ups excluded). Compounds credit half a set to the muscles that assist. Target 10 to 20 a week per muscle.'));
+}
+function statsBody(root) {
+  const g = card(root, 'Body composition');
+  const scans = (db.scans || []).slice().sort(byDateAsc), tgt = (db.profile && db.profile.target) || {};
+  const F = scans[0], L = scans[scans.length - 1];
+  if (L) {
+    const goal = (label, from, now, to, unitTxt) => {
+      if (from === undefined || to === undefined) return;
+      const frac = Math.max(0, Math.min(1, (now - from) / (to - from || 1)));
+      const w = el('div', 'goal');
+      const top = el('div', 'grow'); top.appendChild(el('div', 'exname', label)); top.appendChild(el('div', 'right', now + unitTxt)); w.appendChild(top);
+      const t = el('div', 'btrack'), f = el('div', 'bfill'); f.style.width = Math.round(frac * 100) + '%'; t.appendChild(f); w.appendChild(t);
+      const b = el('div', 'grow muted tiny-note'); b.appendChild(el('div', '', 'start ' + from + unitTxt)); b.appendChild(el('div', 'right', Math.round(frac * 100) + '% of the way · target ' + to + unitTxt)); w.appendChild(b);
+      g.appendChild(w);
+    };
+    goal('Body fat', F.body_fat_pct, L.body_fat_pct, tgt.body_fat_pct, '%');
+    goal('Lean mass', F.lean_mass_lb, L.lean_mass_lb, tgt.lean_mass_lb, ' lb');
+    const due = addDays(L.date, 90), late = daysAgo(due);
+    g.appendChild(el('div', late > 0 ? 'note' : 'muted small', scans.length === 1
+      ? 'Only the baseline scan from ' + fmtDate(L.date) + ' so far, so there is nothing to compare yet. ' + (late > 0 ? 'The retest was due ' + fmtDate(due) + ', ' + late + ' days ago.' : 'Retest around ' + fmtDate(due) + '.')
+      : scans.length + ' scans. Latest ' + fmtDate(L.date) + '. ' + (late > 0 ? 'Next retest is ' + late + ' days overdue.' : 'Next retest around ' + fmtDate(due) + '.')));
+    if (scans.length > 1) {
+      g.appendChild(lineChart(scans.map(x => ({ date: x.date, y: x.lean_mass_lb, label: x.body_fat_pct + '% fat' })), { height: 140, label: 'Lean mass by scan' }));
+      g.appendChild(el('div', 'muted tiny-note', 'Lean mass (lb) at each scan.'));
+    }
+  } else g.appendChild(el('div', 'muted small', 'No scans yet.'));
+  g.appendChild(btn('', '＋ Add a scan', () => go('settings')));
 
+  const b = card(root, 'Bodyweight');
   const bw = (db.bodyweight || []).slice().sort(byDateAsc);
   if (bw.length) {
-    const b = card(root, 'Bodyweight');
-    const last7 = bw.filter(x => daysAgo(x.date) <= 7);
-    const src = last7.length ? last7 : bw.slice(-1);
+    const last7 = bw.filter(x => daysAgo(x.date) <= 7), src = last7.length ? last7 : bw.slice(-1);
     b.appendChild(el('div', 'big-num', round1(src.reduce((s, x) => s + x.w, 0) / src.length) + ' ' + unit()));
-    b.appendChild(el('div', 'muted small', (last7.length ? '7-day average' : 'latest') + ' · ' + bw.length + ' entries'));
-    if (bw.length >= 3) b.appendChild(lineChart(bw.map(x => ({ date: x.date, y: x.w, label: x.w + ' ' + unit() })), { height: 130 }));
-  }
-
-  const g = card(root, 'Body composition');
-  const scans = (db.scans || []).slice().sort(byDateAsc), tgt = db.profile.target || {};
-  const L = scans[scans.length - 1];
-  if (L) {
-    const grid = el('div', 'tiles');
-    tile(grid, 'Body fat', L.body_fat_pct + '%', tgt.body_fat_pct ? 'target ' + tgt.body_fat_pct + '%' : '');
-    tile(grid, 'Lean mass', L.lean_mass_lb + ' lb', tgt.lean_mass_lb ? 'target ' + tgt.lean_mass_lb + ' lb' : '');
-    if (scans.length > 1) {
-      const F = scans[0];
-      tile(grid, 'Since first scan', (L.lean_mass_lb - F.lean_mass_lb >= 0 ? '+' : '') + round1(L.lean_mass_lb - F.lean_mass_lb) + ' lb lean', round1(L.body_fat_pct - F.body_fat_pct) + ' pts body fat');
-    }
-    g.appendChild(grid);
-    g.appendChild(el('div', 'muted small', 'Last scan ' + fmtDate(L.date) + ' · next retest around ' + fmtDate(addDays(L.date, 90))));
-  }
-  g.appendChild(btn('', '＋ Add a scan', () => go('settings')));
+    b.appendChild(el('div', 'muted small', (last7.length ? '7-day average' : 'latest, ' + fmtDate(src[0].date)) + ' · ' + bw.length + ' entries'));
+    if (bw.length >= 3) b.appendChild(lineChart(bw.map(x => ({ date: x.date, y: x.w, label: x.w + ' ' + unit() })), { height: 130, label: 'Bodyweight' }));
+  } else b.appendChild(el('div', 'muted small', 'Nothing logged. A recomp should hold the scale nearly flat, so a weekly weigh-in is the cheapest check between scans, and it makes pull-up numbers honest.'));
+  b.appendChild(bodyweightRow());
 }
-function trendChip(sum) {
-  if (sum.stalled) return el('div', 'chip warn', '⏸ stalled');
-  if (sum.trend === null) return el('div', 'chip', sum.sessions < 3 ? 'new' : '—');
-  const up = sum.trend >= 0;
-  return el('div', 'chip ' + (up ? 'ok' : 'down'), (up ? '▲ +' : '▼ ') + sum.trend + '%/4wk');
+function bodyweightRow() {
+  const row = el('div', 'inrow');
+  const bi = el('input'); bi.type = 'text'; bi.inputMode = 'decimal'; bi.placeholder = 'Bodyweight today (' + unit() + ')';
+  row.appendChild(bi);
+  row.appendChild(btn('', 'Log', () => {
+    const v = parseFloat(bi.value); if (!v) return;
+    db.bodyweight = (db.bodyweight || []).filter(x => x.date !== today());
+    db.bodyweight.push({ date: today(), w: v }); db.bodyweight.sort(byDateAsc);
+    bi.value = ''; save(true); toast('Bodyweight logged'); if (route.startsWith('stats')) render();
+  }));
+  return row;
 }
 function tile(root, label, value, sub) {
   const t = el('div', 'tile'); t.appendChild(el('div', 'tlabel', label)); t.appendChild(el('div', 'tval', value));
   if (sub) t.appendChild(el('div', 'muted tiny-note', sub)); root.appendChild(t); return t;
+}
+/* sessions per week as bars, with the plan as a line */
+function weekBars(weeks, target) {
+  const wrap = el('div', 'chart');
+  const W = Math.max(280, Math.min(600, (document.querySelector('#main') || {}).clientWidth - 52 || 320)), H = 118, pad = { l: 6, r: 6, t: 14, b: 20 };
+  const s = sv('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': 'Sessions per week' });
+  const max = Math.max(target, ...weeks.map(w => w.sessions)), bw = (W - pad.l - pad.r) / weeks.length;
+  const Y = v => pad.t + (1 - v / max) * (H - pad.t - pad.b);
+  weeks.forEach((w, i) => {
+    const x = pad.l + i * bw + 2, h = Math.max(2, H - pad.b - Y(w.sessions));
+    s.appendChild(sv('rect', { x, y: H - pad.b - h, width: Math.max(3, bw - 4), height: h, rx: 3, fill: w.sessions >= target ? 'var(--accent)' : w.sessions ? 'var(--accent-dim)' : 'var(--bad)', opacity: w.sessions ? 1 : 0.55 }));
+    if (w.sessions) { const t = sv('text', { x: x + (bw - 4) / 2, y: H - pad.b - h - 3, 'text-anchor': 'middle', class: 'axis' }); t.textContent = w.sessions; s.appendChild(t); }
+    const lastW = i === weeks.length - 1, monthStart = w.start.slice(8) <= '07' && i > 2 && i < weeks.length - 3;
+    if (i === 0 || lastW || monthStart) {
+      const t = sv('text', { x: lastW ? W - pad.r : x, y: H - 5, 'text-anchor': lastW ? 'end' : 'start', class: 'axis' });
+      t.textContent = lastW ? 'this week' : fmtDate(w.start); s.appendChild(t);
+    }
+  });
+  s.appendChild(sv('line', { x1: pad.l, x2: W - pad.r, y1: Y(target), y2: Y(target), stroke: 'var(--fg)', 'stroke-width': 1, 'stroke-dasharray': '4 4', opacity: 0.5 }));
+  wrap.appendChild(s); return wrap;
 }
 
 /* --- charts (inline SVG, single series, no library) --- */
@@ -718,13 +998,19 @@ function lineChart(points, opts) {
   const wrap = el('div', 'chart');
   const W = Math.max(280, Math.min(600, (document.querySelector('#main') || {}).clientWidth - 52 || 320)), H = opts.height || 190;
   const pad = { l: 40, r: 12, t: 12, b: 24 };
-  const t0 = new Date(points[0].date + 'T00:00:00').getTime(), t1 = new Date(points[points.length - 1].date + 'T00:00:00').getTime();
+  const T = d => new Date(d + 'T00:00:00').getTime();
+  const t0 = T(points[0].date), t1 = T(points[points.length - 1].date);
   const tspan = Math.max(t1 - t0, 86400000 * 7);
-  const ys = points.map(p => p.y), ticks = niceTicks(Math.min(...ys), Math.max(...ys), 4);
+  const extra = (opts.extra || []).filter(e => e.points.length > 1);
+  const ys = points.map(p => p.y).concat(...extra.map(e => e.points.map(p => p.y))), ticks = niceTicks(Math.min(...ys), Math.max(...ys), 4);
   const ylo = ticks[0], yhi = ticks[ticks.length - 1] === ylo ? ylo + 1 : ticks[ticks.length - 1];
   const X = p => pad.l + (new Date(p.date + 'T00:00:00').getTime() - t0) / tspan * (W - pad.l - pad.r);
   const Y = v => pad.t + (1 - (v - ylo) / (yhi - ylo)) * (H - pad.t - pad.b);
   const s = sv('svg', { width: W, height: H, viewBox: `0 0 ${W} ${H}`, role: 'img', 'aria-label': opts.label || 'trend chart' });
+  (opts.bands || []).forEach(b => {                       // breaks in training, shaded so dips read honestly
+    const x1 = Math.max(pad.l, X({ date: b.from })), x2 = Math.min(W - pad.r, X({ date: b.to }));
+    if (x2 > x1) s.appendChild(sv('rect', { x: x1, y: pad.t, width: x2 - x1, height: H - pad.t - pad.b, fill: 'var(--band)' }));
+  });
   ticks.forEach(v => {
     s.appendChild(sv('line', { x1: pad.l, x2: W - pad.r, y1: Y(v), y2: Y(v), stroke: 'var(--grid)', 'stroke-width': 1 }));
     const tx = sv('text', { x: pad.l - 6, y: Y(v) + 4, 'text-anchor': 'end', class: 'axis' }); tx.textContent = v.toLocaleString(); s.appendChild(tx);
@@ -734,13 +1020,15 @@ function lineChart(points, opts) {
     const tx = sv('text', { x: X(p), y: H - 6, 'text-anchor': i ? 'end' : 'start', class: 'axis' }); tx.textContent = fmtDate(p.date); s.appendChild(tx);
   });
   const xy = points.map(p => [X(p), Y(p.y)]);
+  extra.forEach(e => s.appendChild(sv('polyline', { points: e.points.map(p => X(p) + ',' + Y(p.y)).join(' '), fill: 'none', stroke: e.color, 'stroke-width': 1.5, 'stroke-linejoin': 'round', opacity: 0.9 })));
   if (points.length > 1) {
     s.appendChild(sv('path', { d: 'M' + xy.map(q => q.join(',')).join('L') + `L${xy[xy.length - 1][0]},${Y(ylo)}L${xy[0][0]},${Y(ylo)}Z`, fill: 'var(--accent)', opacity: 0.1 }));
     s.appendChild(sv('polyline', { points: xy.map(q => q.join(',')).join(' '), fill: 'none', stroke: 'var(--accent)', 'stroke-width': 2, 'stroke-linejoin': 'round', 'stroke-linecap': 'round' }));
   }
-  points.forEach((p, i) => s.appendChild(sv('circle', { cx: xy[i][0], cy: xy[i][1], r: p.pr ? 5 : 4, fill: p.pr ? 'var(--accent)' : 'var(--card)', stroke: p.pr ? 'var(--card)' : 'var(--accent)', 'stroke-width': 2 })));
+  const dot = points.length > 18 ? 0.6 : 1;
+  if (opts.dots !== false) points.forEach((p, i) => s.appendChild(sv('circle', { cx: xy[i][0], cy: xy[i][1], r: (p.pr ? 5 : 4) * dot, fill: p.pr ? 'var(--accent)' : 'var(--card)', stroke: p.pr ? 'var(--card)' : 'var(--accent)', 'stroke-width': 2 })));
   const lastP = points[points.length - 1], lt = sv('text', { x: xy[xy.length - 1][0] - 8, y: xy[xy.length - 1][1] - 12, 'text-anchor': 'end', class: 'vlabel' });
-  lt.textContent = lastP.y; s.appendChild(lt);
+  lt.textContent = lastP.y; if (opts.dots !== false) s.appendChild(lt);
   // crosshair + tooltip: snaps to the nearest session
   const cross = sv('line', { y1: pad.t, y2: H - pad.b, stroke: 'var(--muted)', 'stroke-width': 1, visibility: 'hidden' });
   s.appendChild(cross);
@@ -759,25 +1047,45 @@ function lineChart(points, opts) {
   return wrap;
 }
 
+let liftMetric = 'e1';
 /* --- LIFT DETAIL --- */
 function viewLift(root, name) {
   const series = liftSeries(db), S = series[name];
-  root.appendChild(btn('ghost back', '‹ Stats', () => go('stats')));
+  root.appendChild(btn('ghost back', '‹ Lifts', () => go('stats:lifts')));
   if (!S) { card(root, null).textContent = 'No working sets logged for ' + name + ' yet.'; return; }
-  const info = exInfo(name, db), sum = liftSummary(S);
+  const info = exInfo(name, db), sum = liftSummary(S, today(), { blockStart: C.blockStart(db) });
   const h = card(root, (info.known ? KIND_LABEL[info.kind] + ' · ' + info.pattern : 'Not in library'));
   h.appendChild(el('h2', '', name));
+  const sl = el('div', 'statusline'); sl.appendChild(statusChip(sum)); sl.appendChild(el('span', 'muted small', STATUS_NOTE[sum.status] || '')); h.appendChild(sl);
   const grid = el('div', 'tiles');
+  tile(grid, 'Latest e1RM', sum.last.best + ' ' + unit(), sum.pct === 100 ? 'your best' : sum.pct + '% of your best');
   tile(grid, 'Best e1RM', sum.best + ' ' + unit(), fmtDate(sum.bestDate));
   tile(grid, 'Since first', (sum.change >= 0 ? '+' : '') + sum.change + ' ' + unit(), sum.changePct !== null ? (sum.changePct >= 0 ? '+' : '') + sum.changePct + '% over ' + sum.sessions + ' sessions' : '');
-  const tt = tile(grid, '8-week trend', sum.trend === null ? 'n/a' : (sum.trend >= 0 ? '+' : '') + sum.trend + '%', 'per 4 weeks');
-  if (sum.stalled) tt.appendChild(el('div', 'chip warn', '⏸ stalled ' + sum.sinceBest + ' sessions'));
-  tile(grid, 'Since last PR', sum.sinceBest === 0 ? 'PR last time' : sum.sinceBest + ' session' + (sum.sinceBest === 1 ? '' : 's'), sum.hitTop === true ? 'top of range hit last time' : sum.hitTop === false ? 'top of range not hit yet' : '');
+  tile(grid, '8-week trend', sum.trend === null ? 'n/a' : (sum.trend >= 0 ? '+' : '') + sum.trend + '%', 'per 4 weeks');
   h.appendChild(grid);
   const prSet = new Set(sum.prIdx);
-  h.appendChild(el('div', 'kicker spaced', 'Estimated 1RM per session'));
-  h.appendChild(lineChart(S.map((p, i) => ({ date: p.date, y: p.best, label: setStr(p.top, info), pr: prSet.has(i) })), { label: name + ' e1RM over time' }));
-  h.appendChild(el('div', 'muted tiny-note', 'Filled dots are PRs. Warm-ups excluded (shown in brackets below). Weight is ' + (LOAD_NOTE[info.load] || '') + '.'));
+  const metrics = {
+    e1: ['Est. 1RM', p => p.best, 'Estimated 1RM per session'],
+    top: ['Top set', p => p.top.w, 'Heaviest working set, ' + (LOAD_NOTE[info.load] || unit())],
+    vol: ['Volume', p => Math.round(p.sets.reduce((n, x) => n + (x.warm ? 0 : (x.eff || 0) * (x.r || 0)), 0)), 'Load × reps across working sets']
+  };
+  const mk = metrics[liftMetric] ? liftMetric : 'e1';
+  const seg = el('div', 'seg small'); Object.keys(metrics).forEach(k => seg.appendChild(btn(k === mk ? 'on' : '', metrics[k][0], () => { liftMetric = k; render(); }))); h.appendChild(seg);
+  h.appendChild(el('div', 'muted tiny-note', metrics[mk][2]));
+  h.appendChild(lineChart(S.map((p, i) => ({ date: p.date, y: metrics[mk][1](p), label: setStr(p.top, info), pr: mk === 'e1' && prSet.has(i) })), { label: name + ' over time', bands: C.layoffs(db) }));
+  h.appendChild(el('div', 'muted tiny-note', (mk === 'e1' ? 'Filled dots are PRs. ' : '') + 'Shaded bands are breaks of 10+ days. Warm-ups excluded.'));
+
+  // what has to happen next, by the double-progression rule in COACH.md
+  const tg = sum.target;
+  if (tg && tg.hi && sum.status !== 'idle') {
+    const nx = card(root, 'Next step');
+    const bump = info.kind === 'lc' ? 10 : 5, u = unit() === 'kg' ? bump / 2 : bump;
+    const sets = sum.last.sets.filter(x => !x.warm && x.r > 0);
+    nx.appendChild(el('div', 'small', 'Last time, ' + fmtDate(sum.last.date) + ': ' + sets.map(x => setStr(x, info)).join(', ') + ' against a target of ' + (tg.sets || sets.length) + '×' + (tg.lo === tg.hi ? tg.hi : tg.lo + '-' + tg.hi) + '.'));
+    const dots = el('div', 'dots'); sets.forEach(x => dots.appendChild(el('i', x.r >= tg.hi ? 'on' : x.r < tg.lo ? 'miss' : ''))); nx.appendChild(dots);
+    nx.appendChild(el('div', 'muted small', sum.hitTop ? 'Every set reached ' + tg.hi + '. Add about ' + u + ' ' + unit() + ' next time and start again from ' + tg.lo + ' reps.'
+      : sum.topHits + ' of ' + sets.length + ' sets reached ' + tg.hi + ' reps. Keep the weight, add reps until every set does, then add about ' + u + ' ' + unit() + '.'));
+  }
 
   const t = card(root, 'Sessions');
   S.slice().reverse().forEach((p, ri) => {
@@ -859,6 +1167,17 @@ function viewSettings(root) {
   c.appendChild(el('div', 'muted small', (db.lastSync ? 'Last sync ' + new Date(db.lastSync).toLocaleString() : 'Never synced') + (db.dirty ? ' · unsynced changes' : '')));
   if (db.lastSyncError && db.dirty) c.appendChild(el('div', 'muted tiny-note', 'Last error: ' + db.lastSyncError));
 
+  const tm = card(root, 'Rest timer');
+  const tog = (label, key, note, after) => {
+    const w = el('label', 'toggle'); const cb = el('input'); cb.type = 'checkbox'; cb.checked = !!s[key];
+    cb.onchange = () => { s[key] = cb.checked; save(); if (after) after(cb.checked); };
+    w.appendChild(cb); w.appendChild(el('span', '', label)); tm.appendChild(w);
+    if (note) tm.appendChild(el('div', 'muted tiny-note', note));
+  };
+  tog('Show the timer on the lock screen', 'lockTimer', 'Uses the iPhone Now Playing card: time left, a progress bar, what is next, and three beeps at zero, even with the phone locked. Trade-off: it takes over audio, so music playing from this phone pauses when a rest starts. On the lock screen, next-track skips the rest and previous-track adds 30 s.', on => { if (!on) LockTimer.stop(); });
+  tog('Open the full-screen timer after every set', 'bigTimer', 'Otherwise tap the timer bar to open it.');
+  tm.appendChild(btn('', 'Try a 20 s rest now', () => { startRest(20, 'Test: lock the phone now'); toast('Timer started. Lock the phone to check.'); }));
+
   const k = card(root, 'Coach in the app (optional)');
   k.appendChild(el('div', 'muted small', 'With a Claude API key, the Today tab gets an "Ask the coach" button that writes the plan straight into the app. Get a key at platform.claude.com. It is stored only on this phone.'));
   f(k, 'Claude API key', 'apiKey', 'password', 'sk-ant-…');
@@ -901,6 +1220,7 @@ function viewSettings(root) {
 }
 
 /* ---------------- boot ---------------- */
+let renderedDay = '';
 function handleHash() {
   const h = location.hash || '';
   if (h.startsWith('#plan=') || h.startsWith('#t=')) {
@@ -912,19 +1232,37 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined' && document
   window.addEventListener('hashchange', () => { handleHash(); render(); });
   document.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('.tab').forEach(t => t.onclick = () => go(t.dataset.route));
-    $('#restStop').onclick = () => { restEnd = 0; paintRest(); };
-    $('#restPlus').onclick = () => { restEnd += 30000; paintRest(); };
+    $('#restStop').onclick = ev => { ev.stopPropagation(); stopRest(); };
+    $('#restPlus').onclick = ev => { ev.stopPropagation(); addRest(30); };
+    $('#rest').onclick = openRestFull;
+    $('#rfPlus').onclick = () => addRest(30);
+    $('#rfSkip').onclick = stopRest;
+    $('#rfClose').onclick = closeRestFull;
     $('#syncdot').onclick = () => syncNow();
     if (!db.program) {
       fetch('data/program.json').then(r => r.ok ? r.json() : null).then(j => { if (j) { db.program = j; save(); render(); } }).catch(() => {});
     }
     save();                         // persists the v2 copy under the new key on first run
-    autoFinishStale(); handleHash(); render();
+    autoFinishStale(); handleHash();
+    // iOS often reloads a home-screen app after a lock. Put the user back where they were.
+    const wh = uiState.where, fresh = wh && Date.now() - wh.at < (db.active ? 3 * 3600000 : 15 * 60000);
+    if (fresh && !location.hash) route = wh.route;
+    render(); renderedDay = today();
+    if (fresh && route === wh.route) window.scrollTo(0, wh.y || 0);
+    if (!db.active) { uiState.drafts = {}; uiState.open = {}; saveUi(); }
+    if (uiState.rest) tickRest();
     if (db.active) wake(true);
+    setInterval(paintActiveMeta, 30000);
     window.addEventListener('online', () => { if (db.dirty) syncNow(true); });
+    const remember = () => { uiState.where = { route, y: window.scrollY || 0, at: Date.now() }; saveUi(); };
+    window.addEventListener('pagehide', remember);
     document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'hidden') { if (db.dirty && GH.ok()) syncNow(true); }
-      else { autoFinishStale(); if (db.active) wake(true); render(); }
+      if (document.visibilityState === 'hidden') { remember(); if (db.dirty && GH.ok()) syncNow(true); return; }
+      // Coming back: only redraw if something actually changed, so nothing typed or dialled in is lost.
+      const had = !!db.active; autoFinishStale();
+      if (db.active) wake(true);
+      if (had !== !!db.active || renderedDay !== today()) { render(); renderedDay = today(); }
+      paintActiveMeta(); paintRest();
     });
     if (db.dirty) scheduleSync();
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('sw.js').catch(() => {});
@@ -932,4 +1270,4 @@ if (typeof window !== 'undefined' && typeof document !== 'undefined' && document
 }
 
 /* export for headless tests */
-if (typeof module !== 'undefined' && module.exports) module.exports = { GH, v1BackupEntries, syncNow, restoreFromGitHub, askCoach, _db: () => db, _setDb: d => db = d };
+if (typeof module !== 'undefined' && module.exports) module.exports = { GH, v1BackupEntries, syncNow, restoreFromGitHub, askCoach, LockTimer, _db: () => db, _setDb: d => db = d };

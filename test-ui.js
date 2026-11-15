@@ -124,8 +124,41 @@ const $$ = s => [...w.document.querySelectorAll(s)];
   vals = $$('.sval'); vals[0].value = '80'; vals[0].dispatchEvent(new w.Event('change'));
   click($$('.logbtn')[0]);
   ok('working set recorded', w.eval('db.active.ex[0].sets[1].w') === 80 && w.eval('db.active.ex[0].sets[1].t') === 'n');
-  ok('rest timer uses the plan rest', w.eval('Math.round((restEnd - Date.now())/1000)') > 170);
+  ok('rest timer uses the plan rest', w.eval('Math.round((uiState.rest.end - Date.now())/1000)') > 170);
   ok('next set seeded from the last one', $$('.sval')[0].value === '80');
+  ok('rest bar says what is next', w.document.querySelector('#restSub').textContent === 'Overhead Press, set 2 of 4' && w.eval('uiState.rest.sub') === 'Next: Overhead Press, set 2 of 4');
+  ok('rest bar visible with time', w.document.querySelector('#rest').classList.contains('show') && /^\d:\d\d$/.test(w.document.querySelector('#restTime').textContent));
+
+  console.log('\nlock and unlock mid-entry');
+  const fire = state => { Object.defineProperty(w.document, 'visibilityState', { value: state, configurable: true }); w.document.dispatchEvent(new w.Event('visibilitychange')); };
+  vals = $$('.sval'); vals[0].value = '82.5'; vals[0].dispatchEvent(new w.Event('input'));          // typed, keypad still open
+  click($$('.sbtn')[3]);                                                                              // reps 8 -> 9 with the stepper
+  const mainBefore = w.document.querySelector('#main').firstChild;
+  fire('hidden'); fire('visible');
+  ok('screen is not rebuilt on unlock', w.document.querySelector('#main').firstChild === mainBefore);
+  ok('typed weight still there after unlock', $$('.sval')[0].value === '82.5');
+  w.eval('render()');                                                                                 // even a full redraw keeps it
+  ok('weight survives a redraw', $$('.sval')[0].value === '82.5');
+  ok('reps survive a redraw', $$('.sval')[1].value === '9');
+  ok('draft stored on the phone', JSON.parse(w.localStorage.getItem('liftlog.ui')).drafts[w.eval('db.active.id') + '|Overhead Press'].w === 82.5);
+  ok('draft is not synced', !JSON.stringify(w.eval('LiftCore.repoFiles(db)')).includes('drafts'));
+  ok('rest timer stored as a timestamp', JSON.parse(w.localStorage.getItem('liftlog.ui')).rest.end > Date.now());
+  ok('place remembered for a reload', JSON.parse(w.localStorage.getItem('liftlog.ui')).where.route === 'today');
+  click(w.document.querySelector('#rest'));
+  ok('tap opens the full-screen timer', w.document.querySelector('#restFull').classList.contains('show') && w.document.querySelector('#rfSub').textContent.includes('Overhead Press'));
+  click(w.document.querySelector('#rfPlus'));
+  ok('+30 s extends the rest', w.eval('Math.round((uiState.rest.end - Date.now())/1000)') > 200);
+  w.eval('uiState.rest.end = Date.now() - 5000; paintRest()');
+  ok('after zero it counts up', w.document.querySelector('#restTime').textContent === '+0:05' && w.document.querySelector('#rest').classList.contains('over'));
+  await tick(150);                                                                                    // let the on-lock sync land
+  ok('locking the phone synced the open session', /^wip: /.test(gh.commits[gh.head].message));
+  click(w.document.querySelector('#rfSkip'));
+  ok('skip clears the timer', w.eval('uiState.rest') === null && !w.document.querySelector('#rest').classList.contains('show') && !w.document.querySelector('#restFull').classList.contains('show'));
+  vals = $$('.sval'); vals[0].value = '80'; vals[0].dispatchEvent(new w.Event('change'));
+  click($$('.sbtn')[2]);                                                                              // reps back to 8
+  ok('lock-screen track is a valid WAV of the right length', (() => { const b = w.eval('LockTimer.wav(3)'); const v = new DataView(b);
+    return b.byteLength === 44 + 3 * 8000 * 2 && v.getUint32(0) === 0x52494646 && v.getUint32(24, true) === 8000 && v.getInt16(44, true) === 0 && new Int16Array(b.slice(44)).some(x => Math.abs(x) > 8000); })());
+  ok('lock-screen timer is off unless switched on', w.eval('LockTimer.used') === false);
   click($$('.logbtn')[0]); click($$('.logbtn')[0]);
   ok('progress chip shows 3/4', txt().includes('3/4'));
   // edit a set through the sheet
@@ -151,7 +184,7 @@ const $$ = s => [...w.document.querySelectorAll(s)];
   ok('no secrets in the repo', !repoFile('data/meta.json').includes('tok'));
   ok('sessions/2026.json has 11 sessions', JSON.parse(repoFile('data/sessions/2026.json')).sessions.length === 11);
   const dig = JSON.parse(repoFile('data/index.json'));
-  ok('digest v2 written', dig.schema === 'liftlog/2');
+  ok('digest v3 written', dig.schema === 'liftlog/3' && Array.isArray(dig.rotation) && !!dig.consistency);
   ok('digest excludes the warm-up', dig.recent_sessions[0].ex[0].sets[0][3] === 'w');
   ok('v1 log moved to backup unchanged', repoFile('data/backup/log-v1.json') === logV1Text);
   ok('v1 log.json removed', repoFile('data/log.json') === null);
@@ -173,16 +206,35 @@ const $$ = s => [...w.document.querySelectorAll(s)];
   ok('11 sessions restored', w.eval('db.sessions.length') === 11);
   ok('notes restored', w.eval('db.coachNotes').includes('Left knee'));
 
-  console.log('\nper-lift pages');
+  console.log('\nprogress screens');
   w.eval('go("stats")');
-  ok('lift list rendered', txt().includes('Lower compounds') && txt().includes('Leg Press'));
+  ok('overview leads with consistency', txt().includes('Showing up') && txt().includes('planned sessions in the last 28 days'));
+  ok('weekly bars drawn', $$('.chart svg rect').length >= 16);
+  ok('strength index charted with upper and lower', txt().includes('Strength index') && $$('.chart svg polyline').length >= 3);
+  ok('lift status split shown', !!w.document.querySelector('.split .part') && txt().includes('Where each lift stands'));
+  ok('PR feed shown', txt().includes('Personal records'));
+  click(byText('.seg button', 'Volume'));
+  ok('muscle by week grid', $$('.heat .hc').length === 11 * 9 && txt().includes('Quads'));
+  click(byText('.seg button', 'Body'));
+  ok('goal progress against the scan', txt().includes('Body fat') && txt().includes('target 13%') && txt().includes('Lean mass'));
+  ok('retest nudge', txt().includes('baseline scan'));
+  click(byText('.seg button', 'Lifts'));
+  ok('lift list rendered', txt().includes('Leg Press') && $$('.liftrow').length > 10);
   ok('sparklines drawn', $$('svg.spark').length > 5);
-  ok('weekly sets card', txt().includes('warm-ups excluded'));
-  ok('body comp card', txt().includes('Lean mass') && txt().includes('next retest'));
+  ok('status chips shown', $$('.liftrow .chip').length > 5);
+
+  console.log('\nper-lift pages');
   click($$('.liftrow').find(r => r.textContent.includes('Leg Press')));
   ok('lift page opened', w.eval('route') === 'lift:Leg Press');
   ok('chart drawn', !!w.document.querySelector('.chart svg polyline'));
   ok('best e1RM tile', txt().includes('462'));
+  ok('status explained', !!w.document.querySelector('.statusline .chip'));
+  w.eval('go("lift:Overhead Press")');
+  ok('next step from the rep range', txt().includes('Next step') && $$('.dots i').length >= 3 && txt().includes('reps'));
+  w.eval('go("lift:Leg Press")');
+  click(byText('.seg.small button', 'Top set'));
+  ok('metric switch redraws the chart', w.eval('liftMetric') === 'top' && !!w.document.querySelector('.chart svg polyline'));
+  w.eval('liftMetric = "e1"');
   ok('rep PRs listed', txt().includes('Best reps at each weight'));
   w.eval('go("lift:Hip Abduction")');
   ok('library exercise has no classify form', !txt().includes('Classify'));
@@ -205,7 +257,7 @@ const $$ = s => [...w.document.querySelectorAll(s)];
   click(ask); await tick(100);
   ok('Claude API called once', claudeCalls.length === 1);
   ok('browser-access header sent', claudeCalls[0].headers['anthropic-dangerous-direct-browser-access'] === 'true');
-  ok('digest and note sent', claudeCalls[0].body.messages[0].content.includes('liftlog/2') && claudeCalls[0].body.messages[0].content.includes('only 45 minutes'));
+  ok('digest and note sent', claudeCalls[0].body.messages[0].content.includes('liftlog/3') && claudeCalls[0].body.messages[0].content.includes('only 45 minutes'));
   ok('COACH.md in the system prompt', claudeCalls[0].body.system.includes('edited on github.com'));
   ok('plan loaded from reply', w.eval('db.plan.day') === 'Lower B' && w.eval('db.plan.ex[0].rest') === 180);
   ok('brief kept', txt().includes('Leg press hit 4x12'));
@@ -223,6 +275,21 @@ const $$ = s => [...w.document.querySelectorAll(s)];
   ok('coach key field', txt().includes('Claude API key'));
   ok('scan list shows baseline', txt().includes('17.8%'));
   ok('format version shown', txt().includes('Data format v2'));
+  ok('timer options listed', txt().includes('Show the timer on the lock screen') && txt().includes('full-screen timer'));
+
+  console.log('\nreload mid-session (iOS dropping the app)');
+  w.eval(`db.active = { id:'s10', date: LiftCore.today(), day:'Upper A', start:new Date().toISOString(), notes:'', ex:[{ name:'Lat Pulldown', target:'3x10-12 @1RIR 120lb rest 120', sets:[] }] }; save(true); go('today');`);
+  vals = $$('.sval'); vals[0].value = '115'; vals[0].dispatchEvent(new w.Event('input'));
+  const store = {}; for (let i = 0; i < w.localStorage.length; i++) { const k = w.localStorage.key(i); store[k] = w.localStorage.getItem(k); }
+  const dom2 = new JSDOM(html, { runScripts: 'dangerously', url: 'https://x.github.io/liftlog/', pretendToBeVisual: true }), w2 = dom2.window;
+  w2.fetch = fakeFetch; w2.scrollTo = () => {}; Object.defineProperty(w2, 'crypto', { value: nodeCrypto.webcrypto }); w2.TextEncoder = TextEncoder; w2.TextDecoder = TextDecoder;
+  Object.keys(store).forEach(k => w2.localStorage.setItem(k, store[k]));
+  w2.eval('var u = JSON.parse(localStorage.getItem("liftlog.ui")); u.rest = { end: Date.now() + 90000, total: 120, sub: "Next: Lat Pulldown, set 1 of 3" }; localStorage.setItem("liftlog.ui", JSON.stringify(u));');
+  for (const f of ['core.js', 'app.js']) { const sc = w2.document.createElement('script'); sc.textContent = read(f); w2.document.body.appendChild(sc); }
+  w2.document.dispatchEvent(new w2.Event('DOMContentLoaded'));
+  ok('half-entered weight is back after a reload', w2.document.querySelector('.sval').value === '115');
+  ok('rest timer still running after a reload', w2.document.querySelector('#rest').classList.contains('show') && /^1:(2|3)\d$/.test(w2.document.querySelector('#restTime').textContent));
+  w2.eval('stopRest()');
 
   console.log('\n' + pass + ' passed, ' + fail + ' failed');
   process.exit(fail ? 1 : 0);
